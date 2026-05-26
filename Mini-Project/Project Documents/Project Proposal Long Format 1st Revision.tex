@@ -1,0 +1,254 @@
+\documentclass[11pt,twocolumn]{article}
+
+\usepackage[a4paper,margin=0.75in]{geometry}
+\usepackage{parskip}
+\usepackage{amsmath}
+
+\setlength{\columnsep}{0.25in}
+\setlength{\parskip}{3pt}
+\setlength{\parindent}{0pt}
+\sloppy
+
+\begin{document}
+
+\twocolumn[
+\begin{center}
+{\Large \textbf{AI 201 Project Proposal}}\par
+\vspace{4pt}
+\textbf{Pilot Machine Learning Model for Fuel Requirement Estimation in Agricultural Mechanization}\par
+\vspace{4pt}
+Ronald Melvin R. Rosas and Marcus Rafael Tiongson
+\end{center}
+\vspace{20pt}
+]
+
+\section*{I. Introduction}
+
+\vspace{10pt}
+
+Fuel consumption is a critical cost driver in agricultural mechanization and directly affects operational efficiency and sustainability. In the Philippines, fuel requirement estimation is typically based on generalized coefficients or static assumptions, which do not account for variability in machine characteristics, field conditions, and operational practices.
+
+\vspace{10pt}
+
+Traditional engineering-based models provide approximate estimates but are limited in capturing nonlinear relationships among variables such as horsepower, load, operation type, and field conditions. With the increasing availability of agricultural datasets, machine learning techniques can be applied to improve the accuracy and adaptability of fuel consumption estimation.
+
+\vspace{10pt}
+
+This study proposes the development of a pilot machine learning model to estimate fuel requirements for selected agricultural machinery operations using structured operational data.
+
+\section*{II. Problem Statement}
+
+\vspace{10pt}
+
+Current approaches to estimating fuel consumption in agricultural machinery are:
+\begin{itemize}
+\item Based on static or generalized coefficients
+\item Not localized to actual conditions
+\item Unable to capture nonlinear interactions
+\end{itemize}
+
+\vspace{10pt}
+
+As a result, there is a need for a data-driven model that can predict fuel consumption more accurately, adapt to different machine types and operations, and support improved decision-making in mechanized agriculture.
+
+\section*{III. Objectives}
+
+\vspace{10pt}
+
+\textbf{General Objective:} To develop and evaluate a machine learning model for estimating fuel requirements of selected agricultural machinery operations.
+
+\vspace{10pt}
+
+\textbf{Specific Objectives:}
+\begin{itemize}
+\item Identify key variables affecting fuel consumption;
+\item Develop a baseline estimation model using statistical methods;
+\item Implement a Random Forest model for fuel prediction;
+\item Compare the baseline and machine learning models using standard metrics; and
+\item Perform feature importance analysis using SHAP and LIME.
+\end{itemize}
+
+\section*{IV. Scope and Delimitation}
+
+\vspace{10pt}
+
+The study is limited to selected machinery types, operations, and available secondary data sources. It will use existing machinery test reports and related operational records. It excludes real-time sensor acquisition, nationwide modeling, full mechanization system simulation, and production-system deployment.
+
+\section*{V. Review of Related Literature}
+
+\vspace{10pt}
+
+\subsection*{A. Fuel Consumption Theory}
+
+\vspace{10pt}
+
+Fuel requirement estimation in agricultural mechanization is based on the relationship between engine power, implement load, and operational efficiency. Fuel consumption is generally proportional to the power requirement of the machine during operation, making it a practical indicator of energy demand (Domsch et al., 1999).
+
+\vspace{10pt}
+
+However, fuel consumption is not determined solely by engine characteristics. It is influenced by implement type, soil conditions, machine configuration, and operational mode. These relationships indicate that fuel estimation is a multivariate problem.
+
+\subsection*{B. Empirical Modeling}
+
+\vspace{10pt}
+
+Empirical studies show that fuel consumption varies under actual operating conditions. Philippine Center for Postharvest Development and Mechanization (PHilMech) case analysis on rice combine harvesters shows that fuel consumption is related to engine power, field efficiency, and operational parameters.
+
+\vspace{10pt}
+
+The Agricultural Machinery Testing and Evaluation Center (AMTEC) test reports show that accurate estimation requires consideration of external variables such as soil condition, crop condition, operator skill, field size, terrain, and environmental conditions. This supports the need for models that integrate both machine performance and field efficiency indicators.
+
+\subsection*{C. Real-World Variability}
+
+\vspace{10pt}
+
+Real-world studies further emphasize that fuel consumption varies across agricultural systems. Agaton and Guno (2024) report that diesel fuel use in irrigation systems is affected by soil type, environmental conditions, crop water requirements, distance to water source, and system efficiency.
+
+\vspace{10pt}
+
+Although focused on irrigation rather than field machinery, the study supports the argument that fuel use is context-dependent and varies across locations and operating conditions.
+
+\subsection*{D. Mechanization and Structural Context}
+
+\vspace{10pt}
+
+Agricultural mechanization increases productivity but also raises energy demand. Mechanization level, often measured in horsepower per hectare, reflects the degree of energy input in agricultural production (Bautista et al., 2024).
+
+\vspace{10pt}
+
+Fuel and maintenance costs are also major operational barriers faced by farmers, affecting sustainability and mechanization adoption (Espino et al., 2024). Broader constraints such as climate variability, policy fragmentation, and limited access to technology and financing also affect resource use and operational efficiency (Ichwandiani \& Hassan, 2025).
+
+\subsection*{E. Research Gap}
+
+\vspace{10pt}
+
+Existing approaches to fuel estimation rely largely on deterministic formulas, fixed coefficients, and controlled assumptions. These approaches have limited adaptability across varying field conditions and do not fully capture interactions among machine, operation, field, and effort-related variables.
+
+\section*{VI. Conceptual Framework}
+
+\vspace{10pt}
+
+Fuel consumption is modeled as:
+
+\[
+FC = f\left(
+\begin{aligned}
+&\mathrm{Machine Characteristics},\\
+&\mathrm{Operation Characteristics},\\
+&\mathrm{Field/Location Conditions},\\
+&\mathrm{Operational Effort}
+\end{aligned}
+\right)
+\]
+
+\vspace{10pt}
+
+The target variable is fuel consumption, measured in liters or liters per hectare. Predictor variables include machine type, horsepower, operation type, area covered, operating time, field efficiency, and field/location indicators.
+
+\section*{VII. Dataset Description and URL}
+
+\vspace{10pt}
+
+\textbf{Datasets:}
+\begin{itemize}
+\item \textbf{\small AMTEC Machinery Test Reports} (\texttt{https://bit.ly/AMTECTestReports2026}) 
+– provides fuel consumption and performance data
+\item \textbf{\small Agricultural and Biosystems Engineering Management Information System (ABEMIS)} (\texttt{https://abemis.bafe.gov.ph/user/login}) 
+– provides machinery inventory and distribution data
+\item \textbf{\small Cropping Calendar sourced from Regional Agricultural Engineering Division(RAED)} 
+– provides seasonal and crop-stage information
+\end{itemize}
+
+\vspace{10pt}
+
+\textbf{Predictors:}
+\begin{itemize}
+\item Machine: type, horsepower
+\item Operation: type
+\item Effort: area, operating time
+\item Field: crop, soil condition
+\item Context: machinery count (ABEMIS)
+\item Time: crop stage/season (RAED)
+\item Performance: field efficiency
+\end{itemize}
+
+\vspace{10pt}
+
+\textbf{Target:} Fuel consumption (liters or liters per hectare)
+
+\section*{VIII. Methodology}
+
+\vspace{10pt}
+
+The study adopts a comparative predictive modeling approach.
+
+\vspace{10pt}
+
+\textbf{\small Research Design:} The study will use a comparative predictive modeling design. A baseline model will be developed first, followed by a Random Forest Regressor. Both models will be evaluated using the same dataset and regression metrics.
+
+\vspace{10pt}
+
+\textbf{Design:} Comparative modeling (baseline vs Random Forest)
+
+\vspace{10pt}
+
+\textbf{Data Preprocessing:}
+\begin{itemize}
+\item data extraction and consolidation;
+\item handling missing and inconsistent records;
+\item unit standardization for hectares, hours, horsepower, and liters;
+\item encoding categorical variables;
+\item outlier identification and treatment; and
+\item creation of derived variables.
+\end{itemize}
+
+\vspace{10pt}
+
+\textbf{Models:}
+
+\vspace{10pt}
+
+\textbf{\small Baseline model:} Multiple Linear Regression provides an interpretable reference model.
+
+\vspace{10pt}
+
+\textbf{\small Machine learning model:} Random Forest Regressor is selected for its ability to capture nonlinear relationships, interactions among variables, and robustness to real-world data variability.
+
+\vspace{10pt}
+
+\textbf{Evaluation:} The workflow includes data integration (AMTEC, ABEMIS, RAED), preprocessing, feature engineering, train-test splitting, model training, hyperparameter tuning, and evaluation using Mean Absolute Error (MAE), Root Mean Squared Error (RMSE), and $R^2$.
+
+\vspace{10pt}
+
+\textbf{Model Interpretability:} To enhance interpretability, feature importance analysis will be conducted using SHAP (SHapley Additive Explanations) and LIME (Local Interpretable Model-Agnostic Explanations). SHAP will identify global and local feature contributions, while LIME will explain individual predictions.
+
+\section*{IX. Expected Outputs}
+
+\vspace{10pt}
+
+\begin{itemize}
+\item Cleaned integrated dataset
+\item Baseline regression model
+\item Random Forest model
+\item Model evaluation results
+\item SHAP feature importance analysis
+\item LIME local explanations
+\end{itemize}
+
+\vspace{10pt}
+
+\textbf{Significance:} Improves fuel estimation accuracy and supports data-driven mechanization planning.
+
+\section*{X. Software and Hardware}
+
+\vspace{10pt}
+
+\textbf{Software:} Python, pandas, numpy, scikit-learn, matplotlib, seaborn, SHAP, LIME
+
+\vspace{10pt}
+
+\textbf{Hardware:} Laptop or desktop with at least 8 GB RAM (16 GB recommended) and standard CPU. No GPU is required.
+
+
+
+\end{document}

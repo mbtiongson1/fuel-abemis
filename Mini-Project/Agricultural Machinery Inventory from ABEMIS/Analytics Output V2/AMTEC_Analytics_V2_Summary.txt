@@ -1,0 +1,24 @@
+
+AMTEC TEST REPORT ANALYTICS V2 SUMMARY
+
+Original records: 3065
+Usable L/h records: 371
+
+Dataset A - Field Machinery records: 104
+Dataset B - Stationary and Processing records: 267
+
+Distinct machinery types: 14
+Distinct machinery families: 4
+
+Possible outliers flagged: 32
+Weak machinery categories with less than 5 records: 4
+
+Output Excel:
+C:\Users\romer\OneDrive\Documents\AI Files\AI 201\Project\Test Report\Analytics Output V2\AMTEC_Test_Report_Fuel_Power_Analytics_V2.xlsx
+
+Charts:
+C:\Users\romer\OneDrive\Documents\AI Files\AI 201\Project\Test Report\Analytics Output V2\average_fuel_by_machinery_type.png
+C:\Users\romer\OneDrive\Documents\AI Files\AI 201\Project\Test Report\Analytics Output V2\average_fuel_by_machinery_family.png
+C:\Users\romer\OneDrive\Documents\AI Files\AI 201\Project\Test Report\Analytics Output V2\power_vs_fuel_all.png
+C:\Users\romer\OneDrive\Documents\AI Files\AI 201\Project\Test Report\Analytics Output V2\power_vs_fuel_field_machinery.png
+C:\Users\romer\OneDrive\Documents\AI Files\AI 201\Project\Test Report\Analytics Output V2\fuel_intensity_by_machinery_type.png

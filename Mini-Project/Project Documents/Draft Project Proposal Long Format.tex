@@ -1,0 +1,231 @@
+\documentclass[11pt,twocolumn]{article}
+
+\usepackage[a4paper,margin=0.75in]{geometry}
+\usepackage{parskip}
+\usepackage{amsmath}
+
+\setlength{\columnsep}{0.25in}
+\setlength{\parskip}{3pt}
+\setlength{\parindent}{0pt}
+\sloppy
+
+\begin{document}
+
+\twocolumn[
+\begin{center}
+{\Large \textbf{AI 201 Project Proposal}}\par
+\vspace{4pt}
+\textbf{Pilot Machine Learning Model for Fuel Requirement Estimation in Agricultural Mechanization}\par
+\vspace{4pt}
+Ronald Melvin R. Rosas and Marcus Rafael Tiongson
+\end{center}
+\vspace{10pt}
+]
+
+\section*{Introduction}
+
+Fuel consumption is a critical operational component in agricultural mechanization, directly affecting production cost and efficiency. In the Philippines, fuel requirement estimation is often based on generalized assumptions or static coefficients that fail to account for variability in machine characteristics, operational conditions, and field environments.
+
+\vspace{10pt}
+
+Traditional engineering-based models provide approximate estimates but are limited in capturing nonlinear relationships among variables such as horsepower, load, operation type, and field conditions. With the increasing availability of mechanization-related datasets, machine learning can be applied to improve the accuracy and adaptability of fuel consumption estimation.
+
+\vspace{10pt}
+
+This study proposes the development of a pilot machine learning model to estimate fuel requirements for selected agricultural machinery operations using structured operational data.
+
+\section*{Problem Statement}
+
+Current approaches to estimating fuel consumption in agricultural machinery are:
+\begin{itemize}
+\item based on static or generalized coefficients;
+\item not localized to actual operating conditions; and
+\item unable to capture nonlinear interactions among variables.
+\end{itemize}
+
+\vspace{10pt}
+
+As a result, there is a need for a data-driven model that can predict fuel consumption more accurately, adapt to different machine types and operations, and support improved decision-making in mechanized agriculture.
+
+\section*{Objectives}
+
+\textbf{General Objective:} To develop and evaluate a machine learning model for estimating fuel requirements of selected agricultural machinery operations.
+
+\vspace{10pt}
+
+\textbf{Specific Objectives:}
+\begin{itemize}
+\item Identify key variables affecting fuel consumption;
+\item Develop a baseline estimation model using statistical methods;
+\item Implement a Random Forest model for fuel prediction; and
+\item Compare the baseline and machine learning models using standard metrics.
+\end{itemize}
+
+\section*{Scope and Delimitation}
+
+The study is limited to selected machinery types, operations, and available secondary data sources. It will use existing machinery test reports and related operational records. It excludes real-time sensor acquisition, nationwide modeling, full mechanization system simulation, and production-system deployment.
+
+\section*{Review of Related Literature}
+
+\subsection*{Fuel Consumption Theory}
+
+Fuel requirement estimation in agricultural mechanization is based on the relationship between engine power, implement load, and operational efficiency. Fuel consumption is generally proportional to the power requirement of the machine during operation, making it a practical indicator of energy demand (Domsch et al., 1999).
+
+\vspace{10pt}
+
+However, fuel consumption is not determined solely by engine characteristics. It is influenced by implement type, soil conditions, machine configuration, and operational mode. These relationships indicate that fuel estimation is a multivariate problem.
+
+\subsection*{Empirical Modeling}
+
+Empirical studies show that fuel consumption varies under actual operating conditions. PHilMech test reports on agricultural machinery show that fuel consumption is related to engine power, field efficiency, and operational parameters.
+
+\vspace{10pt}
+
+The reports also show that accurate estimation requires consideration of external variables such as soil condition, crop condition, operator skill, field size, terrain, and environmental conditions. This supports the need for models that integrate both machine performance and field efficiency indicators.
+
+\subsection*{Real-World Variability}
+
+Real-world studies further emphasize that fuel consumption varies across agricultural systems. Agaton and Guno (2024) report that diesel fuel use in irrigation systems is affected by soil type, environmental conditions, crop water requirements, distance to water source, and system efficiency.
+
+\vspace{10pt}
+
+Although focused on irrigation rather than field machinery, the study supports the argument that fuel use is context-dependent and varies across locations and operating conditions.
+
+\subsection*{Mechanization and Structural Context}
+
+Agricultural mechanization increases productivity but also raises energy demand. Mechanization level, often measured in horsepower per hectare, reflects the degree of energy input in agricultural production (Bautista et al., 2024).
+
+\vspace{10pt}
+
+Fuel and maintenance costs are also major operational barriers faced by farmers, affecting sustainability and mechanization adoption (Espino et al., 2024). Broader constraints such as climate variability, policy fragmentation, and limited access to technology and financing also affect resource use and operational efficiency (Ichwandiani \& Hassan, 2025).
+
+\subsection*{Research Gap}
+
+Existing approaches to fuel estimation rely largely on deterministic formulas, fixed coefficients, and controlled assumptions. These approaches have limited adaptability across varying field conditions and do not fully capture interactions among machine, operation, field, and effort-related variables.
+
+\section*{Conceptual Framework}
+
+Fuel consumption is modeled as:
+
+\[
+FC = f\left(
+\begin{aligned}
+&\mathrm{Machine Characteristics},\\
+&\mathrm{Operation Characteristics},\\
+&\mathrm{Field/Location Conditions},\\
+&\mathrm{Operational Effort}
+\end{aligned}
+\right)
+\]
+
+The target variable is fuel consumption, measured in liters or liters per hectare. Predictor variables include machine type, horsepower, operation type, area covered, operating time, field efficiency, and field/location indicators.
+
+\section*{Dataset Description}
+
+The dataset will consist of structured records of agricultural machinery operations. Each row will represent one machine operation over a defined area and time period.
+
+\vspace{10pt}
+
+\textbf{Primary source:} AMTEC Machinery Test Reports, available through the AMTEC Test Reports Google Drive folder provided for this project.
+
+\vspace{10pt}
+
+\textbf{Variables:}
+\begin{itemize}
+\item Machine: machine type, horsepower, fuel type;
+\item Operation: operation type, implement, number of passes;
+\item Effort: area covered, operating time, travel distance;
+\item Field/location: crop type, soil type, terrain, irrigation status;
+\item Target: fuel consumption in liters or liters per hectare; and
+\item Derived: fuel per hour, fuel per hectare, time per hectare.
+\end{itemize}
+
+\vspace{10pt}
+
+Supplementary sources may include ABEMIS, RSBSA, and literature-based estimates, subject to data availability and access constraints.
+
+\section*{Methodology}
+
+\subsection*{Research Design}
+
+The study will use a comparative predictive modeling design. A baseline model will be developed first, followed by a Random Forest Regressor. Both models will be evaluated using the same dataset and regression metrics.
+
+\vspace{10pt}
+
+\subsection*{Data Preprocessing}
+
+Data preprocessing will include:
+\begin{itemize}
+\item data extraction and consolidation;
+\item handling missing and inconsistent records;
+\item unit standardization for hectares, hours, horsepower, and liters;
+\item encoding categorical variables;
+\item outlier identification and treatment; and
+\item creation of derived variables.
+\end{itemize}
+
+\subsection*{Baseline Model}
+
+The baseline model will use average fuel consumption per operation and Multiple Linear Regression to provide an interpretable reference estimate.
+
+\subsection*{Machine Learning Model}
+
+The main machine learning model is the Random Forest Regressor. It is selected because it can capture nonlinear relationships, model interactions among variables, and remain robust in noisy real-world tabular data.
+
+\subsection*{Model Evaluation}
+
+Performance will be evaluated using:
+\begin{itemize}
+\item Mean Absolute Error (MAE);
+\item Root Mean Squared Error (RMSE); and
+\item Coefficient of Determination ($R^2$).
+\end{itemize}
+
+\section*{Expected Outputs}
+
+The project will produce:
+\begin{itemize}
+\item a cleaned tabular dataset;
+\item a baseline regression model;
+\item a Random Forest fuel estimation model;
+\item model evaluation results; and
+\item feature importance analysis identifying key fuel consumption predictors.
+\end{itemize}
+
+\section*{Software and Hardware}
+
+\textbf{Software:} Python, Jupyter Notebook, pandas, numpy, scikit-learn, matplotlib, and seaborn.
+
+\vspace{10pt}
+
+\textbf{Hardware:} Laptop or desktop computer with at least 8 GB RAM, 16 GB recommended, and standard CPU. No GPU is required.
+
+\section*{Significance of the Study}
+
+This study demonstrates the applicability of machine learning in agricultural and biosystems engineering. It provides a pilot framework for data-driven fuel estimation and establishes a basis for future integration into decision-support systems for mechanization planning.
+
+\section*{References}
+
+Agaton, C. B., \& Guno, C. S. (2024). Promoting sustainable agriculture using solar irrigation: Case study of small-scale farmers in the Philippines.
+
+\vspace{10pt}
+
+Bautista, C. J., Quipo, J., \& Taldhay, M. (2024). Enhancing agricultural productivity in the Philippines: A comprehensive review of mechanization status and sustainable strategies. \textit{European Journal of Science, Innovation and Technology}.
+
+\vspace{10pt}
+
+Domsch, H., Ehlert, D., Smrikarov, A. S., \& Bentscheva, N. V. (1999). Fuel consumption measurement with agricultural machinery. \textit{Landtechnik}, 54(5), 278--279.
+
+\vspace{10pt}
+
+Espino, L. C., Lutarte, R. J., Traya, A. J. G., \& Antipolo, A. G. (2024). Agricultural mechanization policy: Farmers in focus. \textit{International Journal of Research and Innovation in Social Science}.
+
+\vspace{10pt}
+
+Ichwandiani, R., \& Hassan, S. H. (2025). \textit{Industry analysis: Agriculture in the Philippines}. ASEAN Research Center.
+
+\vspace{10pt}
+
+Philippine Center for Postharvest Development and Mechanization. (n.d.). \textit{Analysis of technical performance of commercially available rice combine harvesters}.
+
+\end{document}

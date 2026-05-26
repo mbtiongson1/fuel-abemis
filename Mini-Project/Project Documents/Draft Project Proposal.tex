@@ -1,0 +1,96 @@
+\documentclass[11pt,twocolumn]{article}
+
+\usepackage[a4paper,margin=0.55in]{geometry}
+\usepackage{parskip}
+
+\setlength{\columnsep}{0.22in}
+\setlength{\parskip}{2pt}
+\setlength{\parindent}{0pt}
+\sloppy
+
+\begin{document}
+
+\twocolumn[
+\begin{center}
+{\large \textbf{AI 201 Project Proposal}}\par
+\vspace{2pt}
+\textbf{Pilot Machine Learning Model for Fuel Requirement Estimation in Agricultural Mechanization}\par
+\vspace{2pt}
+Ronald Melvin R. Rosas and Marcus Rafael Tiongson
+\end{center}
+\vspace{10pt}
+]
+
+\section*{\small i) Description of the Problem}
+
+Fuel consumption is a critical cost driver in agricultural mechanization and directly affects operational efficiency and sustainability. In the Philippines, fuel requirement estimation is typically based on generalized coefficients or static assumptions, which do not account for variability in machine characteristics, field conditions, and operational practices.
+\vspace{10pt}
+Actual machinery test data show that fuel consumption varies depending on engine power, soil condition, crop type, and field efficiency. Existing estimation approaches rely on deterministic formulas and do not fully capture complex interactions among variables.
+
+\vspace{10pt}
+
+This study models fuel consumption (FC) as:
+{\small
+\[
+FC = f\!\left(
+\begin{array}{l}
+\mathrm{Machine Characteristics,}\\
+\mathrm{Operation Characteristics,}\\
+\mathrm{Field/Location Conditions,}\\
+\mathrm{Operational Effort}
+\end{array}
+\right)
+\]
+}and aims to develop a machine learning model that improves estimation accuracy using real test data.
+
+\section*{\small ii) Short Review of Related Literature}
+
+Fuel consumption in agricultural machinery is primarily determined by engine power and operational load (Domsch et al., 1999). However, empirical studies show that fuel use is influenced by multiple interacting factors such as soil condition, terrain, operator behavior, crop characteristics, and machine specifications.
+
+\vspace{10pt}
+
+AMTEC test reports include fuel consumption rate, field efficiency, and capacity, demonstrating that energy use is closely linked with both machine performance and operating conditions. Real-world studies further confirm that fuel use varies significantly across agricultural systems and environments (Agaton \& Guno, 2024). Structural constraints in Philippine agriculture also influence mechanization efficiency and resource use (Ichwandiani \& Hassan, 2025).
+
+\vspace{10pt}
+
+These findings indicate that fuel consumption is a multivariate and context-dependent problem, justifying the use of machine learning to model complex relationships.
+
+\section*{\small iii) Description and URL of Dataset}
+
+\textbf{Dataset:} AMTEC Machinery Test Reports
+
+\textbf{Access:} Available through the AMTEC Test Reports Google Drive folder provided for this project. [https://bit.ly/AMTECTestReports2026]
+
+\vspace{10pt}
+
+Predictor variables include machine type, horsepower, operation type, area covered, operating time, and field efficiency. The target variable is fuel consumption measured in liters or liters per hectare. Derived variables such as fuel per hour and fuel per hectare will also be computed.
+
+\section*{\small iv) Methodology -- Algorithms to be Used}
+
+The study adopts a comparative predictive modeling approach.
+
+\vspace{10pt}
+
+\textbf{Baseline model:} Multiple Linear Regression is used to establish an interpretable reference model based on linear relationships between fuel consumption and predictors.
+
+\vspace{10pt}
+
+\textbf{Machine learning model:} Random Forest Regressor is selected due to its ability to capture nonlinear relationships, model interactions among variables, and maintain robustness in the presence of noisy real-world data.
+
+\vspace{10pt}
+
+The workflow includes data extraction from AMTEC reports, preprocessing (cleaning, encoding, normalization), feature engineering, train-test splitting, model training, hyperparameter tuning, and evaluation using Mean Absolute Error (MAE), Root Mean Squared Error (RMSE), and $R^2$, which quantify prediction error and model accuracy.
+
+\vspace{10pt}
+
+\textbf{Expected outputs:} The project will produce a cleaned tabular dataset, a baseline regression model, a Random Forest fuel estimation model, model evaluation results, and feature importance analysis identifying the main variables affecting fuel consumption.
+
+\section*{\small v) Software and Hardware Needed}
+
+\textbf{Software:} Python, Jupyter Notebook, pandas, numpy, scikit-learn, matplotlib, and seaborn.
+
+\vspace{10pt}
+
+\textbf{Hardware:} Laptop or desktop with at least 8 GB RAM (16 GB recommended) and standard CPU. No GPU is required.
+
+\end{document}

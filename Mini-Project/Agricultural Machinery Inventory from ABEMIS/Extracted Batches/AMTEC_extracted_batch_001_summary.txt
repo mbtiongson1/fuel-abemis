@@ -1,0 +1,26 @@
+
+AMTEC TEST REPORT EXTRACTION SUMMARY
+
+Batch number: 1
+Batch size: 100
+Total PDFs found: 3065
+Processed in this batch: 100
+
+Text extracted: 31
+Low text / possible scanned: 69
+
+High relevance: 30
+Low relevance: 0
+Unknown relevance: 70
+
+Machinery type extracted: 14
+Rated power extracted: 29
+Fuel consumption extracted: 16
+Field capacity extracted: 3
+Operating speed extracted: 4
+
+Needs OCR: 69
+High priority for review: 23
+
+Output file:
+C:\Users\romer\OneDrive\Documents\AI Files\AI 201\Project\Test Report\Extracted Batches\AMTEC_extracted_batch_001.xlsx
