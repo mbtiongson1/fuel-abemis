@@ -10,18 +10,15 @@ This project predicts fuel consumption for Philippine agricultural machinery by 
 
 The original implementation lives in `FuelRequirement.ipynb` (43 cells, ~3 000 lines). **Do not delete or modify it** — it is the canonical research reference. The Python module tree is a refactor of that notebook into importable, runnable scripts. The notebook will be rebuilt from scratch once the module split is validated.
 
-**Current state:** Data ingestion (ABEMIS extraction + AMTEC PDF parsing) is done and outputs exist under `Mini-Project/`. Active work is on the modeling side: OLS regression is extracted; Random Forest, SHAP, and LIME are stubs awaiting implementation.
+**Current state:** Data ingestion (ABEMIS extraction + AMTEC PDF parsing) and analytics are done. The full modeling pipeline (OLS, Random Forest, SHAP, LIME) has now been run end-to-end against the 371-record "Clean Record Level" sheet; outputs live in `Mini-Project/Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/`. Latest RF holdout metrics: R² 0.92, MAE 0.89 L/h, RMSE 1.56 L/h.
+
+The previous `Mini-Project/Test Report/` directory was removed during cleanup; AMTEC outputs now live in the ABEMIS folder. `config.py` paths reflect this (see Architecture below).
 
 ---
 
 ## First-time Setup
 
-**Update `BASE` in `config.py` before running anything.** The original notebook used a Google Colab mount path. For local use set it to the repo-relative data directory:
-
-```python
-# config.py
-BASE = Path("Mini-Project/")   # relative to repo root
-```
+`config.py` is already set to a repo-relative `BASE = Path("Mini-Project/")`. AMTEC paths point at the post-cleanup layout (outputs live inside `Agricultural Machinery Inventory from ABEMIS/`).
 
 Install dependencies (no lock file exists yet):
 
@@ -58,11 +55,11 @@ Run a single module directly (all modules have `if __name__ == "__main__"` guard
 
 ```bash
 python -c "import config; config.create_output_dirs()"   # create output dirs
-python data/amtec_analytics.py
-python models/ols_regression.py
-python models/random_forest.py
-python analysis/shap_analysis.py
-python analysis/lime_explanations.py
+python -m data.amtec_analytics
+python -m models.ols_regression
+python -m models.random_forest
+python -m analysis.shap_analysis
+python -m analysis.lime_explanations
 ```
 
 Syntax-check all modules without executing them:
@@ -77,40 +74,47 @@ python -m py_compile config.py main.py data/abemis_usability.py data/abemis_clas
 
 ### Config-driven design
 
-`config.py` is the single source of truth. Every module imports its paths and modeling flags from there — nothing is hardcoded inside a module. The key thing to understand is the 8-directory layout (4 ABEMIS + 4 AMTEC), all rooted at `BASE`.
+`config.py` is the single source of truth. Every module imports its paths and modeling flags from there — nothing is hardcoded inside a module. After the post-handover cleanup, all processed outputs (ABEMIS + AMTEC) live under `Mini-Project/Agricultural Machinery Inventory from ABEMIS/`. The relevant constants:
+
+- `AMTEC_PDF_DIR = BASE / "Test Reports from BAFE-AMTEC"`
+- `AMTEC_EXTRACTION_DIR = BASE / "Agricultural Machinery Inventory from ABEMIS/Extracted Batches Improved V3"`
+- `AMTEC_ANALYTICS_DIR = BASE / "Agricultural Machinery Inventory from ABEMIS/Analytics Output V2"`
+- `AMTEC_REGRESSION_DIR = BASE / "Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3"` (also receives RF/SHAP/LIME outputs)
 
 ### Module responsibilities and data flow
 
 ```
 data/ingestion/abemis_extractor.py    ZIP  → Regional Excel files        [DONE]
-data/ingestion/amtec_pdf_extractor.py PDF  → AMTEC_full_extracted_dataset.xlsx  [DONE]
+data/ingestion/amtec_pdf_extractor.py PDF  → V3 batch xlsx files         [DONE — full xlsx deleted, V3 batches survive]
                                              (PyMuPDF + optional OCR, checkpoints every 100 PDFs)
 
 data/abemis_usability.py              Regional Excel → usability report
 data/abemis_classifier.py             Keyword-rule classification → Fuel / No-Fuel / Uncertain
-data/amtec_analytics.py               full_extracted_dataset → Analytics V2 xlsx
+data/amtec_analytics.py               extracted dataset → Analytics V2 xlsx
                                              (derived: fuel_l_per_hr, fuel_l_per_kw_hr,
                                               power_class_fixed, fuel_intensity_class,
                                               fuel_outlier_severity)
 
-models/ols_regression.py              Analytics V2 "Clean Record Level" → Regression V3 xlsx
+models/ols_regression.py              Analytics V2 "Clean Record Level" → Regression V3 xlsx       [DONE]
                                              (hierarchical OLS: GLOBAL > FAMILY > TYPE,
                                               3 forms each: linear/quadratic/log_response,
                                               R² filter, fallback hierarchy, diagnostic plots)
-models/random_forest.py               Analytics V2 → rf_model.pkl + RF_Predictions.xlsx
+models/random_forest.py               Analytics V2 → rf_model.pkl + RF_Predictions.xlsx            [DONE]
 
-analysis/shap_analysis.py             rf_model.pkl → SHAP_Analysis.xlsx + plots
-analysis/lime_explanations.py         rf_model.pkl → LIME_Explanations.xlsx + per-instance plots
+analysis/shap_analysis.py             rf_model.pkl → SHAP_Analysis.xlsx + plots                   [DONE]
+analysis/lime_explanations.py         rf_model.pkl → LIME_Explanations.xlsx + per-instance plots  [DONE]
 ```
 
-### Key intermediate files (under `Mini-Project/`)
+### Key intermediate files (under `Mini-Project/Agricultural Machinery Inventory from ABEMIS/`)
 
 | File | Produced by | Consumed by |
 |------|-------------|-------------|
-| `AMTEC_full_extracted_dataset.xlsx` | `amtec_pdf_extractor` | `amtec_analytics` |
-| `AMTEC_Test_Report_Fuel_Power_Analytics_V2.xlsx` | `amtec_analytics` | `ols_regression`, `random_forest` |
-| `AMTEC_Regression_All_Parameters_V3_Filtered_R2.xlsx` | `ols_regression` | — |
-| `rf_model.pkl` | `random_forest` | `shap_analysis`, `lime_explanations` |
+| `Extracted Batches Improved V3/AMTEC_extracted_improved_v3_batch_*.xlsx` | `amtec_pdf_extractor` | `amtec_analytics` |
+| `Analytics Output V2/AMTEC_Test_Report_Fuel_Power_Analytics_V2.xlsx` | `amtec_analytics` | `ols_regression`, `random_forest` |
+| `Regression Parameters Output V3/AMTEC_Regression_All_Parameters_V3_Filtered_R2.xlsx` | `ols_regression` | — (final OLS output) |
+| `Regression Parameters Output V3/rf_model.pkl` + `rf_encoders.pkl` | `random_forest` | `shap_analysis`, `lime_explanations` |
+| `Regression Parameters Output V3/RF_Predictions.xlsx` | `random_forest` | — (final RF output) |
+| `Regression Parameters Output V3/SHAP_Analysis.xlsx`, `LIME_Explanations.xlsx` | `analysis/*` | — (paper artifacts) |
 
 The `"Clean Record Level"` sheet of the Analytics V2 xlsx is the standard input for all model modules.
 
@@ -133,13 +137,20 @@ For each scope × form combination, `fit_regression()` returns four DataFrames: 
 
 ### Extending the RF model
 
-`models/random_forest.py` exposes `FEATURE_COLS` at module level. Add feature names there (they must exist as columns in the "Clean Record Level" sheet) to extend the model without touching any other file.
+`models/random_forest.py` exposes two lists at module level:
+
+```python
+NUMERIC_FEATURES     = ["power_kw", "year"]
+CATEGORICAL_FEATURES = ["machinery_type", "machinery_family", "analysis_subset"]
+```
+
+Add columns to either list — `load_data()` handles label-encoding for categoricals automatically and saves the encoder dict to `rf_encoders.pkl`. Sparse columns like `field_capacity_value` (80/371) and `operating_speed_value` (77/371) will collapse the training set to ~80 rows; if you add them, expect a much smaller model. The SHAP and LIME modules pick up the new features automatically since they reuse `models.random_forest.load_data()`.
 
 ---
 
 ## Notebook reference
 
-`FuelRequirement.ipynb` cell index for quick lookup:
+`FuelRequirement.ipynb` cell index for quick lookup. Cells 30–42 in the notebook are still markdown stubs — the working ML code lives in `models/random_forest.py` and `analysis/*` only.
 
 | Cell | Content |
 |------|---------|
@@ -151,4 +162,4 @@ For each scope × form combination, `fit_regression()` returns four DataFrames: 
 | 23 | ABEMIS fuel-relevance separator → `data/abemis_classifier.py` |
 | 25 | AMTEC analytics & cleaning → `data/amtec_analytics.py` |
 | 27 | OLS regression V3 → `models/ols_regression.py` |
-| 30–37 | RF scaffolding (headers only) → `models/random_forest.py` |
+| 30–42 | RF / SHAP / LIME — markdown stubs only; not yet backfilled from modules |
