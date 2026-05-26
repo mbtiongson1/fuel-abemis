@@ -1,7 +1,7 @@
 from pathlib import Path
 
-# Update BASE to your local mount point before running.
-BASE = Path("/Mini-Project/")
+# Repo-relative path to data directory.
+BASE = Path("Mini-Project/")
 
 # ABEMIS directories
 ABEMIS_RAW_DIR       = BASE / "Agricultural Machinery Inventory from ABEMIS/Raw"
@@ -9,11 +9,11 @@ ABEMIS_EXTRACTED_DIR = BASE / "Agricultural Machinery Inventory from ABEMIS/Extr
 ABEMIS_DIAG_DIR      = BASE / "Agricultural Machinery Inventory from ABEMIS/Diagnostics"
 ABEMIS_FUEL_DIR      = BASE / "Agricultural Machinery Inventory from ABEMIS/Fuel Classification V2"
 
-# AMTEC directories
-AMTEC_PDF_DIR        = BASE / "Test Reports from BAFE/AMTEC/"
-AMTEC_EXTRACTION_DIR = BASE / "Test Reports from BAFE/AMTEC/Full Extraction Output"
-AMTEC_ANALYTICS_DIR  = BASE / "Test Reports from BAFE/AMTEC/Analytics Output V2"
-AMTEC_REGRESSION_DIR = BASE / "Test Reports from BAFE/AMTEC/Regression Parameters Output V3"
+# AMTEC directories — outputs co-located in the ABEMIS folder after cleanup.
+AMTEC_PDF_DIR        = BASE / "Test Reports from BAFE-AMTEC"
+AMTEC_EXTRACTION_DIR = BASE / "Agricultural Machinery Inventory from ABEMIS/Extracted Batches Improved V3"
+AMTEC_ANALYTICS_DIR  = BASE / "Agricultural Machinery Inventory from ABEMIS/Analytics Output V2"
+AMTEC_REGRESSION_DIR = BASE / "Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3"
 
 # OCR settings — only used if pytesseract + pdf2image are installed
 USE_OCR       = True

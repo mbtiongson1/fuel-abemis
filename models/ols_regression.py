@@ -176,10 +176,6 @@ def fit_regression(data, model_scope, group_name, model_form):
     ])
 
     diag = data.copy()
-    diag.update({col: val for col, val in [
-        ("model_scope", model_scope), ("group_name", group_name), ("model_form", model_form),
-        ("passes_r2_filter", passes_r2), ("r2_filter_decision", "KEEP" if passes_r2 else "REMOVE_WEAK_R2"),
-    ]})
     diag["model_scope"]        = model_scope
     diag["group_name"]         = group_name
     diag["model_form"]         = model_form
@@ -315,6 +311,7 @@ def run():
 
     # Filter weak-R² models
     ok_models     = model_summary_final[model_summary_final["model_status"] == "OK"].copy()
+    ok_models["passes_r2_filter"] = ok_models["passes_r2_filter"].astype(bool)
     strong_models = ok_models[ok_models["passes_r2_filter"]].copy()
     weak_models   = ok_models[~ok_models["passes_r2_filter"]].copy()
     best_strong   = (
