@@ -9,20 +9,11 @@ import numpy as np
 import pandas as pd
 
 import config
-from config import AMTEC_ANALYTICS_DIR, AMTEC_REGRESSION_DIR
-from models.random_forest import FEATURE_COLS, TARGET_COL, INPUT_FILE, load_model
+from config import AMTEC_REGRESSION_DIR
+from models.random_forest import FEATURE_COLS, TARGET_COL, load_data, load_model
 
 OUTPUT_DIR   = AMTEC_REGRESSION_DIR
 OUTPUT_EXCEL = OUTPUT_DIR / "SHAP_Analysis.xlsx"
-
-
-def load_data() -> pd.DataFrame:
-    df = pd.read_excel(INPUT_FILE, sheet_name="Clean Record Level")
-    required = [TARGET_COL] + FEATURE_COLS
-    df = df.dropna(subset=required).copy()
-    for col in required:
-        df[col] = pd.to_numeric(df[col], errors="coerce")
-    return df.dropna(subset=required)
 
 
 def run():
@@ -30,28 +21,24 @@ def run():
     import matplotlib.pyplot as plt
 
     model = load_model()
-    df    = load_data()
-    X     = df[FEATURE_COLS].values
-    X_df  = df[FEATURE_COLS]
+    df, _encoders = load_data()
+    X_df = df[FEATURE_COLS]
 
     explainer   = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(X_df)
 
-    # Global feature importance
     mean_abs_shap = np.abs(shap_values).mean(axis=0)
     importance_df = pd.DataFrame({
         "feature": FEATURE_COLS,
         "mean_abs_shap": mean_abs_shap,
     }).sort_values("mean_abs_shap", ascending=False)
 
-    # Summary bar plot
     plt.figure()
     shap.summary_plot(shap_values, X_df, plot_type="bar", show=False)
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / "shap_summary_bar.png", dpi=300, bbox_inches="tight")
     plt.close()
 
-    # Beeswarm / dot plot
     plt.figure()
     shap.summary_plot(shap_values, X_df, show=False)
     plt.tight_layout()
