@@ -40,7 +40,7 @@ May 2026\par}
 \section*{Abstract}
 %% ─────────────────────────────────────────────────────────────────────────────
 
-This study develops a pilot machine learning model for estimating fuel requirements of agricultural machinery in the Philippines. A corpus of 378 cleaned training records was assembled from Agricultural Machinery Testing and Evaluation Center (AMTEC) PDF test reports and used to train two models: a Multiple Linear Regression (OLS) baseline and a Random Forest (RF) Regressor. Eight features were used for the RF model---five numeric and three categorical-encoded. On a held-out test set of 76 records, the RF achieves R\textsuperscript{2}\,=\,0.911, MAE\,=\,1.09\,L/h, and RMSE\,=\,1.61\,L/h, substantially outperforming the OLS baseline. SHAP feature-importance analysis reveals that rated engine power (\texttt{power\_kw}) dominates at approximately 76\% of total importance, consistent with the fuel--power proportionality established in the literature. The trained model was applied to score the Agricultural and Biosystems Engineering Management Information System (ABEMIS) national inventory, successfully predicting fuel requirements for 172,265 of 246,741 fuel-relevant records (70\%) across all 17 Philippine regions, enabling data-driven national mechanization planning.
+This study develops a pilot machine learning model for estimating fuel requirements of agricultural machinery in the Philippines. A corpus of 376 cleaned training records was assembled from Agricultural Machinery Testing and Evaluation Center (AMTEC) PDF test reports and used to train two models: a Multiple Linear Regression (OLS) baseline and a Random Forest (RF) Regressor. Eight features were used for the RF model---five numeric and three categorical-encoded. On a held-out test set of 76 records, the RF achieves R\textsuperscript{2}\,=\,0.916, MAE\,=\,0.95\,L/h, and RMSE\,=\,1.53\,L/h, substantially outperforming the OLS baseline. SHAP feature-importance analysis reveals that rated engine power (\texttt{power\_kw}) dominates at approximately 76\% of total importance, consistent with the fuel--power proportionality established in the literature. The trained model was applied to score the Agricultural and Biosystems Engineering Management Information System (ABEMIS) national inventory, successfully predicting fuel requirements for 172,265 of 246,741 fuel-relevant records (70\%) across all 17 Philippine regions, enabling data-driven national mechanization planning.
 
 %% ─────────────────────────────────────────────────────────────────────────────
 \section*{I. Introduction}
@@ -156,7 +156,7 @@ This framework captures machine-level physical determinants as primary predictor
 
 \subsection*{A. AMTEC Test Reports}
 
-AMTEC machinery test reports (available at \texttt{https://bit.ly/AMTECTestReports2026}) provide the primary source of fuel consumption measurements. Reports cover field machinery, harvesters, dryers, and other mechanization equipment tested under standardized protocols \parencite{pnspaes148}. Text-searchable PDFs were processed using PyMuPDF to extract fuel consumption (L/h), rated engine power (kW), machinery type, fuel type, field efficiency, operating area, and operating time. After extraction, unit standardization, and outlier filtering, 378 clean records were retained as the training and test corpus.
+AMTEC machinery test reports (available at \texttt{https://bit.ly/AMTECTestReports2026}) provide the primary source of fuel consumption measurements. Reports cover field machinery, harvesters, dryers, and other mechanization equipment tested under standardized protocols \parencite{pnspaes148}. Text-searchable PDFs were processed using PyMuPDF to extract fuel consumption (L/h), rated engine power (kW), machinery type, fuel type, field efficiency, operating area, and operating time. After extraction (text + Tesseract OCR fallback for scanned reports), unit standardization, and outlier filtering, 376 clean records were retained as the training and test corpus.
 
 \subsection*{B. ABEMIS Inventory}
 
@@ -187,7 +187,7 @@ The modeling pipeline proceeds as follows:
   \item \textbf{Unit Standardization} --- Horsepower values are converted to kW; area units normalized to hectares; time to hours; fuel to liters.
   \item \textbf{Outlier Filtering} --- Records with implausible fuel consumption values (e.g., negative, zero, or extreme outliers by machinery type) are removed using interquartile-range-based filtering at the machinery-type level.
   \item \textbf{Feature Engineering} --- ABEMIS context features are joined to AMTEC records by \texttt{machinery\_type} key. Categorical variables are label-encoded for RF input.
-  \item \textbf{Train/Test Split} --- An 80/20 stratified split (378 total records; 302 training, 76 test) is applied. Stratification is on \texttt{machinery\_family}.
+  \item \textbf{Train/Test Split} --- An 80/20 stratified split (376 total records; 300 training, 76 test) is applied. Stratification is on \texttt{machinery\_family}.
   \item \textbf{Model Training} --- OLS baseline and RF Regressor are fitted on the training set.
   \item \textbf{Interpretability} --- SHAP and LIME analyses are performed on the RF model.
   \item \textbf{ABEMIS Scoring} --- The trained RF model scores all 246,741 ABEMIS fuel-relevant records to produce region-level fuel estimates.
@@ -238,9 +238,9 @@ Table~1 presents the holdout evaluation metrics for the OLS and Random Forest mo
 \toprule
 \textbf{Model} & \textbf{R\textsuperscript{2}} & \textbf{MAE (L/h)} & \textbf{RMSE (L/h)} \\
 \midrule
-OLS Global Linear         & 0.761 & 1.683 & 2.640 \\
-OLS Hierarchical Fallback & 0.722 & 1.872 & 2.847 \\
-\textbf{Random Forest}    & \textbf{0.911} & \textbf{1.090} & \textbf{1.611} \\
+OLS Global Linear         & 0.704 & 1.882 & 2.875 \\
+OLS Hierarchical Fallback & 0.703 & 1.879 & 2.879 \\
+\textbf{Random Forest}    & \textbf{0.916} & \textbf{0.950} & \textbf{1.534} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -286,7 +286,7 @@ The three ABEMIS deployment-context features contribute a small but consistent 3
 Several limitations constrain the scope and generalizability of the current results:
 
 \begin{itemize}
-  \item \textbf{Scanned PDFs:} Approximately 247 AMTEC test report files exist as scanned image PDFs not extractable by PyMuPDF. Installation of Tesseract OCR is pending. Successful OCR of these reports is expected to increase the training corpus from 378 to approximately 500--550 records, potentially improving model stability for underrepresented machinery types.
+  \item \textbf{Scanned PDFs:} Tesseract 5.5.2 OCR was applied to 267 previously LOW\_TEXT or unreadable AMTEC reports during this study, recovering 24 additional comparable records (corpus expanded from 371 legacy + 5 newly text-extracted to 376). The remaining unrecovered reports are predominantly 1990s placeholder filings without machine specifications even after OCR. Acquisition of additional source PDFs (notably the previously inaccessible 3{,}065-PDF collaborator set) would further enlarge the corpus.
 
   \item \textbf{RAED cropping calendar unavailable:} The time-dimension predictor (crop stage, planting/harvest window) could not be incorporated because the RAED dataset was not yet acquired. This limits the model's ability to account for seasonal load variations.
 
@@ -299,7 +299,7 @@ Several limitations constrain the scope and generalizability of the current resu
 \section*{XI. Conclusion}
 %% ─────────────────────────────────────────────────────────────────────────────
 
-This pilot study demonstrates that a Random Forest Regressor trained on 378 AMTEC test records achieves strong holdout performance (R\textsuperscript{2}\,=\,0.911, MAE\,=\,1.09\,L/h, RMSE\,=\,1.61\,L/h), substantially outperforming the deterministic OLS baseline across all three evaluation metrics. The trained model successfully scores 172,265 ABEMIS deployment records across all 17 Philippine regions, producing the first data-driven, region-level fuel requirement estimates for national agricultural machinery inventory. SHAP and LIME interpretability analyses confirm that the model's behavior is physically coherent, with engine power as the dominant driver and deployment-context features providing consistent secondary contributions. The results demonstrate the feasibility of linking AMTEC test data to ABEMIS inventory for operational planning, and provide a principled foundation for expanding the approach as additional data sources---including scanned AMTEC reports and the RAED cropping calendar---become available.
+This pilot study demonstrates that a Random Forest Regressor trained on 376 AMTEC test records achieves strong holdout performance (R\textsuperscript{2}\,=\,0.916, MAE\,=\,0.95\,L/h, RMSE\,=\,1.53\,L/h), substantially outperforming the deterministic OLS baseline across all three evaluation metrics. The trained model successfully scores 172,265 ABEMIS deployment records across all 17 Philippine regions, producing the first data-driven, region-level fuel requirement estimates for national agricultural machinery inventory. SHAP and LIME interpretability analyses confirm that the model's behavior is physically coherent, with engine power as the dominant driver and deployment-context features providing consistent secondary contributions. The results demonstrate the feasibility of linking AMTEC test data to ABEMIS inventory for operational planning, and provide a principled foundation for expanding the approach as additional data sources---including scanned AMTEC reports and the RAED cropping calendar---become available.
 
 %% ─────────────────────────────────────────────────────────────────────────────
 \section*{XII. Recommendations and Future Work}
@@ -524,7 +524,7 @@ LIME tabular explainer was applied to 10 representative records from the test se
 %% ─────────────────────────────────────────────────────────────────────────────
 \section*{Appendix D: Descriptive Analytics}
 
-The following figures summarize the AMTEC dataset analytics used during exploratory data analysis and feature engineering. All figures are generated from the 378 cleaned AMTEC records.
+The following figures summarize the AMTEC dataset analytics used during exploratory data analysis and feature engineering. All figures are generated from the 376 cleaned AMTEC records.
 
 \begin{figure}[H]
   \centering
@@ -547,7 +547,7 @@ The following figures summarize the AMTEC dataset analytics used during explorat
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.85\linewidth]{power_vs_fuel_all.png}
-  \caption{Scatter plot of rated power (kW) vs.\ fuel consumption (L/h) for all 378 records. A strong positive relationship is visible, consistent with the SHAP finding that \texttt{power\_kw} is the dominant predictor.}
+  \caption{Scatter plot of rated power (kW) vs.\ fuel consumption (L/h) for all 376 records. A strong positive relationship is visible, consistent with the SHAP finding that \texttt{power\_kw} is the dominant predictor.}
 \end{figure}
 
 \begin{figure}[H]

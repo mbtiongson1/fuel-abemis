@@ -43,7 +43,7 @@
 \begin{frame}{The Data}
   \large
   \begin{itemize}
-    \item AMTEC test reports $\rightarrow$ \textbf{378} cleaned training records
+    \item AMTEC test reports (text + OCR) $\rightarrow$ \textbf{376} cleaned training records
     \item ABEMIS inventory $\rightarrow$ \textbf{246{,}741} fuel-relevant records
     \item Coverage: \textbf{all 17} Philippine regions
     \item \textbf{8} RF features: \texttt{power\_kw}, year, three ABEMIS context features, three categorical-encoded (machinery type, family, subset)
@@ -78,9 +78,9 @@
     \toprule
     \textbf{Model} & \textbf{R\textsuperscript{2}} & \textbf{MAE (L/h)} & \textbf{RMSE (L/h)} \\
     \midrule
-    OLS Global Linear         & 0.761 & 1.683 & 2.640 \\
-    OLS Hierarchical Fallback & 0.722 & 1.872 & 2.847 \\
-    \textbf{Random Forest}    & \textbf{0.911} & \textbf{1.090} & \textbf{1.611} \\
+    OLS Global Linear         & 0.704 & 1.882 & 2.875 \\
+    OLS Hierarchical Fallback & 0.703 & 1.879 & 2.879 \\
+    \textbf{Random Forest}    & \textbf{0.916} & \textbf{0.950} & \textbf{1.534} \\
     \bottomrule
   \end{tabular}
 
