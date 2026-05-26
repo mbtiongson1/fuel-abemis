@@ -60,6 +60,13 @@ def has_matching_twocolumn_brackets(text: str) -> bool:
 
 
 def compile_tex(tex_path: Path, keep_logs: bool = False) -> tuple[int, str, str]:
+    env = os.environ.copy()
+    # Ensure local class/style files in the TeX file directory are found
+    texdir = str(tex_path.parent)
+    existing_texinputs = env.get("TEXINPUTS", "")
+    # Prepend texdir followed by the usual TeX input path separator
+    env["TEXINPUTS"] = texdir + os.pathsep + existing_texinputs
+
     if shutil.which("tectonic"):
         cmd = ["tectonic", str(tex_path)]
         if keep_logs:
@@ -68,7 +75,7 @@ def compile_tex(tex_path: Path, keep_logs: bool = False) -> tuple[int, str, str]
         cmd = ["pdflatex", "-interaction=nonstopmode", "-halt-on-error", str(tex_path)]
     else:
         raise RuntimeError("Neither tectonic nor pdflatex is installed on PATH.")
-    proc = subprocess.run(cmd, capture_output=True, text=True)
+    proc = subprocess.run(cmd, capture_output=True, text=True, cwd=texdir, env=env)
     output = proc.stdout + proc.stderr
     return proc.returncode, proc.stdout, proc.stderr
 
