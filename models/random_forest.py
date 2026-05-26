@@ -99,6 +99,60 @@ def evaluate(model, X, y) -> dict:
     }
 
 
+def cross_validate_rf(df: pd.DataFrame, n_splits: int = 5) -> pd.DataFrame:
+    """k-fold CV on the full preprocessed dataset; returns per-fold + aggregate metrics."""
+    from sklearn.ensemble import RandomForestRegressor
+    from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+    from sklearn.model_selection import KFold
+
+    X = df[FEATURE_COLS].values
+    y = df[TARGET_COL].values
+
+    kf = KFold(n_splits=n_splits, shuffle=True, random_state=RANDOM_STATE)
+    rows = []
+    for fold_idx, (train_idx, test_idx) in enumerate(kf.split(X), start=1):
+        m = RandomForestRegressor(
+            n_estimators=300, max_depth=None, min_samples_split=5,
+            min_samples_leaf=2, random_state=RANDOM_STATE, n_jobs=-1,
+        )
+        m.fit(X[train_idx], y[train_idx])
+        pred = m.predict(X[test_idx])
+        rows.append({
+            "fold": fold_idx,
+            "n_train": len(train_idx),
+            "n_test":  len(test_idx),
+            "r2":      r2_score(y[test_idx], pred),
+            "mae":     mean_absolute_error(y[test_idx], pred),
+            "rmse":    np.sqrt(mean_squared_error(y[test_idx], pred)),
+        })
+
+    folds = pd.DataFrame(rows)
+    summary = pd.DataFrame([
+        {"fold": "mean", "n_train": folds["n_train"].mean(), "n_test": folds["n_test"].mean(),
+         "r2": folds["r2"].mean(),  "mae": folds["mae"].mean(),  "rmse": folds["rmse"].mean()},
+        {"fold": "std",  "n_train": folds["n_train"].std(),  "n_test": folds["n_test"].std(),
+         "r2": folds["r2"].std(),   "mae": folds["mae"].std(),   "rmse": folds["rmse"].std()},
+    ])
+    return pd.concat([folds, summary], ignore_index=True)
+
+
+def per_type_residuals(df_test: pd.DataFrame, y_true, y_pred) -> pd.DataFrame:
+    """Group holdout residuals by machinery_type → count, mean residual, MAE, RMSE."""
+    out = df_test[["machinery_type"]].copy()
+    out["actual"]   = y_true
+    out["pred"]     = y_pred
+    out["residual"] = out["actual"] - out["pred"]
+    grouped = out.groupby("machinery_type").agg(
+        n=("residual", "size"),
+        mean_actual=("actual", "mean"),
+        mean_pred=("pred", "mean"),
+        mean_residual=("residual", "mean"),
+        mae=("residual", lambda r: r.abs().mean()),
+        rmse=("residual", lambda r: float(np.sqrt((r ** 2).mean()))),
+    ).reset_index().sort_values("n", ascending=False)
+    return grouped
+
+
 def save_model(model, encoders, model_path: Path = MODEL_FILE, enc_path: Path = ENCODER_FILE):
     import pickle
     with open(model_path, "wb") as f:
@@ -127,6 +181,12 @@ def run():
     print("Train metrics:", train_metrics)
     print("Test metrics: ", test_metrics)
 
+    cv_df = cross_validate_rf(df, n_splits=5)
+    print("CV (5-fold) mean R²/MAE/RMSE:",
+          float(cv_df.loc[cv_df["fold"] == "mean", "r2"].iloc[0]),
+          float(cv_df.loc[cv_df["fold"] == "mean", "mae"].iloc[0]),
+          float(cv_df.loc[cv_df["fold"] == "mean", "rmse"].iloc[0]))
+
     save_model(model, encoders)
 
     df["rf_predicted_fuel_l_hr"] = model.predict(df[FEATURE_COLS].values)
@@ -139,6 +199,17 @@ def run():
         df["rf_abs_residual"] / df[TARGET_COL] * 100,
         np.nan,
     )
+
+    # Recover the holdout rows so we can break residuals down by machinery_type.
+    from sklearn.model_selection import train_test_split
+    df_train_idx, df_test_idx = train_test_split(
+        df.index, test_size=TEST_SIZE, random_state=RANDOM_STATE
+    )
+    df_test = df.loc[df_test_idx]
+    test_pred = model.predict(df_test[FEATURE_COLS].values)
+    if config.CLIP_NEGATIVE_PREDICTIONS:
+        test_pred = np.clip(test_pred, 0, None)
+    per_type_df = per_type_residuals(df_test, df_test[TARGET_COL].values, test_pred)
 
     importances = pd.DataFrame({
         "feature": FEATURE_COLS,
@@ -154,6 +225,8 @@ def run():
     with pd.ExcelWriter(OUTPUT_EXCEL, engine="openpyxl") as writer:
         df.to_excel(writer, sheet_name="RF Predictions", index=False)
         metrics_df.to_excel(writer, sheet_name="Metrics", index=False)
+        cv_df.to_excel(writer, sheet_name="CV Metrics", index=False)
+        per_type_df.to_excel(writer, sheet_name="Per-Type Residuals", index=False)
         importances.to_excel(writer, sheet_name="Feature Importance", index=False)
         for col, mapping in encoders.items():
             pd.DataFrame(
@@ -161,7 +234,9 @@ def run():
             ).to_excel(writer, sheet_name=f"Encoder {col}"[:31], index=False)
 
     print("Predictions saved:", OUTPUT_EXCEL)
-    return model, {"train": train_metrics, "test": test_metrics}
+    return model, {"train": train_metrics, "test": test_metrics,
+                   "cv_mean_r2":  float(cv_df.loc[cv_df["fold"] == "mean", "r2"].iloc[0]),
+                   "cv_std_r2":   float(cv_df.loc[cv_df["fold"] == "std",  "r2"].iloc[0])}
 
 
 if __name__ == "__main__":
