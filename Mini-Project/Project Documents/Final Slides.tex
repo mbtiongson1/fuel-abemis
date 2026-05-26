@@ -1,0 +1,142 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{default}
+\usecolortheme{default}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+\graphicspath{
+  {/Users/marcotiongson/Documents/fuel-abemis/Mini-Project/Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/}
+  {/Users/marcotiongson/Documents/fuel-abemis/Mini-Project/Agricultural Machinery Inventory from ABEMIS/Analytics Output V2/}
+}
+
+\title{Pilot Machine Learning Model for Fuel Requirement Estimation\\ in Agricultural Mechanization}
+\author{Ronald Melvin R.\ Rosas \and Marcus Rafael Tiongson}
+\institute{AI 201 Project Defense}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{The Problem}
+  \large Fuel estimation in Philippine agricultural mechanization relies on static coefficients.
+  \vspace{1em}
+  \begin{itemize}
+    \item Generalized coefficients ignore machine variability
+    \item No localized field, soil, or operator effects
+    \item Nonlinear interactions invisible to deterministic formulas
+    \item Result: weak planning, missed efficiency gains
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Goal}
+  \begin{itemize}
+    \item Develop an ML model for fuel-requirement estimation
+    \item Compare against OLS baseline using R\textsuperscript{2}, MAE, RMSE
+    \item Score national ABEMIS deployments for regional fuel planning
+    \item Interpret with SHAP (global) and LIME (local)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{The Data}
+  \large
+  \begin{itemize}
+    \item AMTEC test reports $\rightarrow$ \textbf{378} cleaned training records
+    \item ABEMIS inventory $\rightarrow$ \textbf{246{,}741} fuel-relevant records
+    \item Coverage: \textbf{all 17} Philippine regions
+    \item \textbf{8} RF features: \texttt{power\_kw}, year, three ABEMIS context features, three categorical-encoded (machinery type, family, subset)
+    \item Target: fuel consumption (L/hr)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Pipeline}
+  \begin{center}
+    \large
+    PDF extraction (PyMuPDF) $\rightarrow$ Cleaning + unit standardization \\
+    $\downarrow$ \\
+    Feature engineering (ABEMIS context join) $\rightarrow$ Train/test split (80/20) \\
+    $\downarrow$ \\
+    OLS baseline $\rightarrow$ Random Forest (8 features) \\
+    $\downarrow$ \\
+    SHAP global + LIME local $\rightarrow$ ABEMIS scoring (172k records)
+  \end{center}
+\end{frame}
+
+\begin{frame}{Methodology Highlights}
+  \begin{itemize}
+    \item \textbf{OLS baseline} --- linear/quadratic; per-type fallback hierarchy (type $\to$ family $\to$ global)
+    \item \textbf{Random Forest} --- scikit-learn defaults, 80/20 split, 8 features, 5-fold CV
+    \item \textbf{Interpretability} --- SHAP TreeExplainer (bar + beeswarm), LIME tabular explainer (10 example records)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Results --- Model Comparison ($n_\text{test}=76$)}
+  \centering
+  \begin{tabular}{lccc}
+    \toprule
+    \textbf{Model} & \textbf{R\textsuperscript{2}} & \textbf{MAE (L/h)} & \textbf{RMSE (L/h)} \\
+    \midrule
+    OLS Global Linear         & 0.761 & 1.683 & 2.640 \\
+    OLS Hierarchical Fallback & 0.722 & 1.872 & 2.847 \\
+    \textbf{Random Forest}    & \textbf{0.911} & \textbf{1.090} & \textbf{1.611} \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{1em}
+  Random Forest captures non-linear power-fuel interactions OLS cannot.
+\end{frame}
+
+\begin{frame}{SHAP --- Global Feature Importance}
+  \centering
+  \includegraphics[width=0.82\textwidth,height=0.78\textheight,keepaspectratio]{shap_summary_bar.png}
+
+  \texttt{power\_kw} dominates at $\sim$76\% importance.
+\end{frame}
+
+\begin{frame}{SHAP --- Direction \& Magnitude}
+  \centering
+  \includegraphics[width=0.82\textwidth,height=0.78\textheight,keepaspectratio]{shap_summary_beeswarm.png}
+
+  Higher power $\rightarrow$ higher predicted fuel; context features add nuance.
+\end{frame}
+
+\begin{frame}{LIME --- A Local Explanation}
+  \centering
+  \includegraphics[width=0.92\textwidth,height=0.78\textheight,keepaspectratio]{lime_example_0.png}
+
+  Per-record explanation builds trust for BAFE engineers.
+\end{frame}
+
+\begin{frame}{ABEMIS Regional Scoring}
+  \large
+  \begin{itemize}
+    \item \textbf{172{,}265} of 246{,}741 records successfully scored (\textbf{70\%}\,coverage)
+    \item Excluded: 62{,}808 missing Rated Power, 11{,}668 unmappable type
+    \item Outputs: per-region, per-region $\times$ type, per-record fuel estimates
+    \item Enables data-driven mechanization planning at national scale
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Limitations \& Future Work}
+  \begin{itemize}
+    \item OCR retraining on 247 scanned PDFs (Tesseract binary pending)
+    \item RAED cropping calendar integration as the Time predictor
+    \item Expand ABEMIS $\to$ AMTEC type mapping for $\sim$19{,}674 unmapped rows
+    \item Validation against in-field telemetry from a pilot deployment
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \centering
+  \Huge Thank you
+  \vspace{2em}
+
+  \large Ronald Melvin R.\ Rosas \\ Marcus Rafael Tiongson
+
+  \vspace{2em}
+  \normalsize Repository: \texttt{fuel-abemis}
+\end{frame}
+
+\end{document}
