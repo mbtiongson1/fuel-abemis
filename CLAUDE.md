@@ -33,10 +33,12 @@ pip install pymupdf pandas openpyxl numpy matplotlib scipy statsmodels scikit-le
 
 ## Running the Pipeline
 
+> **Default:** always run with `--skip-ingestion`. Data ingestion is done; re-running it would re-extract ~1 600 PDFs unnecessarily.
+
 All stages are orchestrated through `main.py` from the repo root:
 
 ```bash
-# Skip ingestion — data already extracted (most common case)
+# DEFAULT — data already extracted
 python main.py --skip-ingestion
 
 # Skip ingestion + processing (analytics xlsx already exists)
