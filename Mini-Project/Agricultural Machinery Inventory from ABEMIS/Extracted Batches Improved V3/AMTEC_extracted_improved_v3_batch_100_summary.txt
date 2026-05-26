@@ -1,0 +1,28 @@
+AMTEC TEST REPORT EXTRACTION SUMMARY - IMPROVED V3
+
+Batch number: 100
+Batch size: 100
+Total PDFs in list: 395
+Total batches available: 4
+Processed in this batch: 100
+
+Text extracted: 61
+Low text / possible scanned: 21
+OCR extracted: 0
+
+High relevance: 63
+Low relevance: 2
+Unknown relevance: 35
+
+Machinery type extracted: 63
+Rated power extracted: 57
+Fuel consumption extracted: 58
+Field capacity extracted: 3
+Operating speed extracted: 4
+
+Needs OCR: 39
+Usable for core dataset: 57
+High priority for review: 6
+
+Output file:
+Mini-Project\Agricultural Machinery Inventory from ABEMIS\Extracted Batches Improved V3\AMTEC_extracted_improved_v3_batch_100.xlsx

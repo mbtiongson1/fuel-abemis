@@ -1,3 +1,4 @@
+import logging
 import warnings
 
 import matplotlib.pyplot as plt
@@ -8,6 +9,10 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 import config
 from config import AMTEC_EXTRACTION_DIR, AMTEC_ANALYTICS_DIR
+
+logger = logging.getLogger(__name__)
+
+CONTEXT_FILE = AMTEC_ANALYTICS_DIR / "abemis_machinery_context.xlsx"
 
 warnings.filterwarnings("ignore")
 
@@ -65,6 +70,9 @@ def fixed_power_class_kw(power_kw):
 
 def add_within_machine_power_class(group):
     group = group.copy()
+    # pandas 2.2+ groupby/apply drops the group key column; restore it from group.name
+    if "machinery_type" not in group.columns and getattr(group, "name", None) is not None:
+        group["machinery_type"] = group.name
     if group["power_kw"].nunique() < 3 or len(group) < 6:
         group["power_class_within_machine"] = "Single/Narrow Power Range"
         return group
@@ -97,6 +105,8 @@ def fuel_intensity_class(value):
 
 def add_outlier_severity(group):
     group = group.copy()
+    if "machinery_type" not in group.columns and getattr(group, "name", None) is not None:
+        group["machinery_type"] = group.name
     if len(group) < 5:
         group["fuel_z_score_within_machine"] = np.nan
         group["fuel_outlier_severity"] = "Insufficient Records"
@@ -206,9 +216,15 @@ def run():
     usable["fuel_l_per_hp_hr"] = usable["fuel_l_per_hr"] / usable["power_hp"]
     usable["hp_per_l_per_hr"]  = usable["power_hp"] / usable["fuel_l_per_hr"]
     usable["power_class_fixed"] = usable["power_kw"].apply(fixed_power_class_kw)
-    usable = usable.groupby("machinery_type", group_keys=False).apply(add_within_machine_power_class)
+    usable = pd.concat(
+        [add_within_machine_power_class(g.assign(machinery_type=k)) for k, g in usable.groupby("machinery_type", group_keys=False)],
+        ignore_index=True,
+    )
     usable["fuel_intensity_class"] = usable["fuel_l_per_kw_hr"].apply(fuel_intensity_class)
-    usable = usable.groupby("machinery_type", group_keys=False).apply(add_outlier_severity)
+    usable = pd.concat(
+        [add_outlier_severity(g.assign(machinery_type=k)) for k, g in usable.groupby("machinery_type", group_keys=False)],
+        ignore_index=True,
+    )
 
     possible_outliers = usable[usable["fuel_outlier_severity"].isin(["Mild", "Moderate", "Extreme"])].copy()
 
@@ -224,6 +240,14 @@ def run():
     correlation_by_machine = correlation_by_group(usable, "machinery_type", corr_cols)
     correlation_by_family  = correlation_by_group(usable, "machinery_family", corr_cols)
 
+    # Join ABEMIS context features (built by data/abemis_context_features.py)
+    if CONTEXT_FILE.exists():
+        context = pd.read_excel(CONTEXT_FILE)
+        usable = usable.merge(context, on="machinery_type", how="left")
+        print("ABEMIS context features joined:", context.shape[0], "type(s) matched")
+    else:
+        logger.warning("abemis_machinery_context.xlsx not found — skipping context join. Run: python -m data.abemis_context_features")
+
     # Summary tables
     record_cols = [c for c in [
         "test_report_no", "year", "machinery_family", "analysis_subset", "machinery_type",
@@ -232,7 +256,9 @@ def run():
         "fuel_l_per_kw_hr", "fuel_l_per_hp_hr", "kw_per_l_per_hr", "fuel_intensity_class",
         "field_capacity_value", "field_capacity_unit", "operating_speed_value", "operating_speed_unit",
         "general_capacity_value", "general_capacity_unit", "fuel_z_score_within_machine",
-        "fuel_outlier_severity", "source_file", "source_path",
+        "fuel_outlier_severity",
+        "abemis_total_count", "abemis_region_breadth", "abemis_dominant_region_share",
+        "source_file", "source_path",
     ] if c in usable.columns]
     clean_record_level = usable[record_cols].copy()
 
