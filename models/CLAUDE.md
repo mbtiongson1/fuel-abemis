@@ -1,6 +1,6 @@
 # models/
 
-Modeling code: OLS baseline + Random Forest. Both have been run end-to-end on the 371-record "Clean Record Level" sheet.
+Modeling code: OLS baseline + Random Forest. Both have been run end-to-end on the 378-record "Clean Record Level" sheet.
 
 ## Files
 
@@ -26,18 +26,18 @@ python -m models.random_forest
 ## Random Forest features
 
 ```python
-NUMERIC_FEATURES     = ["power_kw", "year"]
+NUMERIC_FEATURES     = ["power_kw", "year", "abemis_total_count", "abemis_region_breadth", "abemis_dominant_region_share"]
 CATEGORICAL_FEATURES = ["machinery_type", "machinery_family", "analysis_subset"]
 FEATURE_COLS         = NUMERIC_FEATURES + [f"{c}_code" for c in CATEGORICAL_FEATURES]
 ```
 
-Categoricals are integer-label encoded inside `load_data()`. The encoder dict is saved to `rf_encoders.pkl` and exported to per-encoder sheets in `RF_Predictions.xlsx`.
+Categoricals are integer-label encoded inside `load_data()`. The encoder dict is saved to `rf_encoders.pkl` and exported to per-encoder sheets in `RF_Predictions.xlsx`. The three `abemis_*` numeric features come from the join performed in `data/amtec_analytics.py` against `Analytics Output V2/abemis_machinery_context.xlsx` (built by `data/abemis_context_features.py`).
 
-To extend: add to `NUMERIC_FEATURES` or `CATEGORICAL_FEATURES` only. The pipeline picks the rest up automatically. Sparse columns like `field_capacity_value` (80/371) and `operating_speed_value` (77/371) will collapse the dataset; if you add them, expect ~80 records to survive.
+To extend: add to `NUMERIC_FEATURES` or `CATEGORICAL_FEATURES` only. The pipeline picks the rest up automatically. Sparse columns like `field_capacity_value` (80/378) and `operating_speed_value` (77/378) will collapse the dataset; if you add them, expect ~80 records to survive.
 
-## Latest test metrics (75 holdout records)
+## Latest test metrics (76 holdout records)
 
-R² = 0.92, MAE = 0.89 L/h, RMSE = 1.56 L/h. Feature importance: `power_kw` 82%, `year` 12%, `machinery_type_code` 3%, `machinery_family_code` 3%, `analysis_subset_code` <1%.
+R² = 0.91, MAE = 1.09 L/h, RMSE = 1.61 L/h. Feature importance: `power_kw` 76.2%, `year` ~12%, ABEMIS context features ~3.5% combined; remaining ~8% split across the three categorical-coded features.
 
 ## OLS structure
 

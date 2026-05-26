@@ -90,11 +90,18 @@ The existing `extract_text_ocr()` (in `data/ingestion/amtec_pdf_extractor.py`, l
 
 The 600 surviving V3 batch records came from a 3,065-PDF set on collaborator romer's machine. We have no copy of those source PDFs locally (only 5 of 400 local PDFs match). The **previous 371-record analytics V2 was derived from that lost source**. We restored it from git so the model trains on those records, but we cannot re-extract or re-OCR them — they are effectively read-only.
 
-**Implication for the paper:** when describing the dataset, note that 364 of 378 training records descend from a separate prior extraction (no longer reproducible from source PDFs in this repo); 7 came from this session's local-PDF extraction. New batches `batch_100..103` are the local-only contribution.
+**Implication for the paper:** when describing the dataset, note that 371 of 378 training records descend from a separate prior extraction (no longer reproducible from source PDFs in this repo); 7 came from this session's local-PDF extraction. New batches `batch_100..103` are the local-only contribution.
 
 ### 3. ABEMIS Rated Power column has high NaN rate
 
 Of 246,741 fuel-relevant ABEMIS records, **62,808 (25%) have missing or unparseable `Rated Power`** and are excluded from RF scoring rather than imputed (deliberate — see `analysis/abemis_fuel_scoring.py::parse_rated_power_kw()`). If regional aggregates need to cover these, talk to BAFE about back-filling the inventory.
+
+### 4. ABEMIS → AMTEC type mapping has known gaps
+
+Two things to know about `data/abemis_context_features.py::map_abemis_to_amtec_type()`:
+
+- **"corn mill" → "Rice Mill" fudge** (~2,934 ABEMIS rows). AMTEC has no separate Corn Mill machinery type, and "corn mill" devices are mechanically similar enough that the trained Rice Mill regressor is a reasonable proxy. This is an explicit modeling choice, not a bug. If the proposal needs strict type fidelity, drop these rows or create a `Corn Mill` AMTEC bucket and retrain.
+- **~19,674 ABEMIS rows have a Machine Name that doesn't match any keyword bucket** in the mapping dict. They show up as `unmappable_type` in the scoring output and are excluded from regional aggregates. The 11,668 figure cited elsewhere refers to rows that *also* survive the power-parse filter; the larger 19,674 includes rows that would have been excluded anyway by missing power. To grow coverage, extend the keyword sets in `map_abemis_to_amtec_type()` after eyeballing the unmapped Machine Name distribution.
 
 ---
 

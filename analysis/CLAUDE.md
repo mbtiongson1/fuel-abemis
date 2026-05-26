@@ -8,6 +8,7 @@ Explainability for the trained Random Forest. Both modules require `rf_model.pkl
 |---|---|---|
 | `shap_analysis.py` | done, run | TreeExplainer on RF; produces global feature importance + summary plots |
 | `lime_explanations.py` | done, run | Per-instance local explanations on 10 sampled records |
+| `abemis_fuel_scoring.py` | done, run | Applies trained RF to all 246,741 fuel-relevant ABEMIS deployments → regional fuel estimates |
 | `__init__.py` | empty | package marker |
 
 ## How to run
@@ -15,6 +16,7 @@ Explainability for the trained Random Forest. Both modules require `rf_model.pkl
 ```bash
 python -m analysis.shap_analysis
 python -m analysis.lime_explanations
+python -m analysis.abemis_fuel_scoring
 ```
 
 Both reuse `models.random_forest.load_data()` so the same categorical encoding is applied to the explanation set.
@@ -34,7 +36,11 @@ To change the number of explained instances: pass `n_samples=N` to `run()` or ch
 
 ## Latest results
 
-SHAP global importance (mean |SHAP|): `power_kw` 3.63 → `year` 0.65 → `machinery_type_code` 0.27 → `machinery_family_code` 0.21 → `analysis_subset_code` 0.07. Same ordering as RF feature importance, which is reassuring.
+SHAP global importance now reflects the 8-feature model (5 numeric + 3 categorical-encoded). Top driver remains `power_kw` (76.2% RF importance). The three ABEMIS context features (`abemis_total_count`, `abemis_region_breadth`, `abemis_dominant_region_share`) contribute ~3.5% combined — small but consistent.
+
+## ABEMIS regional scoring
+
+`abemis_fuel_scoring.py` loads `rf_model.pkl` + `rf_encoders.pkl` and predicts `fuel_l_per_hr` for every fuel-relevant ABEMIS deployment. Output: `Regression Parameters Output V3/ABEMIS_Regional_Fuel_Estimates.xlsx` with 4 sheets — Per Record, Per Region, Per Region × Type, Status Summary. Of 246,741 fuel-relevant ABEMIS records, 172,265 (70%) are predictable; the rest are excluded due to missing power (62,808) or unmappable type (11,668). Power parsing handles the free-text `Rated Power` column ("75 hp", "10kW", "75 hp/55 kW", etc.).
 
 ## RAED dependency (planned)
 
