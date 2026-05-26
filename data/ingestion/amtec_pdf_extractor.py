@@ -1,6 +1,9 @@
+import argparse
 import re
+import sys
 import warnings
 from datetime import datetime
+from pathlib import Path
 
 import fitz  # PyMuPDF
 import pandas as pd
@@ -533,6 +536,185 @@ def run():
     print("Output folder:", AMTEC_EXTRACTION_DIR)
 
 
+# ── Missing-only extraction ───────────────────────────────────────────────────
+
+def _write_batch(records: list, batch_num: int, total_in_list: int, out_dir: Path) -> None:
+    """Persist one batch of records as an xlsx + companion summary txt."""
+    df = pd.DataFrame(records)
+    batch_tag = f"{batch_num:03d}"
+    xlsx_path = out_dir / f"AMTEC_extracted_improved_v3_batch_{batch_tag}.xlsx"
+    txt_path  = out_dir / f"AMTEC_extracted_improved_v3_batch_{batch_tag}_summary.txt"
+
+    df.to_excel(xlsx_path, index=False)
+
+    n = len(df)
+    total_batches = (total_in_list + CHECKPOINT_EVERY - 1) // CHECKPOINT_EVERY
+    text_extracted  = int((df["extraction_status"] == "TEXT_EXTRACTED").sum())
+    low_text        = int((df["extraction_status"] == "LOW_TEXT_POSSIBLE_SCANNED").sum())
+    ocr_extracted   = int((df["extraction_status"] == "OCR_EXTRACTED").sum())
+    high_rel        = int((df["project_relevance"] == "HIGH_RELEVANCE").sum())
+    low_rel         = int((df["project_relevance"] == "LOW_RELEVANCE").sum())
+    unknown_rel     = int((df["project_relevance"] == "UNKNOWN_RELEVANCE").sum())
+    mach_extracted  = int(df["machinery_type"].notna().sum())
+    power_extracted = int(df["power_kw"].notna().sum())
+    fuel_extracted  = int(df["fuel_value"].notna().sum())
+    fc_extracted    = int(df["field_capacity_value"].notna().sum())
+    spd_extracted   = int(df["operating_speed_value"].notna().sum())
+    needs_ocr       = int(df["needs_ocr"].sum()) if "needs_ocr" in df.columns else 0
+    usable          = int((
+        (df["project_relevance"] == "HIGH_RELEVANCE")
+        & df["machinery_type"].notna()
+        & df["fuel_value"].notna()
+        & df["power_kw"].notna()
+    ).sum())
+    high_priority   = int(((df["project_relevance"] == "HIGH_RELEVANCE") & ~(
+        (df["project_relevance"] == "HIGH_RELEVANCE")
+        & df["machinery_type"].notna()
+        & df["fuel_value"].notna()
+        & df["power_kw"].notna()
+    )).sum())
+
+    summary = (
+        f"AMTEC TEST REPORT EXTRACTION SUMMARY - IMPROVED V3\n\n"
+        f"Batch number: {batch_num}\n"
+        f"Batch size: {CHECKPOINT_EVERY}\n"
+        f"Total PDFs in list: {total_in_list}\n"
+        f"Total batches available: {total_batches}\n"
+        f"Processed in this batch: {n}\n\n"
+        f"Text extracted: {text_extracted}\n"
+        f"Low text / possible scanned: {low_text}\n"
+        f"OCR extracted: {ocr_extracted}\n\n"
+        f"High relevance: {high_rel}\n"
+        f"Low relevance: {low_rel}\n"
+        f"Unknown relevance: {unknown_rel}\n\n"
+        f"Machinery type extracted: {mach_extracted}\n"
+        f"Rated power extracted: {power_extracted}\n"
+        f"Fuel consumption extracted: {fuel_extracted}\n"
+        f"Field capacity extracted: {fc_extracted}\n"
+        f"Operating speed extracted: {spd_extracted}\n\n"
+        f"Needs OCR: {needs_ocr}\n"
+        f"Usable for core dataset: {usable}\n"
+        f"High priority for review: {high_priority}\n\n"
+        f"Output file:\n{xlsx_path}\n"
+    )
+    txt_path.write_text(summary, encoding="utf-8")
+    print(f"Batch {batch_num} saved: {xlsx_path}")
+
+
+def extract_from_list(
+    pdf_paths: list,
+    starting_batch_num: int = 100,
+    out_dir: Path = None,
+) -> Path:
+    """Extract records for an explicit list of PDF paths.
+
+    Processes *pdf_paths* in order, writing a batch xlsx + summary txt every
+    ``CHECKPOINT_EVERY`` PDFs.  Batch numbers start at *starting_batch_num*
+    (default 100) so they cannot collide with the existing batch_001…batch_030
+    files produced by the original run.
+
+    Parameters
+    ----------
+    pdf_paths:
+        Ordered list of :class:`~pathlib.Path` objects to process.
+    starting_batch_num:
+        First batch number to use (incremented by 1 for each subsequent batch).
+    out_dir:
+        Directory to write batch files into.  Defaults to
+        ``config.AMTEC_EXTRACTION_DIR``.
+
+    Returns
+    -------
+    Path
+        The directory the batch files were written to.
+    """
+    if out_dir is None:
+        out_dir = AMTEC_EXTRACTION_DIR
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    total = len(pdf_paths)
+    print(f"extract_from_list: {total} PDFs to process")
+    print(f"OCR enabled: {USE_OCR}")
+    print(f"Output folder: {out_dir}")
+    print(f"Starting batch number: {starting_batch_num}")
+
+    current_batch_records: list = []
+    batch_num = starting_batch_num
+
+    for i, pdf_path in enumerate(pdf_paths, start=1):
+        pdf_path = Path(pdf_path)
+        print(f"[{i}/{total}] {pdf_path.name}")
+        try:
+            current_batch_records.append(extract_record(pdf_path))
+        except Exception as e:
+            rec = dict(_BLANK_RECORD)
+            rec.update({
+                "source_file": pdf_path.name,
+                "source_path": str(pdf_path),
+                "extraction_status": f"ERROR: {e}",
+            })
+            current_batch_records.append(rec)
+
+        if i % CHECKPOINT_EVERY == 0:
+            _write_batch(current_batch_records, batch_num, total, out_dir)
+            current_batch_records = []
+            batch_num += 1
+
+    # Flush any remaining records that didn't fill a full checkpoint window.
+    if current_batch_records:
+        _write_batch(current_batch_records, batch_num, total, out_dir)
+
+    print(f"extract_from_list: done.  Batches written to {out_dir}")
+    return out_dir
+
+
+# ── CLI entry point ───────────────────────────────────────────────────────────
+
+def _parse_args(argv=None):
+    parser = argparse.ArgumentParser(
+        description="AMTEC PDF extractor — V3 improved",
+    )
+    parser.add_argument(
+        "--missing",
+        action="store_true",
+        help=(
+            "Process only the PDFs listed in missing_pdfs.txt "
+            "(path: AMTEC_EXTRACTION_DIR.parent / 'missing_pdfs.txt')"
+        ),
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="With --missing: print PDF count and exit without extracting.",
+    )
+    parser.add_argument(
+        "--starting-batch",
+        type=int,
+        default=100,
+        metavar="N",
+        help="First batch number for --missing mode (default: 100).",
+    )
+    return parser.parse_args(argv)
+
+
 if __name__ == "__main__":
+    args = _parse_args()
     config.create_output_dirs()
-    run()
+
+    if args.missing:
+        missing_txt = AMTEC_EXTRACTION_DIR.parent / "missing_pdfs.txt"
+        if not missing_txt.exists():
+            print(f"ERROR: missing_pdfs.txt not found at {missing_txt}", file=sys.stderr)
+            sys.exit(1)
+        pdf_paths = [Path(line.strip()) for line in missing_txt.read_text(encoding="utf-8").splitlines() if line.strip()]
+        if args.dry_run:
+            print(f"Would process {len(pdf_paths)} PDFs")
+            sys.exit(0)
+        extract_from_list(pdf_paths, starting_batch_num=args.starting_batch)
+    else:
+        if args.dry_run:
+            all_pdfs = sorted(AMTEC_PDF_DIR.rglob("*.pdf"))
+            print(f"Would process {len(all_pdfs)} PDFs")
+            sys.exit(0)
+        run()

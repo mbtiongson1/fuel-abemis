@@ -25,6 +25,9 @@ TARGET_COL = "fuel_l_per_hr"
 NUMERIC_FEATURES: list[str] = [
     "power_kw",
     "year",
+    "abemis_total_count",
+    "abemis_region_breadth",
+    "abemis_dominant_region_share",
 ]
 
 # Categorical features encoded as integer labels (RF handles label-encoded categoricals).

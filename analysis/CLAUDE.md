@@ -35,3 +35,8 @@ To change the number of explained instances: pass `n_samples=N` to `run()` or ch
 ## Latest results
 
 SHAP global importance (mean |SHAP|): `power_kw` 3.63 → `year` 0.65 → `machinery_type_code` 0.27 → `machinery_family_code` 0.21 → `analysis_subset_code` 0.07. Same ordering as RF feature importance, which is reassuring.
+
+## RAED dependency (planned)
+
+B2 regional scoring module (not yet written) will combine B1 model outputs with RAED seasonal demand: `is_in_season` (binary) and `crop_stage_intensity` (0–1). The RAED data pipeline (`data/raed_cropping_calendar.py`) will produce `raed_seasonal_demand.xlsx` keyed by (machinery_type, region, month). B2 reuses the same RF encoder pickles (`rf_encoders.pkl`) to ensure consistent machinery_type mapping.
+

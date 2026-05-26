@@ -148,6 +148,28 @@ Add columns to either list — `load_data()` handles label-encoding for categori
 
 ---
 
+## RAED Cropping Calendar (planned)
+
+**Status:** Data not yet acquired. Only blank data-gathering form exists.
+
+**Form location:** `Mini-Project/Data Gathering form for Cropping Calendar (ao07222022).xlsx`
+
+**Sheets (4 total):**
+- `Legend` — operation codes (LP/I/P/CC/H/PP/SR/TP/T) mapped to operations (e.g., LP→Land Preparation) and machinery groups (e.g., Tractors, Hand Tractor).
+- `Rice Cropping Calendar`, `Corn`, `HVC` — to be filled with region × month × operation intensity once data is provided.
+
+**Join chain:** RAED operation code → `Legend` sheet → machinery_type string → (existing AMTEC + ABEMIS) → fuel model.
+
+**Outputs (when data arrives):** `data/raed_cropping_calendar.py` will load the three crop sheets, normalize operation codes via `Legend`, and emit `Analytics Output V2/raed_seasonal_demand.xlsx` keyed by (machinery_type, region, month).
+
+**Time predictors produced:**
+- `is_in_season` (binary) — machinery_type × region × month active flag.
+- `crop_stage_intensity` (0–1 scalar) — normalized machinery utilization per stage.
+
+**Integration point:** Phase B2 regional scoring (`analysis/abemis_fuel_scoring.py`, planned) gains temporal axis: base B2 score × is_in_season × crop_stage_intensity. Training phase (B1, OLS + RF) is **unchanged** because AMTEC test reports lack region/month context.
+
+---
+
 ## Notebook reference
 
 `FuelRequirement.ipynb` cell index for quick lookup. Cells 30–42 in the notebook are still markdown stubs — the working ML code lives in `models/random_forest.py` and `analysis/*` only.
