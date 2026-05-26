@@ -1,0 +1,404 @@
+extract_from_list: 395 PDFs to process
+OCR enabled: True
+Output folder: Mini-Project\Agricultural Machinery Inventory from ABEMIS\Extracted Batches Improved V3
+Starting batch number: 100
+[1/395] 1987-0089 NA NA NA.pdf
+[2/395] 1987-0097 NA NA NA.pdf
+[3/395] 1990-0028 NA NA NA.pdf
+[4/395] 1996-0019 NA NA NA.pdf
+[5/395] 1996-0037 NA NA NA.pdf
+[6/395] 1996-0077 NA NA NA.pdf
+[7/395] 1997-0078 NA NA NA.pdf
+[8/395] 1998-0012 NA NA NA.pdf
+[9/395] 2006-0061 NA NA NA.pdf
+[10/395] 2007-0014 NA NA NA.pdf
+[11/395] 2007-0029 NA NA NA.pdf
+[12/395] 2007-0032 NA NA NA.pdf
+[13/395] 2008-0049 NA NA NA.pdf
+[14/395] 2009-0040 NA NA NA.pdf
+[15/395] 2010-0003 NA NA NA.pdf
+[16/395] 2010-0019 NA NA NA.pdf
+[17/395] 2010-0022 NA NA NA.pdf
+[18/395] 2010-0030 NA NA NA.pdf
+[19/395] 2010-0072 NA NA NA.pdf
+[20/395] 2010-0076 NA NA NA.pdf
+[21/395] 2010-0080 NA NA NA.pdf
+[22/395] 2010-0096 NA NA NA.pdf
+[23/395] 2011-0127 NA RJR-AGRO MT101311 Type Open, single cylinder, with cleaning component (blower only).pdf
+[24/395] 2011-0144 NA 3R 6T Type Batch, flat bed with automatic feeder rice hull-fed furnace.pdf
+[25/395] 2013-0055 Mechanical Rice Transplanter KUKJE RR-4B.pdf
+[26/395] 2013-0061 Biomass Shredder BOWA GR-1300.pdf
+[27/395] 2013-0069 Mechanical Rice Thresher KATO KMT40.pdf
+[28/395] 2013-0070 Mechanical Rice Thresher KATO KMT50THS.pdf
+[29/395] 2013-0074 Biomass Furnace SCANCON SA 32.pdf
+[30/395] 2013-0103 Heated-Air Mechanical Grain Dryer AGRICOMP - PhilMech.pdf
+[31/395] 2013-0109 Heated-Air Mechanical Grain Dryer LAKAS KULIGLIG RMD-LK 66.pdf
+[32/395] TR No. 2013-0001 Corn Postharvest Processing Plant.pdf
+[33/395] TR No. 2013-0002 Small Engine HONDA GX390.pdf
+[34/395] TR No. 2013-0003 Centrifugal Pumpset KITACO 4 X 4 MS.pdf
+[35/395] TR No. 2013-0004 Small Engine HONDA GX270.pdf
+[36/395] TR No. 2013-0005 Small Engine HONDA GX271.pdf
+[37/395] TR No. 2013-0006 Disc Harrow AMPC 18X24.pdf
+[38/395] TR No. 2013-0007 Four-Wheel Tractor FOTON TD904.pdf
+[39/395] TR No. 2013-0008 Small Engine HONDA GX 390 MEGA MARINE.pdf
+[40/395] TR No. 2013-0009 Small Engine KUBOTA RK70-S.pdf
+[41/395] TR No. 2013-0010 Small Engine HONDA GX 200 MEGA MARINE.pdf
+[42/395] TR No. 2013-0011 Four-Wheel Tractor MASSEY FERGUSON MF445 XTRA.pdf
+[43/395] TR No. 2013-0012 Four-Wheel Tractor DEUTZ-FAHR AGROLUX 95.pdf
+[44/395] TR No. 2013-0013 Corn Mill BARANGAY CM-100.pdf
+[45/395] TR No. 2013-0014 Corn Mill BARANGAY CM-250.pdf
+[46/395] TR No. 2013-0015 Single-Pass Rice Mill KANEKO MARK III.pdf
+[47/395] TR No. 2013-0016 Centrifugal Pumpset KITACO 4 X 4 MS.pdf
+[48/395] TR No. 2013-0017 Centrifugal Pumpset KITACO 4 X 4 MS.pdf
+[49/395] TR No. 2013-0018 Centrifugal Pumpset KITACO 3 X 3 MS.pdf
+[50/395] TR No. 2013-0019 Four-Wheel Tractor Mc CORMICK C100max.pdf
+[51/395] TR No. 2013-0020 Small Engine MITSUBISHI GB300PN-RSM.pdf
+[52/395] TR No. 2013-0021 Centrifugal Pumpset KAMA KDP40.pdf
+[53/395] TR No. 2013-0023 Rice Mixer CTD 2009.pdf
+[54/395] TR No. 2013-0024 Small Engine BRIGGS & STRATTON VANGUARD 13H362.pdf
+[55/395] TR No. 2013-0025 Small Engine BRIGGS & STRATTON VANGUARD 13H332.pdf
+[56/395] TR No. 2013-0026 Small Engine BRIGGS & STRATTON 122332.pdf
+[57/395] TR No. 2013-0027 Small Engine BRIGGS & STRATTON 122362.pdf
+[58/395] TR No. 2013-0028 Disc Harrow AMPC 20 X 24.pdf
+[59/395] TR No. 2013-0029 Disc Harrow AMPC 18 X 24.pdf
+[60/395] TR No. 2013-0030 Biomass Shredder HANDY CUTLASS 7.0 HP.pdf
+[61/395] TR No. 2013-0031 Biomass Shredder HANDY SABER 13.5 HP.pdf
+[62/395] TR No. 2013-0033 Centrifugal Pumpset OKAMA KDP3.pdf
+[63/395] TR No. 2013-0034 Centrifugal Pumpset ROBIN PTG207.pdf
+[64/395] TR No. 2013-0035 Centrifugal Pumpset ROBIN PTG305.pdf
+[65/395] TR No. 2013-0039 Small Engine DUCAR DJ190F.pdf
+[66/395] TR No. 2013-0040 Small Engine KENBO KB7.5M.pdf
+[67/395] TR No. 2013-0042 Small Engine LONCIN D350FD.pdf
+[68/395] TR No. 2013-0048 Small Engine SUMO SM120P.pdf
+[69/395] TR No. 2013-0050 Small Engine TOPTEK BT186.pdf
+[70/395] TR No. 2013-0051 Grain Moisture Tester INTELLIGENT LDS-1G.pdf
+[71/395] TR No. 2013-0054 Centrifugal Pumpset YAMAHA YP30G.pdf
+[72/395] TR No. 2013-0059 Centrifugal Pumpset KATO KDP100.pdf
+[73/395] TR No. 2013-0060 Centrifugal Pumpset KATO KC40.pdf
+[74/395] TR No. 2013-0062 Grain Moisture Tester INTELLIGENT LDS-1G.pdf
+[75/395] TR No. 2013-0064 Cassava Chipper KOLBI KCSL24.pdf
+[76/395] TR No. 2013-0065 Cassava Grater KOLBI KG500.pdf
+[77/395] TR No. 2013-0073 Small Engine KOHLER KD440.pdf
+[78/395] TR No. 2013-0076 Small Engine YAMADA PLUS 189F.pdf
+[79/395] TR No. 2013-0079 Centrifugal Pumpset MIYATA RBP-305.pdf
+[80/395] TR No. 2013-0087 Centrifugal Pumpset KAIAO KDP40.pdf
+[81/395] TR No. 2013-0088 Small Engine KUVICO KV70.pdf
+[82/395] TR No. 2013-0089 Small Engine KUVICO KV80.pdf
+[83/395] TR No. 2013-0090 Small Engine KUVICO KV125-2.pdf
+[84/395] TR No. 2013-0098 Centrifugal Pumpset TARO 3 X 3 PT.pdf
+[85/395] TR No. 2013-0099 Centrifugal Pumpset EAGLE EC50.pdf
+[86/395] TR No. 2013-0105 Centrifugal Pumpset KATO KDP50 2_ x 2_.pdf
+[87/395] TR No. 2013-0107 Centrifugal Pumpset SAKAI 4 X 4.pdf
+[88/395] TR No. 2013-0108 Small Engine SWAN TF80NL.pdf
+[89/395] TR No. 2013-0112 Small Engine FUCHAI R180N.pdf
+[90/395] TR No. 2013-0114 Centrifugal Pumpset EAGLE EC80.pdf
+[91/395] TR No. 2013-0115 Small Engine MASTER MARINE ESE 173F.pdf
+[92/395] TR No. 2013-0118 Brush Cutter FUJITSU MEGA HM-400.pdf
+[93/395] TR No. 2013-0119 Brush Cutter FUJITSU MEGA HM-35.pdf
+[94/395] TR No. 2013-0120 Centrifugal Pumpset EAGLE NS80.pdf
+[95/395] TR No. 2013-0121 Small Engine YAMADA GT200.pdf
+[96/395] TR No. 2013-0122 Small Engine DORADO DJ168F.pdf
+[97/395] TR No. 2013-0125 Small Engine PLATINUM KNM 65R.pdf
+[98/395] TR No. 2013-0126 Small Engine CHANG HONG R180.pdf
+[99/395] TR No. 2013-0127 Small Engine SUMO SE 75M.pdf
+[100/395] TR No. 2013-0132 Small Engine MITSUBISHI GB200LN RTM.pdf
+Batch 100 saved: Mini-Project\Agricultural Machinery Inventory from ABEMIS\Extracted Batches Improved V3\AMTEC_extracted_improved_v3_batch_100.xlsx
+[101/395] TR No. 2013-0133 Small Engine HONDA GX200H QM.pdf
+[102/395] TR No. 2013-0135 Small Engine HONDA GX200H QTP.pdf
+[103/395] TR No. 2013-0145 Small Engine HONDA GX200H LHB2.pdf
+[104/395] TR No. 2013-0146 Bayer Pressure Tank.pdf
+[105/395] TR No. 2013-0147 Small Engine HONDA GX270H QP.pdf
+[106/395] TR No. 2013-0148 Small Engine HONDA GX270H QHPI.pdf
+[107/395] TR No. 2013-0151 Small Engine HONDA GX160.pdf
+[108/395] TR No. 2013-0153 Centrifugal Pumpset NS80.pdf
+[109/395] TR No. 2013-0156 Submersible Pump GRUNDFOS SQF 2.5-2.pdf
+[110/395] TR No. 2013-0159 Centrifugal Pumpset EAGLE EC-100(4_).pdf
+[111/395] TR No. 2013-0161 Centrifugal Pumpset HONDA WB30XH.pdf
+[112/395] TR No. 2013-0163 Centrifugal Pumpset EAGLE EC100.pdf
+[113/395] TR No. 2013-0177 Centrifugal Pumpset TARO 3X3 MS.pdf
+[114/395] TR No. 2013-0178 Small Engine HONDA GX390H1 QP.pdf
+[115/395] TR No. 2013-0179 Small Engine HONDA GX390H1 QHP1.pdf
+[116/395] TR No. 2013-0185 Centrifugal Pumpset HONDA WB20XH.pdf
+[117/395] TR No. 2013-0207 Banana Chipper SUKI.pdf
+[118/395] TR No. 2014-0001 Centrifugal Pumpset PLATINUM PT5.5 HP.pdf
+[119/395] TR No. 2014-0002 Small Engine PLATINUM KWM 339.pdf
+[120/395] TR No. 2014-0003 Centrifugal Pumpset PLATINUM PT6.5 HP.pdf
+[121/395] TR No. 2014-0004 Small Engine MITSUBISHI GT1000PN RSX.pdf
+[122/395] TR No. 2014-0007 Destoner MARIÑAS.pdf
+[123/395] TR No. 2014-0009 Small Engine KENBO KB18 2F.pdf
+[124/395] TR No. 2014-0010 Centrifugal Pumpset KATO KSP40.pdf
+[125/395] TR No. 2014-0011 Small Engine PLATINUM PT95 KNM950.pdf
+[126/395] TR No. 2014-0012 Small Engine KATO KD80N PH.pdf
+[127/395] TR No. 2014-0013 Centrifugal Pumpset KITACO NS-100.pdf
+[128/395] TR No. 2014-0015 (2014-0013).pdf
+[129/395] TR No. 2014-0022 Centrifugal Pumpset KATO KC40.pdf
+[130/395] TR No. 2014-0023 Small Engine PLATINUM PT110 KNM1100.pdf
+[131/395] TR No. 2014-0025 Centrifugal Pumpset KATO KSP30.pdf
+[132/395] TR No. 2014-0026 Centrifugal Pumpset KATO KSP40 4_ x 4_.pdf
+[133/395] TR No. 2014-0027 Small Engine PLATINUM PT140DI KNM140.pdf
+[134/395] TR No. 2014-0028 Small Engine KUTHAICO KS95B Plus.pdf
+[135/395] TR No. 2014-0038 Small Engine GOLDEN BOW JG 140DI.pdf
+[136/395] TR No. 2014-0039 Centrifugal Pumpset KATO KC30 3_ x 3_.pdf
+[137/395] TR No. 2014-0042 Centrifugal Pumpset MIYATA NS-100.pdf
+[138/395] TR No. 2014-0048 Small Engine KINGSTAR 189F(E).pdf
+[139/395] TR No. 2014-0053 Small Engine EMEI EMZ185N.pdf
+[140/395] TR No. 2014-0060 Small Engine BRIGGS & STRATTON B18 327431.pdf
+[141/395] TR No. 2014-0150 Small Engine MITSUSAN MS110.pdf
+[142/395] TR No. 2014-0151 Centrifugal Pumpset EAGLE NS100.pdf
+[143/395] TR No. 2014-0154 Centrifugal Pumpset KITACO NS100.pdf
+[144/395] TR No. 2014-0157 Small Engine GOLDEN BOW JG95.pdf
+[145/395] TR No. 2014-0158 Small Engine BLUMAX BXD 195F.pdf
+[146/395] TR No. 2014-0159 Small Engine ELIMAX EM178F_S.pdf
+[147/395] 2015-0099 NEW TECH WALK-BEHIND RICE COMBINE HARVESTER Model GY4L-0.9B.pdf
+[148/395] 2015-0121 ACT-PHilMech Compact Corn Mill-B.pdf
+[149/395] 2015-0235 ZOOMLION Rice Combine Harvester Model 4LZT-4.0ZD.pdf
+[150/395] 2017-0207 Rice Combine Harvester FIELDKING FKMCCRHS-2.0.pdf
+[151/395] 2017-0486 Rice Combine Harvester AGRIUNION AU2.01-A.pdf
+[152/395] 2018-0011 Corn Mill ACT MINI-ELECTRIC MOTOR.pdf
+[153/395] 2018-0134 Colloid Mill DYNAMICS JM80.pdf
+[154/395] 2018-0145 Cacao Huller SHOCK .YT38pdf.pdf
+[155/395] 2018-0162 Chipping Machine PAYO-DOK ALTERNATIBO TECH GS-120.pdf
+[156/395] 2018-0192_Combine Harvester_ZOOMLION 4LZT-4.0ZD_CGVD.pdf
+[157/395] 2018-0200_Glass_Pulverizer_DP_CGVD.pdf
+[158/395] 2018-0366 Biomass Shredder WEIFANG 4_ INLET.pdf
+[159/395] 2018-0370 Biomass Shredder WEIFANG 4_ INLET.pdf
+[160/395] 2018-0373 Power Sprayer for Mango BLUMAX BM-30A.pdf
+[161/395] 2018-0378 Power-operated Corn Sheller ACT SUPER.pdf
+[162/395] 2018-0379 Power-operated Corn Sheller ACT MINI-GOLDEN BOW.pdf
+[163/395] 2018-0380 Power-operated Corn Sheller ACT MINI-KAIAO.pdf
+[164/395] 2018-0419 Coffee Pulper SUKI KOPI KING 1.pdf
+[165/395] 2018-0458 Forage Chopper CIAMC 9 ZP-0.4.pdf
+[166/395] 2018-0474 Cassava Granulator CJ G 1103.pdf
+[167/395] 2018-0479 Forage Chopper EXCELHIGH FC-2A.pdf
+[168/395] 2018-0483 Chipping Machine SUKI BS-1.pdf
+[169/395] 2018-0484 Power-operated Corn Sheller LAKAS KULIGLIG LK-300 STD.pdf
+[170/395] 2018-0486 Cassava Grater EXCELHIGH CGJE-300.pdf
+[171/395] 2018-0509 Cassava Pulverizer EXCELHIGH HM-300.pdf
+[172/395] 2018-0515 Knapsack Sprayer SWAN GSE16.pdf
+[173/395] 2018-0518 Mechanical Grain Dryer AMCC LSU-12T.pdf
+[174/395] 2019-0003  Fogging Machine BEST FOGGER BF150 AUTOMATIC.pdf
+[175/395] 2019-0186 Disc Plow GDP 320.pdf
+[176/395] 2019-0478 Centrifugal Pumpset NS-150- KUBOTA RT140PLUS.pdf
+[177/395] 2020-0209 Four-Wheel Tractor YTO MF554.pdf
+[178/395] 2020-0262 Four-Wheel Tractor NEW HOLLAND TS6.120.pdf
+[179/395] 2020-0297 Rice Combine Harvester FMWORLD 4LZ-4.0D.pdf
+[180/395] 2020-0498 Four-Wheel Tractor YTO X904 (Turbocharged).pdf
+[181/395] 2021-0149 Corn Combine Harvester FMWORLD 4LZ-6.0P.pdf
+[182/395] 2021-0593 Heated-Air Mechanical Grain Dryer LAKAS KULIGLIG RMD-LK66.pdf
+[183/395] 2023-0001 Rotary Sifter JHT RS-2.pdf
+[184/395] 2023-0003 Centrifugal Pumpset FARM ROVER FR20W.pdf
+[185/395] 2023-0004 Fogging Machine NATURAL FOG ENVIROLYTE.pdf
+[186/395] 2023-0007 Centrifugal Pumpset FARM ROVER FR30W.pdf
+[187/395] 2023-0008 Small Engine KRESS KE215R.pdf
+[188/395] 2023-0010 Four-Wheel Tractor TYM 5825R.pdf
+[189/395] 2023-0011 Four-Wheel Tractor TYM 6225R.pdf
+[190/395] 2023-0012 Chipping Machine ACPF CHIM22.pdf
+[191/395] 2023-0013 Hammer Mill ACPF HAMM2.pdf
+[192/395] 2023-0014 Biomass Shredder RUMVD 4500-14-Y.pdf
+[193/395] 2023-0015 Power Disc Harrow SHANDONG YUNTAI 1LYQ-622.pdf
+[194/395] 2023-0019 Furrower FT 4-BOTTOM FURROWER.pdf
+[195/395] 2023-0021 Laser Leveler LANDKING ALPHA XD-1000.pdf
+[196/395] 2023-0022 SPIS Brgy. Ilbocean, Midsayap, North Cotabato.pdf
+[197/395] 2023-0023 Four-Wheel Tractor TYM 5825R.pdf
+[198/395] 2023-0024 Four-Wheel Tractor WUZHENG WAW TS1204.pdf
+[199/395] 2023-0025 Four-Wheel Tractor WUZHENG WAW MD904.pdf
+[200/395] 2023-0026 Flake Ice Making Machine LEADER ICE MAKER LF-12.pdf
+Batch 101 saved: Mini-Project\Agricultural Machinery Inventory from ABEMIS\Extracted Batches Improved V3\AMTEC_extracted_improved_v3_batch_101.xlsx
+[201/395] 2023-0027 Solar Bubble Dryer GRAINPRO SBD-50.pdf
+[202/395] 2023-0029 SPIS Brgy. Biliran, Nasugbu, Batangas.pdf
+[203/395] 2023-0030 Walking-Type Agricultural Tractor HG AIM HG-TUT-YD16.pdf
+[204/395] 2023-0031 Walking-Type Agricultural Tractor HG AIM HG-MBT-YD16.pdf
+[205/395] 2023-0034 Rice Mill MARIÑAS BROWN RICE MILL MPR-EN 0.5.pdf
+[206/395] 2023-0036 Brush Cutter HONDA UMK435T.pdf
+[207/395] 2023-0037 Disc Harrow ACT 20x24.pdf
+[208/395] 2023-0040 Disc Harrow ACT 14x22.pdf
+[209/395] 2023-0041 Disc Harrow ACT 14x22.pdf
+[210/395] 2023-0043 SPIS Brgy. Sta. Lucia, Sablayan, Occidental Mindoro.pdf
+[211/395] 2023-0046 Forage Chopper JF ENS JF50MAX CX-JF50 MAXXIUM S3 FORAGE CHOPPER.pdf
+[212/395] 2023-0047 Seeder and Planter MINOS AGRI T-PNM-4-GS.pdf
+[213/395] 2023-0050 Mist Blower SOLO PORT 423.pdf
+[214/395] 2023-0052 Furrower ACT 3-ROW FURROWER.pdf
+[215/395] 2023-0055 Agricultural Trailer ACT 3 TONNE TRAILER.pdf
+[216/395] 2023-0059 Biomass Furnace ADA BIOMASS FURNACE BMF 6-12MT.pdf
+[217/395] 2023-0060 Front Loader HANIL HL25.pdf
+[218/395] 2023-0061 Backhoe GMT BY75P.pdf
+[219/395] 2023-0062 Rice Mill MARIÑAS MPR-EN 0.5 - YANMAR.pdf
+[220/395] 2023-0063 SPIS Brgy. Mabuhay, General Santos City.pdf
+[221/395] 2023-0065 Biomass Shredder RET MPS 7.5HP.pdf
+[222/395] 2023-0081 Feed Pellet Mill SATO FP-120.pdf
+[223/395] 2023-0183 Biomass Furnace VSEE 5L-30 FURNACE.pdf
+[224/395] 2023-0189 Rotary Grain Dryer SPARCO RD-18.pdf
+[225/395] 2023-0233 Walking-Type Agricultural Tractor AZI WPHT.pdf
+[226/395] 2023-0237 Walking-Type Agricultural Tractor AZI AZI 2000.pdf
+[227/395] 2023-0286 Walking-Type Agricultural Tractor NEW LION RK125.pdf
+[228/395] 2023-0302 Rotary Tiller GREENKING GKR230.pdf
+[229/395] 2023-0327 Rice Mill GOLDEN LEAF 1.5TPH.pdf
+[230/395] 2023-0340 Four-Wheel Tractor KIOTI DK5520.pdf
+[231/395] 2023-0343 Walking-Type Agricultural Tractor WESTWIND STA 201.pdf
+[232/395] 2023-0353 Walking-Type Agricultural Tractor WESPRO WAE-MT800.pdf
+[233/395] 2023-0387 Heated-Air Mechanical Dryer AMCC LSU-12T.pdf
+[234/395] 2023-0394 Biomass Shredder JHT SCH-170TF.pdf
+[235/395] 2023-0411 Moldboard Plow LMC 3MB.pdf
+[236/395] 2023-0413 Adlay Milling Machine BIOSOLUTIONS ADLAI MILL BAMM-350.pdf
+[237/395] 2023-0416 SPIS Brgy. Ricarte Sur, Diffun, Quirino.pdf
+[238/395] 2023-0419 Four-Wheel Tractor KUBOTA M108S.pdf
+[239/395] 2023-0420 Small Engine KIRLOSKAR DM20.pdf
+[240/395] 2023-0422 Brush Cutter GREENFIELD CX35.pdf
+[241/395] 2023-0427 Power-Sprayer for Mango KAWASAKI YM-30A.pdf
+[242/395] 2023-0428 Power-Sprayer for Mango BLUMAX BM-30A.pdf
+[243/395] 2023-0461 Disc Harrow FT 16x22.pdf
+[244/395] 2023-0474 Mehcanical Rice Thresher GRJC TB12M.pdf
+[245/395] 2023-0475 Mehcanical Rice Thresher GRJC TS10SK.pdf
+[246/395] 2023-0487 SPIS Brgy. Salinas, Lucena, Quezon.pdf
+[247/395] 2023-0494 Levee Maker JEEGEE 1TGD-360.pdf
+[248/395] 2023-0495 Multi-Rotor Remotely Piloted Aircraft-Powered Sprayer DJI AGRAS T10.pdf
+[249/395] 2023-0497 Multi-Rotor Remotely Piloted Aircraft-Powered SPrayer DJI AGRAS T40.pdf
+[250/395] 2023-0508 Agricultural Trailer SUPER ST-3.pdf
+[251/395] 2023-0519 Rice Mill JHT SRM 623TS.pdf
+[252/395] 2023-0535 Field Cultivator LAKAS KULIGLIG LKIC.pdf
+[253/395] 2023-0540 Centrifugal Pumpset SAKAI EC4 - KUBOTA RK80-1S.pdf
+[254/395] 2023-0549 Centrifugal Pumpset QUICK FARM 4DSC19-34-200-1800-AD.pdf
+[255/395] 2023-0576 Disc Plow FARMSPEC 3 x 24.pdf
+[256/395] 2023-0596 Forage Chopper RETJR_AGRIDENT FC-7.5.pdf
+[257/395] 2023-0603 Abaca Stripper RBT SINGLE SPINDLE 2023.pdf
+[258/395] 2023-0605 Solar Bubble Dryer GRAINPRO SBD-50.pdf
+[259/395] 2023-0624 Hammer Mill GRJC HM-300Y.pdf
+[260/395] 2023-0635 Walking-Type Agricultural Tractor TAJIMA TRT-760.pdf
+[261/395] 2023-0674 Multicrop Pulverizer KA-TRIBU FOOD GRADE MULTICROP PULVERIZER 2021.pdf
+[262/395] 2024-0001 Knapsack Sprayer SATO ES-16.pdf
+[263/395] 2024-0003 Agricultural Power Sprayer SATO SK-30.pdf
+[264/395] 2024-0004 Centrifugal Pump 5 STAR NS-50M.pdf
+[265/395] 2024-0012 Ice Making Machine LEADER ICE MAKER LD1080.pdf
+[266/395] 2024-0013 Ice Making Machine LEADER ICE MAKER LF10SE.pdf
+[267/395] 2024-0015 Cassava Granulator ACT SUPER.pdf
+[268/395] 2024-0016 Seeder and Planter ACT CSFT-50.pdf
+[269/395] 2024-0017 Cassava Grater ACT CG-E500.pdf
+[270/395] 2024-0018 SPIS Brgy. San Jose, San Pablo City, Laguna.pdf
+[271/395] 2024-0019 SPIS Brgy. San Isidro, Sto. Tomas, Batangas.pdf
+[272/395] 2024-0020 SPIS Brgy. San Miguel, Padre Garcia, Batangas.pdf
+[273/395] 2024-0021 SPIS Brgy. Rosario, San Pedro, Laguna.pdf
+[274/395] 2024-0023 Small Engine TAJIMA RT90DI.pdf
+[275/395] 2024-0027 Rice Mill CIAMC DTP-600.pdf
+[276/395] 2024-0029 Forage Harvester CELIKEL CHALLENGER II PLUS.pdf
+[277/395] 2024-0031 Small Engine TAJIMA RT80DI.pdf
+[278/395] 2024-0034 SPIS Brgy. Poblacion, San Andres, Quezon.pdf
+[279/395] 2024-0035 SPIS Brgy. San Nicolas, Macalelon, Quezon.pdf
+[280/395] 2024-0036 SPIS Brgy. Sta. Roas, Murcia, Negros Occidental.pdf
+[281/395] 2024-0038 Centrifugal Pumpset HINOKI HP80D.pdf
+[282/395] 2024-0039 Rotary Tiller SINCOSAGRI P19.pdf
+[283/395] 2024-0040 Rotary Tiller SINCOSAGRI L16.pdf
+[284/395] 2024-0043 Rotary Tiller SINCOSAGRI P23.pdf
+[285/395] 2024-0054 SPIS Brgy. Sagurong, Pili, Camarines Sur.pdf
+[286/395] 2024-0055 SPIS Brgy. Palsabangon, Pagbilao, Quezon.pdf
+[287/395] 2024-0064 Paddy Seed Cleaner IAM-DG_RETJR PSC-1000.pdf
+[288/395] 2024-0067 Disc Plow CMT MTD 1530.pdf
+[289/395] 2024-0069 Four-Wheel Tractor LOVOL TD1054.pdf
+[290/395] 2024-0070 Centrifugal Pump TARO 3_PT.pdf
+[291/395] 2024-0071 Centrifugal Pumpset LVTOPSUN LVCPM21-14-72-750-A_D.pdf
+[292/395] 2024-0074 Disc Harrow ACT 16x22.pdf
+[293/395] 2024-0076 Mechanical Rice Thresher ACT STANDARD.pdf
+[294/395] 2024-0077 Agricultural Trailer ACT HEAVU DUTY.pdf
+[295/395] 2024-0078 Soybean Sorter ACT-PHILMECH SS-DE-70.pdf
+[296/395] 2024-0081 SPIS Brgy. Talahiban, San Juan, Batangas.pdf
+[297/395] 2024-0082 SPIS Brgy. Maraykit, San Juan, Batangas.pdf
+[298/395] 2024-0083 Small Engine HINOKI HN188F.pdf
+[299/395] 2024-0094 SPIS Brgy. Caloocan, Balayan, Batangas.pdf
+[300/395] 2024-0095 Hammer Mill RETJR RET HAMMER MILL.pdf
+Batch 102 saved: Mini-Project\Agricultural Machinery Inventory from ABEMIS\Extracted Batches Improved V3\AMTEC_extracted_improved_v3_batch_102.xlsx
+[301/395] 2024-0102 SPIS Brgy. San Diego, Lian, Batangas.pdf
+[302/395] 2024-0104 Multi-Rotor Remotely Piloted Aircraft-Powered Sprayer DJI AGRAS T40.pdf
+[303/395] 2024-0108 SPIS Brgy. Poblacion 4, Laurel, Batangas Site 2.pdf
+[304/395] 2024-0111 Power-Operated Corn Sheller EXCELHIGH DWE2.0.pdf
+[305/395] 2024-0113 Mechanical Rice Transplanter TONGYANG PF48.pdf
+[306/395] 2024-0119 Rice Mill GOOD HOPE (2.5) CAPACITY MULTI STAGE RICEMILL.pdf
+[307/395] 2024-0121 Rice Mill CIAMC DTP-500-RR-V2.pdf
+[308/395] 2024-0122 Rice Mill CIAMC DTP-500-RR-V1.pdf
+[309/395] 2024-0127 Rotary Tiller SINCOSAGRI L16.pdf
+[310/395] 2024-0137 Four-Wheel Tractor LOVOL TD904.pdf
+[311/395] 2024-0138 Centrifugal Pumpset QUICKFARM TD200-12.5_4.pdf
+[312/395] 2024-0151 SPIS Brgy. Bagacay, Palapag, Northern Samar.pdf
+[313/395] 2024-0153 Disc Harrow FT 18x24.pdf
+[314/395] 2024-0154 Disc Plow FARMSPEC 4x26.pdf
+[315/395] 2024-0155 Disc Harrow FT 18x24.pdf
+[316/395] 2024-0157 Levee Maker SUNGBOO SB-1000S.pdf
+[317/395] 2024-0161 Biomass Shredder JHT SCH-270TFC.pdf
+[318/395] 2024-0162 Rotary Sifter JHT RS1E.pdf
+[319/395] 2024-0164 Centrifugal Pumpset EAGLE EC-100(4_) - KUBOTA RK80-1S.pdf
+[320/395] 2024-0382 Four-Wheel Tractor YTO MF554-6 TIER 3.pdf
+[321/395] 2024-0423 Soybean Roaster DAVAO TECHNOCRAFT GM-SBR2024 (1).pdf
+[322/395] 2024-0452 Feed Pellet Mill DAVAO TECHNOCRAFT GMPMVT1024.pdf
+[323/395] 2024-0478 SPIS Brgy. Guintas, Leganes, Iloilo (1).pdf
+[324/395] 2024-0558 Heated-Air Mechanical Grain Dryer SHIZUOKA HSD-65GF.pdf
+[325/395] 2024-0613 Four-wheel-Tractor KUBOTA-L3228DT.pdf
+[326/395] 2026-0001 Agricultural Power Sprayer EMERALD ES-22AF2-O.pdf
+[327/395] 2026-0002 Agricultural and Fishery Pumpset EMERALD ES-120E12-O.pdf
+[328/395] 2026-0003 Internal Combustion Engine BOER BRT140DI-3.pdf
+[329/395] 2026-0006 Disc Plow GT TI GT TI DP 3x22.pdf
+[330/395] 2026-0007 SPIS Brgy. Jolongajog, Pontevedra, Capiz.pdf
+[331/395] 2026-0008 Forage Harvester SHAKTIMAN SMS.pdf
+[332/395] 2026-0010 Internal Combustion Engine BOER BRT100DI-3.pdf
+[333/395] 2026-0011 Four-Wheel Tractor LS U60.pdf
+[334/395] 2026-0012 Agricultural and Fishery Pumpset SAKAI 4x4 - KUBTOA RK80-1S.pdf
+[335/395] 2026-0014 Four-Wheel Tractor YTO NMF554.pdf
+[336/395] 2026-0015 Four-Wheel Tractor KIOTI RX7630.pdf
+[337/395] 2026-0016 Internal Combustion Engine BOER BRT 80DI-3.pdf
+[338/395] 2026-0019 Heated-Air Mechanical Grain Dryer LAKAS KULIGKLIG RMD-LK66.pdf
+[339/395] 2026-0022 Front Loader YTO TZ06D.pdf
+[340/395] 2026-0023 Front Loader YTO TZ06D.pdf
+[341/395] 2026-0024 Front Loader YTO TZ06D.pdf
+[342/395] 2026-0025 Disc Plow LAKAS KULIGLIG LK3x28DP.pdf
+[343/395] 2026-0026 Rurrower LAKAS KULIGLIG LK-F3.pdf
+[344/395] 2026-0027 Moldboard Plow LAKAS KULIGLIG LK-MB3.pdf
+[345/395] 2026-0028 SPIS Brgy. Dadong, Tarragona, Davao Oriental.pdf
+[346/395] 2026-0032 Four-Wheel Tractor YTO ME454-5.pdf
+[347/395] 2026-0033 Rice Mill SHIN NONG SN300R+.pdf
+[348/395] 2026-0036 SPIS Brgy. Catugan, Lal-lo, Cagayan.pdf
+[349/395] 2026-0037 Seeder and Planter CIAMC RNS2R.pdf
+[350/395] 2026-0038 Disc Plow CIAMC 4RDP.pdf
+[351/395] 2026-0040 Four-Wheel Tractor LOVOL TE504.pdf
+[352/395] 2026-0041 SPIS Brgy. Samonte, Quezon, Isabela.pdf
+[353/395] 2026-0042 Pressurized Irrigation System BAUER RAINSTAR T32.pdf
+[354/395] 2026-0043 Disc Plow ADA DP-3X28.pdf
+[355/395] 2026-0044 Disc Plow ADA DP-4X26.pdf
+[356/395] 2026-0045 Furrower ADA 3-ROWS.pdf
+[357/395] 2026-0046 Disc Harrow ADA TDH-14X22.pdf
+[358/395] 2026-0047 Disc Harrow ADA TDH-16x22.pdf
+[359/395] 2026-0048 Disc Harrow ADA TDH-20x24.pdf
+[360/395] 2026-0048 Heated-Air Mechanical Grain Dryer LAKAS KULIGKLIG RMD-LK66.pdf
+[361/395] 2026-0049 Disc Plow GTTI GTTIDP4X26.pdf
+[362/395] 2026-0050 Corn Combine Harvester YANMAR YH700W.pdf
+[363/395] 2026-0051 Corn Combine Harvester YANMAR AW82VW.pdf
+[364/395] 2026-0052 Rotary Tiller YTAGRI T-DDSR 2400-ECO.pdf
+[365/395] 2026-0053 Agricultural Trailer GTTI GTTITR5TDP.pdf
+[366/395] 2026-0054 SPIS Brgy. Butigue, Paracelis, Mountain Province.pdf
+[367/395] 2026-0055 Heated-Air Mechanical Grain Dryer SHIN HEUNG NCD-60SBC.pdf
+[368/395] 2026-0056 HAMMER MILL JHT HM195PT-S.pdf
+[369/395] 2026-0057 CASSAVA GRANULATOR JHT CG110KA.pdf
+[370/395] 2026-0058 Agricultural Trailer SUPER ST-3DT.pdf
+[371/395] 2026-0059 SPIS Brgy. Casay, San Francisco, Quezon.pdf
+[372/395] 2026-0060 Agricultural and Fishery Pumpset LVTOPSUN LVCPM60-20-300-2200-A_D.pdf
+[373/395] 2026-0063 Cassava Digger FT CDB-2.pdf
+[374/395] 2026-0065 Disc Harrow FT 14x24.pdf
+[375/395] 2026-0066 Furrower FT 3RF.pdf
+[376/395] 2026-0067 Disc Plow AGROMAXX AM-4DP22.pdf
+[377/395] 2026-0071 Agricultural and Fishery Pumpset GOLDEN BOW - KITACO 80DI - TS - 100.pdf
+[378/395] 2026-0078 Agirulcutral Fishery Pumpset VIVA LXT-80 - KUBOTA RK70-S.pdf
+[379/395] 2026-0081 SPIS Brgy. Anusan, Catanuan, Quezon.pdf
+[380/395] 2026-0082 SPIS Brgy. Hinguin, Padre Burgos, Quezon.pdf
+[381/395] 2026-0085 SPIS GLF GLF 30-36-2200.pdf
+[382/395] 2026-0092 Rotary Tiller WECAN WR1750 LSGW.pdf
+[383/395] 2026-0093 Disc Plow WECAN WDP40.pdf
+[384/395] 2026-0094 Disc Plow AGROMAXX AM-3DP24.pdf
+[385/395] 2026-0095 Agricultural Trailer FT 3 TONNER.pdf
+[386/395] 2026-0096 Seeder and Planter ACT 2 ROW.pdf
+[387/395] 2026-0097 Agricultural and Fishery Pumpset LVTOPSUN 4LVSC19-60-300-2200-AD.pdf
+[388/395] 2026-0104 Agricultural and Fishery Pumpset SAKAI 3x3 PS.pdf
+[389/395] 2026-0112 Agricultural and Fishery Pumpset SAKAI 3x3 MS.pdf
+[390/395] 2026-0113 Internal Combustion Engine VIKYNO RV80.pdf
+[391/395] 2026-0134 Front Loader HANIL HL 351.pdf
+[392/395] TDR 2025-0017 Internal Combustion Engine YANMAR TF70L.pdf
+[393/395] TDR 2026-0003 Agricultural Trailer SUPER STD-5.pdf
+[394/395] TDR 2026-0005 Agricultural Trailer SUPER STD-5.pdf
+[395/395] TDR 2026-0007 Internal Combustion Engine PLATINUM PT18.pdf
+Batch 103 saved: Mini-Project\Agricultural Machinery Inventory from ABEMIS\Extracted Batches Improved V3\AMTEC_extracted_improved_v3_batch_103.xlsx
+extract_from_list: done.  Batches written to Mini-Project\Agricultural Machinery Inventory from ABEMIS\Extracted Batches Improved V3
