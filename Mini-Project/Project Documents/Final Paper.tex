@@ -16,10 +16,7 @@
 \setlength{\parindent}{0pt}
 \sloppy
 
-\graphicspath{
-  {/Users/marcotiongson/Documents/fuel-abemis/Mini-Project/Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/}
-  {/Users/marcotiongson/Documents/fuel-abemis/Mini-Project/Agricultural Machinery Inventory from ABEMIS/Analytics Output V2/}
-}
+\graphicspath{{./}}
 
 \begin{document}
 
@@ -40,7 +37,7 @@ May 2026\par}
 \section*{Abstract}
 %% ─────────────────────────────────────────────────────────────────────────────
 
-This study develops a pilot machine learning model for estimating fuel requirements of agricultural machinery in the Philippines. A corpus of 376 cleaned training records was assembled from Agricultural Machinery Testing and Evaluation Center (AMTEC) PDF test reports and used to train two models: a Multiple Linear Regression (OLS) baseline and a Random Forest (RF) Regressor. Eight features were used for the RF model---five numeric and three categorical-encoded. On a held-out test set of 76 records, the RF achieves R\textsuperscript{2}\,=\,0.916, MAE\,=\,0.95\,L/h, and RMSE\,=\,1.53\,L/h, substantially outperforming the OLS baseline. SHAP feature-importance analysis reveals that rated engine power (\texttt{power\_kw}) dominates at approximately 76\% of total importance, consistent with the fuel--power proportionality established in the literature. The trained model was applied to score the Agricultural and Biosystems Engineering Management Information System (ABEMIS) national inventory, successfully predicting fuel requirements for 172,265 of 246,741 fuel-relevant records (70\%) across all 17 Philippine regions, enabling data-driven national mechanization planning.
+This study develops a pilot machine learning model for estimating fuel requirements of agricultural machinery in the Philippines. A corpus of 376 cleaned training records was assembled from Agricultural Machinery Testing and Evaluation Center (AMTEC) PDF test reports---including 5 net new records added via Tesseract 5.5.2 OCR over 267 scanned image PDFs (24 candidate extractions, 5 surviving cleaning)---and used to train two models: a Multiple Linear Regression (OLS) baseline and a Random Forest (RF) Regressor. Eight features were used for the RF model---five numeric (\texttt{power\_kw}, \texttt{year}, \texttt{abemis\_total\_count}, \texttt{abemis\_region\_breadth}, \texttt{abemis\_dominant\_region\_share}) and three categorical-encoded (\texttt{machinery\_type}, \texttt{machinery\_family}, \texttt{analysis\_subset}). On a held-out test set of 76 records, the RF achieves R\textsuperscript{2}\,=\,0.916, MAE\,=\,0.95\,L/h, and RMSE\,=\,1.53\,L/h, substantially outperforming the OLS baseline. SHAP feature-importance analysis reveals that rated engine power (\texttt{power\_kw}) dominates at approximately 66.5\% of total importance, consistent with the fuel--power proportionality established in the literature. The trained model was applied to score the Agricultural and Biosystems Engineering Management Information System (ABEMIS) national inventory, successfully predicting fuel requirements for 172,265 of 246,741 fuel-relevant records (70\%) across all 17 Philippine regions, enabling data-driven national mechanization planning.
 
 %% ─────────────────────────────────────────────────────────────────────────────
 \section*{I. Introduction}
@@ -90,7 +87,7 @@ The study is limited to fuel consumption data extracted from AMTEC PDF test repo
 
 The cropping calendar from the Regional Agricultural Engineering Division (RAED) was identified as a planned time-dimension predictor representing crop stage and seasonal context. However, the RAED cropping calendar dataset was not yet acquired during the study period and its integration is deferred to future work.
 
-The study excludes real-time sensor acquisition, GPS-based field tracking, full mechanization system simulation, and production-system deployment. The 247 AMTEC test reports that exist as scanned image PDFs (non-searchable) were not extractable with the current PyMuPDF text-extraction pipeline; OCR-based ingestion of these reports is deferred pending a Tesseract installation on the processing environment.
+The study excludes real-time sensor acquisition, GPS-based field tracking, full mechanization system simulation, and production-system deployment. Tesseract 5.5.2 OCR was applied to 267 low-text or scanned AMTEC PDFs during the study, producing 24 candidate extractions of which 5 survived cleaning and entered the final corpus (371 $\rightarrow$ 376); the remaining unrecovered reports are predominantly 1990s placeholder filings without machine specifications even after OCR processing.
 
 %% ─────────────────────────────────────────────────────────────────────────────
 \section*{V. Review of Related Literature}
@@ -142,13 +139,17 @@ FC = f\!\left(
 The target variable is fuel consumption in L/h as recorded in AMTEC test conditions. The predictor variables in the implemented model are:
 
 \begin{itemize}
-  \item \textbf{Machine:} \texttt{power\_kw} (rated engine power in kW), \texttt{machinery\_type} (categorical), \texttt{machinery\_family} (categorical), \texttt{fuel\_type} (categorical)
-  \item \textbf{Operation/Effort:} operating characteristics derived from AMTEC test analytics (encoded as numeric features)
+  \item \textbf{Machine:} \texttt{power\_kw} (rated engine power in kW), \texttt{machinery\_type} (categorical), \texttt{machinery\_family} (categorical), \texttt{analysis\_subset} (categorical: field vs.\ stationary/processing)
+  \item \textbf{Operation/Effort:} \texttt{year} (equipment manufacture year, as a proxy for vintage and maintenance-condition cohort)
   \item \textbf{Field/Context:} \texttt{abemis\_total\_count} (total national inventory count for the machinery type), \texttt{abemis\_region\_breadth} (number of regions where the type is deployed), \texttt{abemis\_dominant\_region\_share} (share held by the top deployment region)
   \item \textbf{Time (deferred):} crop stage and seasonal indicators from the RAED cropping calendar --- not yet integrated; reserved for future work
 \end{itemize}
 
-This framework captures machine-level physical determinants as primary predictors, with ABEMIS deployment-context features providing secondary structural information about the national inventory landscape.
+This framework captures machine-level physical determinants as primary predictors, with \texttt{year} encoding equipment-generation effects, and ABEMIS deployment-context features providing secondary structural information about the national inventory landscape. Let the complete feature vector for record $i$ be denoted:
+\[
+\mathbf{x}_i = \bigl(x_{\text{power}},\; x_{\text{year}},\; x_{\text{cnt}},\; x_{\text{breadth}},\; x_{\text{dom}},\; x_{\text{type}},\; x_{\text{family}},\; x_{\text{subset}}\bigr)_i
+\]
+so that the predicted fuel consumption for record $i$ is $\hat{y}_i = \hat{f}(\mathbf{x}_i)$, where $\hat{f}$ is learned from the 300 training records.
 
 %% ─────────────────────────────────────────────────────────────────────────────
 \section*{VII. Dataset Description}
@@ -156,7 +157,23 @@ This framework captures machine-level physical determinants as primary predictor
 
 \subsection*{A. AMTEC Test Reports}
 
-AMTEC machinery test reports (available at \texttt{https://bit.ly/AMTECTestReports2026}) provide the primary source of fuel consumption measurements. Reports cover field machinery, harvesters, dryers, and other mechanization equipment tested under standardized protocols \parencite{pnspaes148}. Text-searchable PDFs were processed using PyMuPDF to extract fuel consumption (L/h), rated engine power (kW), machinery type, fuel type, field efficiency, operating area, and operating time. After extraction (text + Tesseract OCR fallback for scanned reports), unit standardization, and outlier filtering, 376 clean records were retained as the training and test corpus.
+AMTEC machinery test reports (available at \texttt{https://bit.ly/AMTECTestReports2026}) provide the primary source of fuel consumption measurements. Reports cover field machinery, harvesters, dryers, and other mechanization equipment tested under standardized protocols \parencite{pnspaes148}. Text-searchable PDFs were processed using PyMuPDF to extract fuel consumption (L/h), rated engine power (kW), machinery type, fuel type, field efficiency, operating area, and operating time. Tesseract 5.5.2 OCR was applied to 267 scanned or low-text PDFs, yielding 24 candidate extractions of which 5 survived cleaning and entered the corpus. After unit standardization and outlier filtering, 376 clean records (371 legacy + 5 net new from OCR) were retained as the training and test corpus.
+
+Figure~\ref{fig:power_fuel_main} illustrates the strong positive relationship between rated power and fuel consumption across all 376 records, and Figure~\ref{fig:avg_fuel_family_main} shows average fuel consumption by machinery family.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{power_vs_fuel_all.png}
+  \caption{Rated power (kW) vs.\ fuel consumption (L/h) for all 376 AMTEC records. A strong positive relationship is visible across all machinery types, supporting \texttt{power\_kw} as the dominant predictor.}
+  \label{fig:power_fuel_main}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{average_fuel_by_machinery_family.png}
+  \caption{Average fuel consumption (L/h) by machinery family across the 376 AMTEC records. Harvest machinery and mobile field machinery record the highest average consumption.}
+  \label{fig:avg_fuel_family_main}
+\end{figure}
 
 \subsection*{B. ABEMIS Inventory}
 
@@ -170,8 +187,8 @@ The Regional Agricultural Engineering Division cropping calendar was identified 
 
 The Random Forest model uses 8 features:
 \begin{itemize}
-  \item \textbf{Numeric (5):} \texttt{power\_kw}, \texttt{abemis\_total\_count}, \texttt{abemis\_region\_breadth}, \texttt{abemis\_dominant\_region\_share}, and one additional operating characteristic derived from AMTEC test analytics
-  \item \textbf{Categorical-encoded (3):} \texttt{machinery\_type}, \texttt{machinery\_family}, \texttt{fuel\_type}
+  \item \textbf{Numeric (5):} \texttt{power\_kw}, \texttt{year}, \texttt{abemis\_total\_count}, \texttt{abemis\_region\_breadth}, \texttt{abemis\_dominant\_region\_share}
+  \item \textbf{Categorical-encoded (3):} \texttt{machinery\_type}, \texttt{machinery\_family}, \texttt{analysis\_subset}
   \item \textbf{Target:} fuel consumption (L/h)
 \end{itemize}
 
@@ -187,7 +204,7 @@ The modeling pipeline proceeds as follows:
   \item \textbf{Unit Standardization} --- Horsepower values are converted to kW; area units normalized to hectares; time to hours; fuel to liters.
   \item \textbf{Outlier Filtering} --- Records with implausible fuel consumption values (e.g., negative, zero, or extreme outliers by machinery type) are removed using interquartile-range-based filtering at the machinery-type level.
   \item \textbf{Feature Engineering} --- ABEMIS context features are joined to AMTEC records by \texttt{machinery\_type} key. Categorical variables are label-encoded for RF input.
-  \item \textbf{Train/Test Split} --- An 80/20 stratified split (376 total records; 300 training, 76 test) is applied. Stratification is on \texttt{machinery\_family}.
+  \item \textbf{Train/Test Split} --- An 80/20 random split (376 total records; 300 training, 76 test) is applied with \texttt{random\_state\,=\,42}.
   \item \textbf{Model Training} --- OLS baseline and RF Regressor are fitted on the training set.
   \item \textbf{Interpretability} --- SHAP and LIME analyses are performed on the RF model.
   \item \textbf{ABEMIS Scoring} --- The trained RF model scores all 246,741 ABEMIS fuel-relevant records to produce region-level fuel estimates.
@@ -195,15 +212,51 @@ The modeling pipeline proceeds as follows:
 
 \subsection*{B. Baseline OLS Model}
 
-A Multiple Linear Regression baseline is implemented with \texttt{power\_kw} as the primary predictor. Both linear and quadratic enrichments of \texttt{power\_kw} are evaluated. To handle machinery-type heterogeneity, a group-level fallback hierarchy is applied: the model first uses a \texttt{machinery\_type}-level fit; if insufficient data exist for a given type ($n < 5$), it falls back to the \texttt{machinery\_family}-level fit; and if that also fails, it falls back to the global (all-machinery) model. This hierarchy produces a set of scoped OLS models evaluated against the same holdout test set.
+A Multiple Linear Regression baseline is implemented with \texttt{power\_kw} as the primary predictor. Three functional forms are evaluated for each scope:
+
+\textbf{Linear:}
+\[
+\hat{y} = \beta_0 + \beta_1 \cdot x_{\text{power}}
+\]
+
+\textbf{Quadratic:}
+\[
+\hat{y} = \beta_0 + \beta_1 \cdot x_{\text{power}} + \beta_2 \cdot x_{\text{power}}^2
+\]
+
+\textbf{Log-response:}
+\[
+\ln(\hat{y}) = \beta_0 + \beta_1 \cdot x_{\text{power}} \quad \Longrightarrow \quad \hat{y} = \exp\!\bigl(\beta_0 + \beta_1 \cdot x_{\text{power}}\bigr)
+\]
+
+Parameters $\boldsymbol{\beta}$ are estimated by minimizing the residual sum of squares (OLS):
+\[
+\hat{\boldsymbol{\beta}} = \arg\min_{\boldsymbol{\beta}} \sum_{i=1}^{n}\bigl(y_i - \mathbf{x}_i^{\top}\boldsymbol{\beta}\bigr)^2 = (\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{y}
+\]
+
+To handle machinery-type heterogeneity, a group-level fallback hierarchy is applied: the model first uses a \texttt{machinery\_type}-level fit; if insufficient data exist for a given type ($n < 5$), it falls back to the \texttt{machinery\_family}-level fit; and if that also fails, it falls back to the global (all-machinery) model. Only models passing the adjusted-$R^2$ filter threshold (adjusted $R^2 \geq 0.50$) are retained in the prediction hierarchy.
 
 \subsection*{C. Random Forest Regressor}
 
-A Random Forest Regressor is trained using scikit-learn defaults (100 estimators, no maximum depth constraint, minimum samples split of 2). All 8 features are used. Label encoders are fitted per categorical feature on the training set and applied to both test and ABEMIS scoring sets. The model is evaluated on the 76-record holdout set.
+A Random Forest Regressor is trained using scikit-learn with hyperparameters: \texttt{n\_estimators\,=\,300}, \texttt{max\_depth\,=\,None}, \texttt{min\_samples\_split\,=\,5}, \texttt{min\_samples\_leaf\,=\,2}, \texttt{random\_state\,=\,42}, \texttt{n\_jobs\,=\,-1}. All 8 features are used. Label encoders are fitted per categorical feature on the training set and applied to both test and ABEMIS scoring sets. The model is evaluated on the 76-record holdout set and validated with 5-fold cross-validation (\texttt{shuffle\,=\,True}, \texttt{random\_state\,=\,42}).
+
+The ensemble prediction for record $i$ is the average of $B = 300$ regression trees:
+\[
+\hat{y}_i = \frac{1}{B}\sum_{b=1}^{B} T_b(\mathbf{x}_i)
+\]
+where $T_b(\mathbf{x}_i)$ denotes the prediction of the $b$-th decision tree, each grown on a bootstrap sample of the training data with a random subset of features considered at each split.
 
 \subsection*{D. Interpretability}
 
-SHAP TreeExplainer is applied to the trained RF model to compute global feature importance (mean absolute SHAP value per feature) and per-sample SHAP contributions. A beeswarm plot visualizes the distribution of SHAP values across all test samples. LIME tabular explainer generates local explanations for 10 selected example records, identifying which features most influenced each individual prediction. Results are exported to \texttt{SHAP\_Analysis.xlsx} and \texttt{LIME\_Explanations.xlsx}.
+SHAP TreeExplainer is applied to the trained RF model. SHAP decomposes the prediction for each record $i$ into a sum of feature contributions:
+\[
+\hat{y}_i = \phi_0 + \sum_{j=1}^{p} \phi_{ij}
+\]
+where $\phi_0$ is the baseline (mean prediction over the training set), $p = 8$ is the number of features, and $\phi_{ij}$ is the SHAP value for feature $j$ and record $i$. Global feature importance is measured as:
+\[
+I_j = \frac{1}{n}\sum_{i=1}^{n}|\phi_{ij}|
+\]
+Global feature importance (mean absolute SHAP value per feature) and per-sample SHAP contributions are computed. A beeswarm plot visualizes the distribution of SHAP values across all test samples. LIME tabular explainer generates local explanations for 10 selected example records, identifying which features most influenced each individual prediction. Results are exported to \texttt{SHAP\_Analysis.xlsx} and \texttt{LIME\_Explanations.xlsx}.
 
 \subsection*{E. Evaluation Metrics}
 
@@ -226,7 +279,7 @@ where $y_i$ is the actual fuel consumption, $\hat{y}_i$ is the model prediction,
 
 \subsection*{A. Model Comparison}
 
-Table~1 presents the holdout evaluation metrics for the OLS and Random Forest models. The Random Forest substantially outperforms all OLS variants across all three metrics.
+Table~\ref{tab:metrics} presents the holdout evaluation metrics for the OLS and Random Forest models. The Random Forest substantially outperforms all OLS variants across all three metrics.
 
 \begin{table}[H]
 \centering
@@ -247,17 +300,46 @@ OLS Hierarchical FB & 0.703 & 1.88 & 2.88 \\
 \end{table}
 
 \vspace{2pt}
-{\footnotesize Note: Hierarchical OLS uses a per-machinery-type fallback chain (type $\to$ family $\to$ global). Random Forest 5-fold cross-validation mean: R\textsuperscript{2}\,=\,0.895, MAE\,=\,1.08, RMSE\,=\,1.77. Full results are in \texttt{OLS\_vs\_RF\_Comparison.xlsx}.}
+{\footnotesize Note: Hierarchical OLS uses a per-machinery-type fallback chain (type $\to$ family $\to$ global). Random Forest 5-fold cross-validation mean $\pm$ std: R\textsuperscript{2}\,=\,0.894\,$\pm$\,0.023, MAE\,=\,1.11\,$\pm$\,0.16\,L/h, RMSE\,=\,1.78\,$\pm$\,0.36\,L/h. Full results are in \texttt{OLS\_vs\_RF\_Comparison.xlsx}.}
 
 \subsection*{B. SHAP Feature Importance}
 
-SHAP analysis (Figures~1--2 in Appendix~A) reveals that \texttt{power\_kw} dominates feature importance at approximately 76\% of total mean absolute SHAP value. The three ABEMIS context features (\texttt{abemis\_total\_count}, \texttt{abemis\_region\_breadth}, \texttt{abemis\_dominant\_region\_share}) contribute approximately 3.5\% combined, consistently appearing in the lower half of the SHAP bar chart but with directionally coherent contributions visible in the beeswarm plot. Categorical features (\texttt{machinery\_type}, \texttt{machinery\_family}, \texttt{fuel\_type}) account for the remainder.
+SHAP analysis (Figures~\ref{fig:shap_bar}--\ref{fig:shap_beeswarm} and Figure~\ref{fig:shap_bar_main} in the main text) reveals that \texttt{power\_kw} dominates feature importance at approximately 66.5\% of total mean absolute SHAP value. The \texttt{year} feature is second at approximately 12.3\%, capturing vintage-related differences in fuel efficiency across equipment cohorts. Categorical features (\texttt{machinery\_type}, \texttt{machinery\_family}, \texttt{analysis\_subset}) account for approximately 12.1\% combined. The three ABEMIS context features (\texttt{abemis\_total\_count}, \texttt{abemis\_dominant\_region\_share}, \texttt{abemis\_region\_breadth}) contribute approximately 9.1\% combined, with \texttt{abemis\_region\_breadth} negligible ($< 0.2\%$) but \texttt{abemis\_total\_count} and \texttt{abemis\_dominant\_region\_share} contributing a consistent 4.7\% and 4.2\% respectively. Full values are reported in Table~\ref{tab:shap}.
 
-The dominance of \texttt{power\_kw} is consistent with the physical fuel--power proportionality established by \textcite{domsch1999fuel}: higher engine power ratings require more fuel to sustain operation regardless of machinery type.
+\begin{table}[H]
+\centering
+\captionsetup{font=small}
+\caption{SHAP global feature importance (mean $|\text{SHAP}|$) for the Random Forest model}
+\label{tab:shap}
+\footnotesize
+\begin{tabular}{lcc}
+\toprule
+\textbf{Feature} & \textbf{Mean $|\text{SHAP}|$} & \textbf{\%} \\
+\midrule
+\texttt{power\_kw}                      & 3.256 & 66.5\% \\
+\texttt{year}                           & 0.600 & 12.3\% \\
+\texttt{machinery\_type}                & 0.253 & 5.2\% \\
+\texttt{abemis\_total\_count}           & 0.232 & 4.7\% \\
+\texttt{abemis\_dominant\_region\_share}& 0.207 & 4.2\% \\
+\texttt{analysis\_subset}               & 0.204 & 4.2\% \\
+\texttt{machinery\_family}              & 0.137 & 2.8\% \\
+\texttt{abemis\_region\_breadth}        & 0.005 & 0.1\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The dominance of \texttt{power\_kw} is consistent with the physical fuel--power proportionality established by \textcite{domsch1999fuel}: higher engine power ratings require more fuel to sustain operation regardless of machinery type. The secondary importance of \texttt{year} reflects the improvement in fuel efficiency across equipment generations and is physically interpretable.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{shap_summary_bar.png}
+  \caption{SHAP global feature importance (mean $|\text{SHAP}|$) for the Random Forest model. \texttt{power\_kw} accounts for approximately 66.5\% of total importance; \texttt{year} is second at 12.3\%. Appendix~A shows the full beeswarm plot.}
+  \label{fig:shap_bar_main}
+\end{figure}
 
 \subsection*{C. LIME Local Explanations}
 
-LIME tabular explainer was applied to 10 example records (Appendix~C). Across all 10 instances, \texttt{power\_kw} appeared as the top local contributor in 9 out of 10 cases. Machinery type and fuel type provided secondary adjustments, particularly for records involving dryers and non-diesel fuel types. The LIME results are consistent with the global SHAP picture, providing per-record interpretability for model validation.
+LIME tabular explainer was applied to 10 example records (Appendix~C). Across all 10 instances, \texttt{power\_kw} appeared as the top local contributor in 9 out of 10 cases. Machinery type and \texttt{analysis\_subset} provided secondary adjustments, particularly for records involving dryers and stationary processing equipment. The LIME results are consistent with the global SHAP picture, providing per-record interpretability for model validation.
 
 \subsection*{D. ABEMIS National Scoring}
 
@@ -276,18 +358,18 @@ Regional fuel estimates and dominant machinery families are reported in \texttt{
 
 \subsection*{A. Primacy of Engine Power}
 
-The dominant contribution of \texttt{power\_kw} (${\sim}76\%$ SHAP importance) confirms the fundamental physical relationship between engine capacity and fuel demand \parencite{domsch1999fuel}. This result holds across all SHAP analysis levels (global bar chart, beeswarm distribution, and individual LIME explanations), providing high confidence in the model's physical coherence. The quadratic OLS enrichment of \texttt{power\_kw} also improved OLS performance over the linear baseline, further validating the nonlinear power--fuel relationship.
+The dominant contribution of \texttt{power\_kw} (${\sim}66.5\%$ SHAP importance) confirms the fundamental physical relationship between engine capacity and fuel demand \parencite{domsch1999fuel}. This result holds across all SHAP analysis levels (global bar chart, beeswarm distribution, and individual LIME explanations), providing high confidence in the model's physical coherence. The secondary importance of \texttt{year} (${\sim}12.3\%$) is also physically interpretable: newer equipment generations incorporate improved combustion technology and tighter manufacturing tolerances, resulting in systematically lower fuel intensity at equivalent rated power. The quadratic OLS enrichment of \texttt{power\_kw} also improved OLS performance over the linear baseline, further validating the nonlinear power--fuel relationship.
 
 \subsection*{B. ABEMIS Context Features}
 
-The three ABEMIS deployment-context features contribute a small but consistent 3.5\% of total SHAP importance. This suggests that knowledge of how widely and densely a machinery type is deployed across the country provides marginal but real predictive value, possibly capturing the fact that machinery types with higher national inventory counts tend to be better-maintained or operated at higher utilization rates. This contribution is not large enough to substitute for direct power measurement but adds value in scoring scenarios where power alone is insufficient.
+The three ABEMIS deployment-context features contribute approximately 9.1\% of total SHAP importance combined (\texttt{abemis\_total\_count}: 4.7\%, \texttt{abemis\_dominant\_region\_share}: 4.2\%, \texttt{abemis\_region\_breadth}: $< 0.2\%$). This suggests that knowledge of how widely and densely a machinery type is deployed across the country provides marginal but real predictive value, possibly capturing the fact that machinery types with higher national inventory counts tend to be better-maintained or operated at higher utilization rates. This contribution is not large enough to substitute for direct power measurement but adds value in scoring scenarios where power alone is insufficient.
 
 \subsection*{C. Limitations}
 
 Several limitations constrain the scope and generalizability of the current results:
 
 \begin{itemize}
-  \item \textbf{Scanned PDFs:} Tesseract 5.5.2 OCR was applied to 267 previously LOW\_TEXT or unreadable AMTEC reports during this study, recovering 24 additional comparable records (corpus expanded from 371 legacy + 5 newly text-extracted to 376). The remaining unrecovered reports are predominantly 1990s placeholder filings without machine specifications even after OCR. Acquisition of additional source PDFs (notably the previously inaccessible 3{,}065-PDF collaborator set) would further enlarge the corpus.
+  \item \textbf{Corpus size:} Tesseract 5.5.2 OCR was applied to 267 previously low-text or unreadable AMTEC reports during this study, yielding 24 candidate extractions of which 5 survived cleaning (corpus expanded from 371 legacy to 376 final, i.e.\ 371 legacy + 5 net new from OCR). The remaining unrecovered reports are predominantly 1990s placeholder filings without machine specifications even after OCR. Acquisition of additional source PDFs (notably the previously inaccessible 3{,}065-PDF collaborator set) would further enlarge the corpus and improve coverage of underrepresented machinery types.
 
   \item \textbf{RAED cropping calendar unavailable:} The time-dimension predictor (crop stage, planting/harvest window) could not be incorporated because the RAED dataset was not yet acquired. This limits the model's ability to account for seasonal load variations.
 
@@ -307,7 +389,7 @@ This pilot study demonstrates that a Random Forest Regressor trained on 376 AMTE
 %% ─────────────────────────────────────────────────────────────────────────────
 
 \begin{itemize}
-  \item \textbf{OCR pipeline for scanned PDFs:} Install Tesseract and retrain the PDF extraction pipeline on the 247 scanned AMTEC reports. Successful extraction is expected to increase the training corpus to approximately 500--550 records, with the largest gains in underrepresented machinery types (small-scale tillers, irrigation pumps, post-harvest equipment).
+  \item \textbf{Expand the AMTEC corpus:} Tesseract OCR has been applied to the 267 scanned reports available during this study. Acquiring the remaining collaborator set (estimated 3{,}065 PDFs) and re-running the extraction pipeline would substantially expand the corpus beyond 376 records, with the largest gains expected in underrepresented machinery types (small-scale tillers, irrigation pumps, post-harvest equipment).
 
   \item \textbf{RAED cropping calendar integration:} Acquire the RAED regional cropping calendar dataset and incorporate crop-stage timing as a temporal predictor. This is the single most important missing feature dimension and could materially improve regional fuel estimates that currently ignore seasonal load variation.
 
@@ -333,7 +415,7 @@ SHAP (SHapley Additive Explanations) TreeExplainer was applied to the trained Ra
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.85\linewidth]{shap_summary_bar.png}
-  \caption{SHAP summary bar plot --- global feature importance (mean $|$SHAP$|$) for the Random Forest model. \texttt{power\_kw} accounts for approximately 76\% of total importance.}
+  \caption{SHAP summary bar plot --- global feature importance (mean $|$SHAP$|$) for the Random Forest model. \texttt{power\_kw} accounts for approximately 66.5\% of total importance; \texttt{year} is second at 12.3\%.}
   \label{fig:shap_bar}
 \end{figure}
 
