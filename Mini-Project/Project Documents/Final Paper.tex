@@ -233,16 +233,17 @@ Table~1 presents the holdout evaluation metrics for the OLS and Random Forest mo
 \captionsetup{font=small}
 \caption{OLS vs.\ Random Forest holdout metrics ($n = 76$)}
 \label{tab:metrics}
-\small
-\begin{tabular}{lccc}
+\footnotesize
+\begin{tabular}{lccr}
 \toprule
-\textbf{Model} & \textbf{R\textsuperscript{2}} & \textbf{MAE (L/h)} & \textbf{RMSE (L/h)} \\
+\textbf{Model} & \textbf{R\textsuperscript{2}} & \textbf{MAE} & \textbf{RMSE} \\
 \midrule
-OLS Global Linear         & 0.704 & 1.882 & 2.875 \\
-OLS Hierarchical Fallback & 0.703 & 1.879 & 2.879 \\
-\textbf{Random Forest}    & \textbf{0.916} & \textbf{0.950} & \textbf{1.534} \\
+OLS Global Linear & 0.704 & 1.88 & 2.88 \\
+OLS Hierarchical FB & 0.703 & 1.88 & 2.88 \\
+\textbf{Random Forest} & \textbf{0.916} & \textbf{0.95} & \textbf{1.53} \\
 \bottomrule
-\end{tabular}
+\end{tabular}\\
+{\tiny L/h = liters per hour}
 \end{table}
 
 \vspace{2pt}
