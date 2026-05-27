@@ -1161,7 +1161,7 @@ table.results-table tr.winner td:first-child {
       <div class="head" style="margin-top: 28px;">
         <h2 class="section">Power and fuel do not scale linearly across machinery types.</h2>
         <div class="head-meta">
-          ENSEMBLE · 100+ trees<br>
+          ENSEMBLE · 300 trees<br>
           No manual feature crossing
         </div>
       </div>
@@ -1279,7 +1279,7 @@ table.results-table tr.winner td:first-child {
         <h2 class="section">Random Forest improves R<sup>2</sup> by 30 % and halves the absolute error.</h2>
         <div class="head-meta">
           HOLDOUT · n = 76<br>
-          Stratified by machinery family
+          80/20 random split · seed = 42
         </div>
       </div>
 
@@ -1391,14 +1391,15 @@ table.results-table tr.winner td:first-child {
         </div>
         <div class="shap-side">
           <h3>What drives the predictions?</h3>
-          <div class="stat">~76 %</div>
+          <div class="stat">~66.5 %</div>
           <div class="stat-label">share of total importance · power_kw</div>
           <p class="body">
-            Engine power alone accounts for roughly three-quarters of the model's prediction signal.
+            Engine power alone accounts for roughly two-thirds of the model's prediction signal.
             This directly mirrors the physical law of fuel-power proportionality.
           </p>
           <p class="body">
-            ABEMIS regional features supply the contextual fine-tuning around that physical core.
+            <strong>year</strong> (equipment vintage) is second at ~12.3%, reflecting improved combustion efficiency in newer equipment.
+            ABEMIS regional features contribute a combined ~9% of contextual fine-tuning.
           </p>
           <p class="pull">
             <em>It learned what an engineer would expect.</em>
@@ -1568,7 +1569,7 @@ table.results-table tr.winner td:first-child {
         <div class="future-col">
           <span class="ix">01 / Corpus</span>
           <h4>Expand the <em>training</em> corpus.</h4>
-          <p>Acquire the 3,065-PDF collaborator set. Tesseract 5.5 OCR is already deployed on 267 scanned reports, which already brought the corpus from 352 to 376 records.</p>
+          <p>Acquire the 3,065-PDF collaborator set. Tesseract 5.5 OCR is already deployed on 267 scanned reports, which already brought the corpus from 371 to 376 records (24 OCR candidates, 5 net new after cleaning).</p>
           <span class="stat">Current: 376 records · Target: ~3,400</span>
         </div>
         <div class="future-col">

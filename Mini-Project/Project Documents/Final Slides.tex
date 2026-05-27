@@ -210,7 +210,7 @@
       \begin{itemize}\setlength\itemsep{0.5em}
         \item Power and fuel do \emph{not} scale linearly across machine types
         \item Each tree partitions the feature space differently
-        \item 100+ trees average out variance — robust predictions
+        \item 300 trees average out variance — robust predictions
         \item No manual feature crossing required
       \end{itemize}
       \vspace{0.7em}
@@ -290,15 +290,16 @@
         {shap_summary_bar.png}
     \column{0.38\textwidth}
       \textbf{Key finding:}\\[0.5em]
-      \texttt{power\_kw} accounts for \textbf{$\sim$76\%} of total prediction importance.\\[0.8em]
-      This directly mirrors the physical law of fuel--power proportionality.\\[0.8em]
-      ABEMIS regional features add the necessary contextual fine-tuning.\\[0.8em]
+      \texttt{power\_kw} accounts for \textbf{$\sim$66.5\%} of total prediction importance.\\[0.8em]
+      \texttt{year} (equipment vintage) is second at \textbf{$\sim$12.3\%}, reflecting improved combustion efficiency in newer equipment.\\[0.8em]
+      ABEMIS context features contribute a combined \textbf{$\sim$9\%}, adding real but secondary value.\\[0.8em]
       {\small The model didn't memorize data --- it \emph{learned physics}.}
   \end{columns}
   \note{The model didn't just memorize data; it learned actual physics. Point out that
-  power\_kw dictates ~76\% of the prediction importance. This perfectly mirrors the
-  established physical laws of fuel power proportionality. The secondary features
-  (like ABEMIS region share) provide the necessary contextual fine-tuning.}
+  power\_kw dictates ~66.5\% of the prediction importance, with year second at ~12.3\%
+  capturing equipment-generation efficiency gains. This perfectly mirrors the
+  established physical laws of fuel power proportionality. ABEMIS context features
+  contribute a combined ~9\%, providing contextual fine-tuning.}
 \end{frame}
 
 % ── Slide 7: LIME Local Interpretability ─────────────────────────────────────
