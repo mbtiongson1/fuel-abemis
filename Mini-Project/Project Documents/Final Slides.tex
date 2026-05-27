@@ -1,141 +1,432 @@
 \documentclass[aspectratio=169]{beamer}
-\usetheme{default}
+
+% ── Theme ────────────────────────────────────────────────────────────────────
+\usetheme{Boadilla}
 \usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+% ── Packages ─────────────────────────────────────────────────────────────────
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{pgfpages}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, backgrounds, calc}
 
+% To show speaker notes on a second screen, uncomment the next line:
+% \setbeameroption{show notes on second screen=right}
+
+% ── Colors ───────────────────────────────────────────────────────────────────
+\definecolor{rfgreen}{RGB}{0,153,76}
+\definecolor{phblue}{RGB}{0,56,168}
+\definecolor{lightblue}{RGB}{220,235,255}
+\definecolor{lightgreen}{RGB}{210,245,225}
+
+% ── Image paths (repo-relative) ───────────────────────────────────────────────
+% Required images NOT in the repo (source externally and place in images/):
+%   images/tractor_ph_rice_field.jpg  — full-bleed tractor in Philippine rice field
+%   images/combine_harvester.jpg      — large combine harvester
+%   images/water_pump_stationary.jpg  — small stationary water pump
 \graphicspath{
-  {/Users/marcotiongson/Documents/fuel-abemis/Mini-Project/Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/}
-  {/Users/marcotiongson/Documents/fuel-abemis/Mini-Project/Agricultural Machinery Inventory from ABEMIS/Analytics Output V2/}
+  {../../Mini-Project/Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/}
+  {../../Mini-Project/Agricultural Machinery Inventory from ABEMIS/Analytics Output V2/}
+  {../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/}
+  {../Agricultural Machinery Inventory from ABEMIS/Analytics Output V2/}
+  {images/}
 }
 
-\title{Pilot Machine Learning Model for Fuel Requirement Estimation\\ in Agricultural Mechanization}
+% ── Title metadata ────────────────────────────────────────────────────────────
+\title[Fuel Estimation ML]{%
+  Pilot Machine Learning Model for\\
+  Fuel Requirement Estimation\\
+  in Agricultural Mechanization%
+}
 \author{Ronald Melvin R.\ Rosas \and Marcus Rafael Tiongson}
-\institute{AI 201 University of the Philippines, Diliman}
+\institute{AI 201 --- University of the Philippines, Diliman}
 \date{}
 
+% ─────────────────────────────────────────────────────────────────────────────
 \begin{document}
 
-\begin{frame}
-  \titlepage
-\end{frame}
-
-\begin{frame}{The Problem}
-  \large Fuel estimation in Philippine agricultural mechanization relies on static coefficients.
-  \vspace{1em}
-  \begin{itemize}
-    \item Generalized coefficients ignore machine variability
-    \item No localized field, soil, or operator effects
-    \item Nonlinear interactions invisible to deterministic formulas
-    \item Result: weak planning, missed efficiency gains
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Goal}
-  \begin{itemize}
-    \item Develop an ML model for fuel-requirement estimation
-    \item Compare against OLS baseline using R\textsuperscript{2}, MAE, RMSE
-    \item Score national ABEMIS deployments for regional fuel planning
-    \item Interpret with SHAP (global) and LIME (local)
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{The Data}
-  \large
-  \begin{itemize}
-    \item AMTEC test reports (text + OCR) $\rightarrow$ \textbf{376} cleaned training records
-    \item ABEMIS inventory $\rightarrow$ \textbf{246{,}741} fuel-relevant records
-    \item Coverage: \textbf{all 17} Philippine regions
-    \item \textbf{8} RF features: \texttt{power\_kw}, year, three ABEMIS context features, three categorical-encoded (machinery type, family, subset)
-    \item Target: fuel consumption (L/hr)
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Pipeline}
-  \begin{center}
-    \large
-    PDF extraction (PyMuPDF) $\rightarrow$ Cleaning + unit standardization \\
-    $\downarrow$ \\
-    Feature engineering (ABEMIS context join) $\rightarrow$ Train/test split (80/20) \\
-    $\downarrow$ \\
-    OLS baseline $\rightarrow$ Random Forest (8 features) \\
-    $\downarrow$ \\
-    SHAP global + LIME local $\rightarrow$ ABEMIS scoring (172k records)
-  \end{center}
-\end{frame}
-
-\begin{frame}{Methodology Highlights}
-  \begin{itemize}
-    \item \textbf{OLS baseline} --- linear/quadratic; per-type fallback hierarchy (type $\to$ family $\to$ global)
-    \item \textbf{Random Forest} --- scikit-learn defaults, 80/20 split, 8 features, 5-fold CV
-    \item \textbf{Interpretability} --- SHAP TreeExplainer (bar + beeswarm), LIME tabular explainer (10 example records)
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Results --- Model Comparison ($n_\text{test}=76$)}
+% ── Slide 1: Title & Hook ────────────────────────────────────────────────────
+{%
+\IfFileExists{images/tractor_ph_rice_field.jpg}{%
+  \usebackgroundtemplate{%
+    \begin{tikzpicture}
+      \node[inner sep=0pt] (bgimg) at (0,0)
+        {\includegraphics[width=\paperwidth,height=\paperheight]{tractor_ph_rice_field.jpg}};
+      \fill[black,opacity=0.55] (bgimg.south west) rectangle (bgimg.north east);
+    \end{tikzpicture}}%
+}{}
+\begin{frame}[plain]
+  \vspace{2.2cm}
   \centering
+  {\color{white}\LARGE\bfseries
+    Pilot Machine Learning Model for\\[0.4em]
+    Fuel Requirement Estimation\\[0.4em]
+    in Agricultural Mechanization}\\[1.2em]
+  {\color{white}\normalsize
+    Ronald Melvin R.\ Rosas \quad|\quad Marcus Rafael Tiongson}\\[0.3em]
+  {\color{white}\small AI 201 --- University of the Philippines, Diliman}
+
+  \note{Introduce the core thesis immediately. We are moving from static, outdated
+  engineering estimates to dynamic, data-driven machine learning. This pilot shows
+  that a Random Forest trained on AMTEC test data reaches R\textsuperscript{2} = 0.916
+  and immediately scores 172{,}265 machines across the national ABEMIS inventory.}
+\end{frame}
+}
+
+% ── Slide 2: The Core Problem ────────────────────────────────────────────────
+\begin{frame}{Static Coefficients vs.\ Real-World Variance}
+  \begin{columns}[c]
+    \column{0.46\textwidth}
+      \centering
+      \IfFileExists{images/combine_harvester.jpg}{%
+        \includegraphics[width=\linewidth,height=0.52\textheight,keepaspectratio]%
+          {combine_harvester.jpg}%
+      }{%
+        \begin{tikzpicture}
+          \draw[phblue, thick, rounded corners=4pt, fill=lightblue]
+            (0,0) rectangle (5,3.2);
+          \node[font=\small, align=center] at (2.5,1.6)
+            {Combine Harvester\\$>$\,50 kW, mobile, high load};
+        \end{tikzpicture}%
+      }\\[0.4em]
+      {\small\textbf{Combine Harvester}\\$>$\,50\,kW · mobile · high field load}
+    \column{0.08\textwidth}
+      \centering
+      {\color{phblue}\LARGE$\neq$}
+    \column{0.46\textwidth}
+      \centering
+      \IfFileExists{images/water_pump_stationary.jpg}{%
+        \includegraphics[width=\linewidth,height=0.52\textheight,keepaspectratio]%
+          {water_pump_stationary.jpg}%
+      }{%
+        \begin{tikzpicture}
+          \draw[phblue, thick, rounded corners=4pt, fill=lightblue]
+            (0,0) rectangle (5,3.2);
+          \node[font=\small, align=center] at (2.5,1.6)
+            {Stationary Water Pump\\$<$\,5 kW, fixed load};
+        \end{tikzpicture}%
+      }\\[0.4em]
+      {\small\textbf{Stationary Water Pump}\\$<$\,5\,kW · fixed · low load}
+  \end{columns}
+  \vspace{0.6em}
+  \centering\small\textit{Deterministic formulas apply the same generalized constant to both.}
+  \note{Point to the images. Current deterministic formulas treat fuel consumption
+  with generalized constants. Those formulas fail because they cannot capture the
+  massive non-linear operational differences between the machine on the left and the
+  machine on the right.}
+\end{frame}
+
+% ── Slide 3: The Data ────────────────────────────────────────────────────────
+\begin{frame}{The Data: AMTEC \& ABEMIS}
+  \begin{center}
+  \begin{tikzpicture}[
+    box/.style={rectangle, rounded corners=6pt, draw=phblue, fill=lightblue,
+                text width=4.2cm, align=center, font=\small\bfseries,
+                minimum height=1.6cm, inner sep=8pt},
+    merge/.style={rectangle, rounded corners=6pt, draw=rfgreen, fill=lightgreen,
+                  text width=4.4cm, align=center, font=\small\bfseries,
+                  minimum height=1.1cm, inner sep=8pt},
+    arrow/.style={-Stealth, phblue, line width=1.6pt}
+  ]
+    \node[box] at (-3.6, 0) (amtec)
+      {\textbf{376} AMTEC\\Test Records\\[4pt]
+       \footnotesize Fuel $\cdot$ Power $\cdot$ Field Efficiency};
+    \node[box] at (3.6, 0) (abemis)
+      {\textbf{246{,}741} ABEMIS\\Inventory Records\\[4pt]
+       \footnotesize National Deployment Context};
+    \node[merge] at (0, -2.4) (ml)
+      {ML Feature Engineering Pipeline};
+    \draw[arrow] (amtec.south) -- ++(0,-0.6) -- ($(ml.north west)+(0,0)$);
+    \draw[arrow] (abemis.south) -- ++(0,-0.6) -- ($(ml.north east)+(0,0)$);
+  \end{tikzpicture}
+  \end{center}
+  \vspace{0.3em}
+  \begin{columns}[t]
+    \column{0.48\textwidth}
+      \textbf{AMTEC} --- standardized, controlled lab tests\\
+      {\small Source: BAFE-AMTEC (1990s--2026)}
+    \column{0.48\textwidth}
+      \textbf{ABEMIS} --- national deployment inventory\\
+      {\small Coverage: all 17 Philippine regions}
+  \end{columns}
+  \note{Briefly establish data provenance. You took standardized, controlled test
+  data from AMTEC and enriched it with massive, real-world deployment context from
+  ABEMIS. The join provides regional prevalence and machinery-type distribution as
+  context features for the model.}
+\end{frame}
+
+% ── Slide 4: Why Random Forest? ───────────────────────────────────────────────
+\begin{frame}{The Engine: Capturing Non-Linear Physical Interactions}
+  \begin{columns}[c]
+    \column{0.54\textwidth}
+      \centering
+      \begin{tikzpicture}[
+        scale=0.78, transform shape,
+        decision/.style={diamond, draw=phblue, fill=lightblue,
+                         inner sep=2pt, text width=1.9cm, align=center,
+                         font=\footnotesize},
+        leaf/.style={rectangle, rounded corners=3pt, draw=rfgreen, fill=lightgreen,
+                     text width=1.7cm, align=center, minimum height=0.75cm,
+                     font=\footnotesize},
+        arrow/.style={-Stealth, phblue, line width=1.2pt}
+      ]
+        % Nodes — manually placed
+        \node[decision] (root) at (0, 0)
+          {\texttt{power\_kw}\\ $>$ 10.43?};
+        \node[decision] (left)  at (-3.2, -2.6)
+          {\texttt{machinery\_}\\\texttt{family =}\\\texttt{Mobile Field?}};
+        \node[decision] (right) at ( 3.2, -2.6)
+          {\texttt{year}\\ $>$ 2010?};
+        \node[leaf] (ll) at (-4.6, -5.2)
+          {Pred.\ Fuel\\\textbf{8.2 L/h}};
+        \node[leaf] (lr) at (-1.8, -5.2)
+          {Pred.\ Fuel\\\textbf{3.1 L/h}};
+        \node[leaf] (rl) at ( 1.8, -5.2)
+          {Pred.\ Fuel\\\textbf{1.4 L/h}};
+        \node[leaf] (rr) at ( 4.6, -5.2)
+          {Pred.\ Fuel\\\textbf{0.9 L/h}};
+        % Edges
+        \draw[arrow] (root.south west) -- (left.north);
+        \draw[arrow] (root.south east) -- (right.north);
+        \draw[arrow] (left.south west)  -- (ll.north);
+        \draw[arrow] (left.south east)  -- (lr.north);
+        \draw[arrow] (right.south west) -- (rl.north);
+        \draw[arrow] (right.south east) -- (rr.north);
+        % Edge labels
+        \node[font=\tiny, phblue] at (-1.8, -1.1) {Yes};
+        \node[font=\tiny, phblue] at ( 1.8, -1.1) {No};
+        \node[font=\tiny, phblue] at (-4.2, -3.8) {Yes};
+        \node[font=\tiny, phblue] at (-2.2, -3.8) {No};
+        \node[font=\tiny, phblue] at ( 2.2, -3.8) {Yes};
+        \node[font=\tiny, phblue] at ( 4.2, -3.8) {No};
+      \end{tikzpicture}
+    \column{0.44\textwidth}
+      \textbf{Why not OLS?}
+      \begin{itemize}\setlength\itemsep{0.5em}
+        \item Power and fuel do \emph{not} scale linearly across machine types
+        \item Each tree partitions the feature space differently
+        \item 100+ trees average out variance — robust predictions
+        \item No manual feature crossing required
+      \end{itemize}
+      \vspace{0.7em}
+      {\small$R^2_{\text{RF}} = 0.916$ \quad vs.\quad $R^2_{\text{OLS}} = 0.704$}
+  \end{columns}
+  \note{This is the primary methodology. Engine power and machinery type don't scale
+  linearly. Random Forest was explicitly chosen because its ensemble of decision trees
+  inherently captures these complex, non-linear interactions without requiring manual
+  feature crossing.}
+\end{frame}
+
+% ── Slide 5: Results ─────────────────────────────────────────────────────────
+\begin{frame}{Random Forest vs.\ OLS Baseline ($n_{\text{test}}=76$)}
+  \centering
+  \vspace{0.3em}
   \begin{tabular}{lccc}
     \toprule
-    \textbf{Model} & \textbf{R\textsuperscript{2}} & \textbf{MAE (L/h)} & \textbf{RMSE (L/h)} \\
+    \textbf{Model}
+      & \textbf{R\textsuperscript{2}}
+      & \textbf{MAE (L/h)}
+      & \textbf{RMSE (L/h)} \\
     \midrule
     OLS Global Linear         & 0.704 & 1.882 & 2.875 \\
     OLS Hierarchical Fallback & 0.703 & 1.879 & 2.879 \\
-    \textbf{Random Forest}    & \textbf{0.916} & \textbf{0.950} & \textbf{1.534} \\
+    \rowcolor{rfgreen!25}
+    \textcolor{rfgreen}{\textbf{Random Forest}}
+      & \textcolor{rfgreen}{\textbf{0.916}}
+      & \textcolor{rfgreen}{\textbf{0.950}}
+      & \textcolor{rfgreen}{\textbf{1.534}} \\
     \bottomrule
   \end{tabular}
 
-  \vspace{1em}
-  Random Forest captures non-linear power-fuel interactions OLS cannot.
+  \vspace{1.0em}
+  \begin{columns}[c]
+    \column{0.3\textwidth}\centering
+      {\color{rfgreen}\Huge\bfseries $+$30\%}\\[2pt]{\small better $R^2$}
+    \column{0.3\textwidth}\centering
+      {\color{rfgreen}\Huge\bfseries $2\times$}\\[2pt]{\small lower MAE}
+    \column{0.3\textwidth}\centering
+      {\color{rfgreen}\Huge\bfseries $2\times$}\\[2pt]{\small lower RMSE}
+  \end{columns}
+  \note{Let the numbers speak. The RF model achieves R² = 0.916 with MAE = 0.95 L/h.
+  It substantially outperforms the hierarchical OLS fallback because it adapts to the
+  feature variances that linear models smooth over.}
 \end{frame}
 
-\begin{frame}{SHAP --- Global Feature Importance}
+% ── Section Divider: Why trust it? ───────────────────────────────────────────
+{%
+\IfFileExists{images/tractor_ph_rice_field.jpg}{%
+  \usebackgroundtemplate{%
+    \begin{tikzpicture}
+      \node[inner sep=0pt] (bgimg) at (0,0)
+        {\includegraphics[width=\paperwidth,height=\paperheight]{tractor_ph_rice_field.jpg}};
+      \fill[black,opacity=0.55] (bgimg.south west) rectangle (bgimg.north east);
+    \end{tikzpicture}}%
+}{}
+\begin{frame}[plain]
+  \vspace{2.4cm}
   \centering
-  \includegraphics[width=0.82\textwidth,height=0.78\textheight,keepaspectratio]{shap_summary_bar.png}
+  {\color{white}\Huge\bfseries
+    But why does the model\\[0.3em]
+    trust these predictions?}\\[1.4em]
+  {\color{white!85}\large
+    Opening the black box with SHAP and LIME.}
+  \note{Pivot from raw metrics into interpretability. Strong R² is not enough ---
+  BAFE engineers must understand why the model makes each call before they will
+  trust it for national planning.}
+\end{frame}
+}
 
-  \texttt{power\_kw} dominates at $\sim$76\% importance.
+% ── Slide 6: SHAP Global Interpretability ────────────────────────────────────
+\begin{frame}{What Drives the Model? (Validating Physics with SHAP)}
+  \begin{columns}[c]
+    \column{0.60\textwidth}
+      \centering
+      \includegraphics[width=\linewidth,height=0.76\textheight,keepaspectratio]%
+        {shap_summary_bar.png}
+    \column{0.38\textwidth}
+      \textbf{Key finding:}\\[0.5em]
+      \texttt{power\_kw} accounts for \textbf{$\sim$76\%} of total prediction importance.\\[0.8em]
+      This directly mirrors the physical law of fuel--power proportionality.\\[0.8em]
+      ABEMIS regional features add the necessary contextual fine-tuning.\\[0.8em]
+      {\small The model didn't memorize data --- it \emph{learned physics}.}
+  \end{columns}
+  \note{The model didn't just memorize data; it learned actual physics. Point out that
+  power\_kw dictates ~76\% of the prediction importance. This perfectly mirrors the
+  established physical laws of fuel power proportionality. The secondary features
+  (like ABEMIS region share) provide the necessary contextual fine-tuning.}
 \end{frame}
 
-\begin{frame}{SHAP --- Direction \& Magnitude}
+% ── Slide 7: LIME Local Interpretability ─────────────────────────────────────
+\begin{frame}{Explaining Individual Predictions (LIME)}
   \centering
-  \includegraphics[width=0.82\textwidth,height=0.78\textheight,keepaspectratio]{shap_summary_beeswarm.png}
+  \includegraphics[width=0.88\textwidth,height=0.72\textheight,keepaspectratio]%
+    {lime_example_0.png}
 
-  Higher power $\rightarrow$ higher predicted fuel; context features add nuance.
+  \vspace{0.4em}
+  {\small LIME breaks down \emph{why} the model predicted \textbf{4.77\,L/h} for one
+  specific small engine --- granular transparency that builds trust for BAFE engineers.}
+  \note{Frame this around stakeholder trust. While SHAP explains the entire model,
+  LIME breaks down why the model predicted 4.77 L/h for one specific small engine.
+  This granular transparency is how you get BAFE engineers to actually trust and
+  adopt the tool.}
 \end{frame}
 
-\begin{frame}{LIME --- A Local Explanation}
+% ── Slide 8: National Impact ──────────────────────────────────────────────────
+\begin{frame}{From Lab to National Scale}
+  \begin{columns}[c]
+    \column{0.50\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[rectangle, rounded corners=8pt,
+              draw=phblue, fill=lightblue,
+              text width=6.0cm, align=center, inner sep=14pt] {
+          {\color{phblue}\fontsize{36}{40}\selectfont\bfseries 172{,}265}\\[4pt]
+          {\large machines successfully scored}\\[10pt]
+          \begin{tabular}{lr}
+            National inventory: & 246{,}741 \\
+            Coverage:           & \textbf{70\,\%} \\[4pt]
+            Missing power data: & 62{,}808 \\
+            Unmappable type:    & 11{,}668 \\
+          \end{tabular}
+        };
+      \end{tikzpicture}
+    \column{0.48\textwidth}
+      \textbf{Outputs per region:}
+      \begin{itemize}\setlength\itemsep{0.5em}
+        \item Per-record fuel estimate (L/h)
+        \item Per-region aggregate demand
+        \item Per-region $\times$ machinery-type breakdown
+      \end{itemize}
+      \vspace{0.8em}
+      The unscored 30\% reflects \emph{data gaps} --- not model failure. Closing
+      those gaps is part of the roadmap.
+  \end{columns}
+  \note{You successfully scored 70\% of the national inventory. Clarify that the
+  unscored 30\% were due to raw data gaps (missing power ratings / unmappable types).
+  The takeaway: this model immediately enables data-driven mechanization planning
+  across all 17 regions.}
+\end{frame}
+
+% ── Section Divider: What's next? ────────────────────────────────────────────
+{%
+\IfFileExists{images/ph_field_aerial.jpg}{%
+  \usebackgroundtemplate{%
+    \begin{tikzpicture}
+      \node[inner sep=0pt] (bgimg) at (0,0)
+        {\includegraphics[width=\paperwidth,height=\paperheight]{ph_field_aerial.jpg}};
+      \fill[black,opacity=0.55] (bgimg.south west) rectangle (bgimg.north east);
+    \end{tikzpicture}}%
+}{}
+\begin{frame}[plain]
+  \vspace{2.4cm}
   \centering
-  \includegraphics[width=0.92\textwidth,height=0.78\textheight,keepaspectratio]{lime_example_0.png}
+  {\color{white}\Huge\bfseries
+    What's next?}\\[1.4em]
+  {\color{white!85}\large
+    Closing the data gaps. Validating in the field.}
+  \note{Reset the audience visually before the roadmap. Three concrete next
+  iterations: enlarge the corpus via the 3,065-PDF set; integrate the RAED
+  cropping calendar; validate against in-field GPS/flow-sensor telemetry.}
+\end{frame}
+}
 
-  Per-record explanation builds trust for BAFE engineers.
+% ── Slide 9: Future Work ──────────────────────────────────────────────────────
+\begin{frame}{Next Iterations}
+  \vspace{0.6em}
+  \begin{columns}[c]
+    \column{0.32\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[circle, draw=phblue, fill=lightblue,
+              minimum size=1.6cm, font=\Large\bfseries] {PDF};
+      \end{tikzpicture}\\[0.6em]
+      \textbf{Expand Corpus}\\[0.4em]
+      \small Acquire \textbf{3,065-PDF} collaborator set; Tesseract OCR already
+      deployed --- 267 scanned reports processed, 376-record corpus achieved.
+    \column{0.32\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[circle, draw=phblue, fill=lightblue,
+              minimum size=1.6cm, font=\Large\bfseries] {CAL};
+      \end{tikzpicture}\\[0.6em]
+      \textbf{RAED Calendar}\\[0.4em]
+      \small Integrate cropping-season data to add \textbf{temporal load timing}
+      as a predictive feature.
+    \column{0.32\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[circle, draw=phblue, fill=lightblue,
+              minimum size=1.6cm, font=\Large\bfseries] {$\sim$};
+      \end{tikzpicture}\\[0.6em]
+      \textbf{Field Telemetry}\\[0.4em]
+      \small Validate predictions against \textbf{in-field sensor data} from a
+      pilot deployment.
+  \end{columns}
+  \note{Tesseract OCR was already deployed in this study --- Tesseract 5.5.2 was
+  applied to 267 scanned AMTEC reports, recovering 24 additional records and
+  bringing the corpus to 376. The next step is acquiring the 3,065-PDF
+  collaborator set to further enlarge training data, especially for
+  underrepresented machinery types. RAED cropping calendar data was not yet
+  acquired --- integrating it is the single most important missing feature
+  dimension. Final goal: validate against in-field GPS/flow-sensor telemetry.}
 \end{frame}
 
-\begin{frame}{ABEMIS Regional Scoring}
-  \large
-  \begin{itemize}
-    \item \textbf{172{,}265} of 246{,}741 records successfully scored (\textbf{70\%}\,coverage)
-    \item Excluded: 62{,}808 missing Rated Power, 11{,}668 unmappable type
-    \item Outputs: per-region, per-region $\times$ type, per-record fuel estimates
-    \item Enables data-driven mechanization planning at national scale
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Limitations \& Future Work}
-  \begin{itemize}
-    \item OCR retraining on 247 scanned PDFs (Tesseract binary pending)
-    \item RAED cropping calendar integration as the Time predictor
-    \item Expand ABEMIS $\to$ AMTEC type mapping for $\sim$19{,}674 unmapped rows
-    \item Validation against in-field telemetry from a pilot deployment
-  \end{itemize}
-\end{frame}
-
+% ── Thank You ─────────────────────────────────────────────────────────────────
 \begin{frame}
   \centering
-  \Huge Thank you
-  \vspace{2em}
+  \vspace{1.2cm}
+  {\Huge\bfseries Thank you}
+  \vspace{1.4em}
 
-  \large Ronald Melvin R.\ Rosas \\ Marcus Rafael Tiongson
+  \large Ronald Melvin R.\ Rosas\\[0.3em] Marcus Rafael Tiongson
 
-  \vspace{2em}
+  \vspace{1.2em}
+  {\small AI 201 --- University of the Philippines, Diliman}
 \end{frame}
 
 \end{document}

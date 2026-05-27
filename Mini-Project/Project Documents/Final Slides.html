@@ -1,0 +1,1712 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pilot ML Model for Fuel Requirement Estimation — AI 201</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────────────────────────────────
+   DESIGN TOKENS
+   Register: brand · Strategy: committed (rice-straw amber carries the deck)
+   Aesthetic lane: calibration sheet · warm paper, ink, measured.
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  /* color — OKLCH, every neutral tinted toward the accent hue */
+  --paper:        oklch(0.972 0.012 85);
+  --paper-2:      oklch(0.945 0.014 85);
+  --rule:         oklch(0.86  0.018 85);
+  --ink:          oklch(0.18  0.015 85);
+  --ink-2:        oklch(0.34  0.014 85);
+  --ink-3:        oklch(0.52  0.012 85);
+  --amber:        oklch(0.72  0.18  65);
+  --amber-deep:   oklch(0.55  0.19  55);
+  --amber-soft:   oklch(0.92  0.06  75);
+  --cobalt:       oklch(0.50  0.09  240);
+  --cobalt-soft:  oklch(0.92  0.03  240);
+
+  /* type */
+  --display:  "Funnel Display", "Iowan Old Style", "Charter", Georgia, serif;
+  --body:     "Funnel Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --mono:     "JetBrains Mono", ui-monospace, "SF Mono", Consolas, monospace;
+
+  /* numerals: tabular for tables and metrics, lining everywhere else */
+  --num-tab: "tnum" 1, "lnum" 1;
+  --num-prop: "pnum" 1, "lnum" 1;
+
+  /* slide grid */
+  --slide-w: 1600px;
+  --slide-h: 900px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--ink);
+  color: var(--ink);
+  font-family: var(--body);
+  font-feature-settings: var(--num-prop);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── Stage and slide scaling ──────────────────────────────────────────── */
+.deck {
+  position: fixed; inset: 0;
+  display: grid; place-items: center;
+  perspective: 2400px;
+}
+.stage {
+  width: var(--slide-w);
+  height: var(--slide-h);
+  position: relative;
+  transform-origin: center;
+  transform: scale(var(--scale, 1));
+}
+.slide {
+  position: absolute; inset: 0;
+  background: var(--paper);
+  color: var(--ink);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 64px 96px 56px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 320ms cubic-bezier(.22,.61,.36,1);
+}
+.slide.is-active { opacity: 1; pointer-events: auto; }
+.slide.is-bleed { padding: 0; }
+
+/* ── Chrome: kicker, footer, counter ───────────────────────────────────── */
+.kicker {
+  display: flex; align-items: center; gap: 14px;
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.kicker .dot {
+  width: 6px; height: 6px; border-radius: 999px; background: var(--amber);
+  display: inline-block;
+}
+.kicker .num {
+  font-family: var(--mono);
+  font-feature-settings: var(--num-tab);
+  font-size: 14px;
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+.kicker .rule {
+  flex: 1; height: 1px; background: var(--rule);
+}
+
+.footline {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-top: 1px solid var(--rule);
+  padding-top: 18px;
+}
+.footline .meta { display: flex; gap: 28px; }
+.footline .pg {
+  font-family: var(--mono);
+  font-feature-settings: var(--num-tab);
+  font-size: 14px;
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+
+/* ── Typography ────────────────────────────────────────────────────────── */
+h1.display {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(56px, 7.6vw, 132px);
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+h2.section {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 56px;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  max-width: 22ch;
+}
+
+h3.label {
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+p.lede {
+  font-family: var(--body);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.42;
+  color: var(--ink-2);
+  max-width: 58ch;
+}
+
+p.body {
+  font-family: var(--body);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 56ch;
+}
+
+.num { font-family: var(--mono); font-feature-settings: var(--num-tab); }
+.tnum { font-feature-settings: var(--num-tab); }
+
+/* ── Slide 1: title hero (full bleed image, overlay) ───────────────────── */
+.hero {
+  position: absolute; inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.hero-photo {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--ink);
+}
+.hero-photo::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(105deg, transparent 35%, var(--paper) 100%),
+    linear-gradient(0deg, oklch(0.18 0.04 65 / 0.18), transparent 60%);
+  mix-blend-mode: normal;
+}
+.hero-photo .photo-cap {
+  position: absolute;
+  bottom: 36px; left: 36px;
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: oklch(0.97 0.01 85 / 0.82);
+  z-index: 2;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-photo .photo-cap::before {
+  content: ""; width: 28px; height: 1px; background: oklch(0.97 0.01 85 / 0.5);
+}
+.hero-text {
+  background: var(--paper);
+  padding: 96px 96px 64px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+.hero-text .lockup {
+  display: flex; align-items: center; gap: 16px;
+  font-family: var(--body);
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-2);
+}
+.hero-text .lockup .mark {
+  width: 22px; height: 22px;
+  background: var(--amber);
+  border-radius: 4px;
+  display: grid; place-items: center;
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  color: var(--paper);
+}
+.hero-text h1 {
+  align-self: center;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 84px;
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+}
+.hero-text .meta {
+  border-top: 1px solid var(--rule);
+  padding-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+}
+.hero-text .authors {
+  font-family: var(--body);
+  font-size: 17px; font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.hero-text .authors .sep { color: var(--rule); padding: 0 8px; }
+.hero-text .institute {
+  font-family: var(--mono); font-size: 13px;
+  font-feature-settings: var(--num-tab);
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  text-align: right;
+  line-height: 1.5;
+}
+
+/* ── Slide 2: comparison ───────────────────────────────────────────────── */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 72px;
+  align-items: center;
+  padding: 8px 0 24px;
+}
+.compare-card {
+  display: grid;
+  gap: 20px;
+}
+.compare-photo {
+  aspect-ratio: 4 / 3;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--paper-2);
+  position: relative;
+  overflow: hidden;
+}
+.compare-photo::after {
+  content: "";
+  position: absolute; inset: 0;
+  box-shadow: inset 0 0 0 1px oklch(0.18 0.015 85 / 0.08);
+}
+.compare-spec {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px 18px;
+  font-family: var(--mono);
+  font-size: 15px;
+  font-feature-settings: var(--num-tab);
+  color: var(--ink-2);
+}
+.compare-spec dt { color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px; font-weight: 600; align-self: center; }
+.compare-spec dd { color: var(--ink); }
+.compare-name {
+  font-family: var(--display);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+.compare-divider {
+  display: grid; place-items: center; gap: 12px;
+  font-family: var(--display);
+  font-size: 96px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--amber-deep);
+  line-height: 1;
+  position: relative;
+}
+.compare-divider .label {
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-style: normal;
+}
+.compare-foot {
+  margin-top: 12px;
+  padding: 18px 24px;
+  background: var(--amber-soft);
+  border-left: 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: -0.005em;
+}
+
+/* ── Slide 3: data flow diagram ───────────────────────────────────────── */
+.flow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+  padding: 24px 0;
+}
+.flow-source {
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  padding: 32px 28px;
+  display: grid; gap: 14px;
+  position: relative;
+}
+.flow-source .tag {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.flow-source .num {
+  font-family: var(--display);
+  font-size: 64px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-feature-settings: var(--num-tab);
+  color: var(--ink);
+}
+.flow-source .name {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.15;
+}
+.flow-source .body {
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  border-top: 1px solid var(--rule);
+  padding-top: 14px;
+}
+.flow-merge {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 32px 28px;
+  display: grid; gap: 14px;
+  align-content: center;
+  text-align: left;
+  position: relative;
+  min-height: 100%;
+}
+.flow-merge .tag { font-family: var(--mono); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); }
+.flow-merge .name {
+  font-family: var(--display); font-size: 30px; font-weight: 500; line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.flow-merge .body {
+  font-family: var(--body); font-size: 16px; line-height: 1.55;
+  color: oklch(0.97 0.01 85 / 0.78);
+  border-top: 1px solid oklch(0.97 0.01 85 / 0.18);
+  padding-top: 14px;
+}
+.flow-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  font-family: var(--mono); font-size: 16px; color: var(--amber-deep);
+  letter-spacing: 0.05em;
+}
+.flow-arrow.right { right: -28px; }
+.flow-arrow.left  { left: -28px; }
+
+.flow-foot {
+  margin-top: 28px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+  border-top: 1px solid var(--rule);
+  padding-top: 22px;
+}
+.flow-foot .item h4 {
+  font-family: var(--display); font-size: 17px; font-weight: 600;
+  margin-bottom: 4px;
+}
+.flow-foot .item p {
+  font-family: var(--body); font-size: 16px; color: var(--ink-2);
+  line-height: 1.5;
+}
+
+/* ── Slide 4: tree ─────────────────────────────────────────────────────── */
+.tree-wrap {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.tree-wrap svg { width: 100%; height: auto; max-height: 600px; display: block; }
+.tree-side h3 {
+  font-family: var(--display);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -0.015em;
+}
+.tree-side ul {
+  list-style: none;
+  display: grid; gap: 16px;
+  margin-bottom: 32px;
+}
+.tree-side li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  font-family: var(--body); font-size: 17px; line-height: 1.5;
+  color: var(--ink-2);
+}
+.tree-side li::before {
+  content: ""; width: 18px; height: 1px; background: var(--amber);
+  margin-top: 0.7em;
+}
+.tree-side .compare-r2 {
+  border-top: 1px solid var(--rule);
+  padding-top: 20px;
+  display: flex; gap: 32px; align-items: baseline;
+  font-family: var(--mono);
+  font-feature-settings: var(--num-tab);
+  font-size: 18px;
+  flex-wrap: wrap;
+}
+.tree-side .compare-r2 .big {
+  font-family: var(--display);
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--amber-deep);
+}
+.tree-side .compare-r2 .vs {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink-3);
+}
+.tree-side .compare-r2 .small {
+  font-family: var(--display);
+  font-size: 22px;
+  color: var(--ink-3);
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-3);
+}
+
+/* ── Slide 5: results table ───────────────────────────────────────────── */
+.results {
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 56px;
+  padding: 16px 0;
+}
+table.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--body);
+  font-size: 18px;
+}
+table.results-table thead th {
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: right;
+  padding: 10px 16px 14px;
+  border-bottom: 1px solid var(--ink);
+}
+table.results-table thead th:first-child { text-align: left; }
+table.results-table tbody td {
+  padding: 18px 16px;
+  border-bottom: 1px solid var(--rule);
+  text-align: right;
+  font-family: var(--mono);
+  font-feature-settings: var(--num-tab);
+  font-size: 18px;
+  color: var(--ink-2);
+}
+table.results-table tbody td:first-child {
+  text-align: left;
+  font-family: var(--body);
+  font-size: 18px;
+  color: var(--ink);
+}
+table.results-table tr.winner td {
+  background: var(--amber-soft);
+  color: var(--ink);
+  font-weight: 600;
+  border-bottom-color: var(--amber);
+}
+table.results-table tr.winner td:first-child {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.results-deltas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+.results-deltas .delta {
+  padding: 28px 0;
+  display: grid; gap: 6px;
+  border-right: 1px solid var(--rule);
+}
+.results-deltas .delta:last-child { border-right: 0; }
+.results-deltas .delta .figure {
+  font-family: var(--display);
+  font-size: 88px;
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--amber-deep);
+  font-feature-settings: var(--num-tab);
+}
+.results-deltas .delta .figure .sup {
+  font-family: var(--mono);
+  font-size: 20px;
+  vertical-align: super;
+  color: var(--amber-deep);
+  font-weight: 500;
+}
+.results-deltas .delta .desc {
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+/* ── Pivot / divider slides ────────────────────────────────────────────── */
+.pivot {
+  position: absolute; inset: 0;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 96px 120px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+}
+.pivot::before {
+  content: "";
+  position: absolute;
+  width: 1200px; height: 1200px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, oklch(0.55 0.19 55 / 0.45), transparent 60%);
+  right: -400px; top: -400px;
+  filter: blur(20px);
+  pointer-events: none;
+}
+.pivot .kicker { color: oklch(0.97 0.01 85 / 0.6); }
+.pivot .kicker .rule { background: oklch(0.97 0.01 85 / 0.2); }
+.pivot .kicker .num { color: oklch(0.97 0.01 85 / 0.8); }
+.pivot h2 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(64px, 8vw, 132px);
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+  max-width: 18ch;
+  align-self: center;
+  position: relative;
+  z-index: 1;
+}
+.pivot .sub {
+  font-family: var(--display);
+  font-size: 24px;
+  font-style: italic;
+  color: oklch(0.97 0.01 85 / 0.72);
+  margin-top: 28px;
+  max-width: 50ch;
+}
+.pivot .footline {
+  border-color: oklch(0.97 0.01 85 / 0.18);
+  color: oklch(0.97 0.01 85 / 0.6);
+  position: relative; z-index: 1;
+}
+.pivot .footline .pg { color: oklch(0.97 0.01 85 / 0.85); }
+
+/* ── Slide 6: SHAP ─────────────────────────────────────────────────────── */
+.shap-wrap {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.shap-img {
+  background: var(--paper-2);
+  padding: 24px;
+  border: 1px solid var(--rule);
+}
+.shap-img img { width: 100%; height: auto; display: block; }
+.shap-side h3 {
+  font-family: var(--display);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin-bottom: 24px;
+}
+.shap-side .stat {
+  font-family: var(--display);
+  font-size: 96px;
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--amber-deep);
+  font-feature-settings: var(--num-tab);
+  margin: 12px 0 6px;
+}
+.shap-side .stat-label {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 28px;
+}
+.shap-side p { margin-bottom: 16px; }
+.shap-side .pull {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--ink);
+  border-top: 1px solid var(--rule);
+  padding-top: 20px;
+  margin-top: 12px;
+  line-height: 1.3;
+}
+.shap-side .pull em { color: var(--amber-deep); font-style: italic; }
+
+/* ── Slide 7: LIME ─────────────────────────────────────────────────────── */
+.lime-wrap {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.lime-img {
+  background: var(--paper);
+  padding: 16px;
+  border: 1px solid var(--rule);
+}
+.lime-img img { width: 100%; height: auto; display: block; }
+.lime-side .reading {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 12px;
+}
+.lime-side .figure {
+  font-family: var(--display);
+  font-size: 96px;
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--amber-deep);
+  font-feature-settings: var(--num-tab);
+}
+.lime-side .figure .unit {
+  font-family: var(--mono);
+  font-size: 22px;
+  color: var(--ink-2);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-left: 6px;
+}
+.lime-side h3 {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 500;
+  margin: 24px 0 16px;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+.lime-side p { margin-bottom: 14px; }
+
+/* ── Slide 8: national impact ──────────────────────────────────────────── */
+.impact {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.impact-figure {
+  display: grid; gap: 28px;
+}
+.impact-figure .big {
+  font-family: var(--display);
+  font-size: 240px;
+  font-weight: 500;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  font-feature-settings: var(--num-tab);
+}
+.impact-figure .big .accent {
+  color: var(--amber-deep);
+  font-style: italic;
+  font-weight: 400;
+}
+.impact-figure .legend {
+  font-family: var(--display);
+  font-size: 22px;
+  font-style: italic;
+  color: var(--ink-2);
+  max-width: 26ch;
+  line-height: 1.3;
+}
+.impact-bar {
+  margin-top: 8px;
+  display: grid; grid-template-columns: 70fr 30fr;
+  height: 6px; width: 100%; max-width: 480px;
+}
+.impact-bar .scored { background: var(--amber); }
+.impact-bar .gap    { background: var(--rule); }
+.impact-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 32px;
+  font-family: var(--mono);
+  font-feature-settings: var(--num-tab);
+  font-size: 15px;
+  color: var(--ink-3);
+  border-top: 1px solid var(--rule);
+  padding-top: 20px;
+  margin-top: 8px;
+  max-width: 480px;
+}
+.impact-stats dt { color: var(--ink-3); }
+.impact-stats dd { color: var(--ink); text-align: right; }
+
+.impact-side h3 {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  margin-bottom: 20px;
+}
+.impact-side ol {
+  list-style: none;
+  counter-reset: ix;
+  display: grid; gap: 18px;
+  margin-bottom: 28px;
+}
+.impact-side ol li {
+  counter-increment: ix;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px;
+  font-family: var(--body); font-size: 17px; line-height: 1.4;
+  color: var(--ink-2);
+}
+.impact-side ol li::before {
+  content: counter(ix, decimal-leading-zero);
+  font-family: var(--mono); font-size: 13px;
+  font-weight: 600;
+  font-feature-settings: var(--num-tab);
+  color: var(--amber-deep);
+  border-top: 1px solid var(--amber);
+  padding-top: 6px;
+  width: 28px;
+  letter-spacing: 0.05em;
+}
+.impact-side .note {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 19px;
+  color: var(--ink-2);
+  border-top: 1px solid var(--rule);
+  padding-top: 18px;
+  line-height: 1.4;
+}
+
+/* ── Slide 11: future iterations ───────────────────────────────────────── */
+.future {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--rule);
+}
+.future-col {
+  padding: 36px 32px 36px 0;
+  border-right: 1px solid var(--rule);
+  display: grid; gap: 18px;
+}
+.future-col:last-child { border-right: 0; padding-right: 0; }
+.future-col:not(:first-child) { padding-left: 32px; }
+.future-col .ix {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  font-feature-settings: var(--num-tab);
+  color: var(--amber-deep);
+}
+.future-col h4 {
+  font-family: var(--display);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.future-col h4 em { font-style: italic; color: var(--amber-deep); font-weight: 400; }
+.future-col p {
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.future-col .stat {
+  font-family: var(--mono);
+  font-feature-settings: var(--num-tab);
+  font-size: 13px;
+  color: var(--ink-3);
+  border-top: 1px solid var(--rule);
+  padding-top: 12px;
+  letter-spacing: 0.04em;
+}
+
+/* ── Slide 12: thanks ─────────────────────────────────────────────────── */
+.thanks {
+  display: grid; place-items: center;
+  text-align: center;
+  gap: 40px;
+}
+.thanks h1 {
+  font-family: var(--display);
+  font-size: 200px;
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+.thanks .sig {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.thanks .sig .sep { color: var(--rule); padding: 0 14px; }
+.thanks .institute {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* ── Section title shared layout ───────────────────────────────────────── */
+.head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 32px;
+  margin-bottom: 36px;
+}
+.head h2 { margin-bottom: 0; }
+.head .head-meta {
+  font-family: var(--mono);
+  font-feature-settings: var(--num-tab);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: right;
+  line-height: 1.6;
+}
+
+/* ── Navigation HUD ────────────────────────────────────────────────────── */
+.hud {
+  position: fixed;
+  bottom: 18px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 14px;
+  padding: 8px 14px;
+  background: oklch(0.18 0.015 85 / 0.7);
+  color: oklch(0.97 0.012 85 / 0.85);
+  font-family: var(--mono);
+  font-feature-settings: var(--num-tab);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  backdrop-filter: blur(6px);
+  border-radius: 999px;
+  z-index: 50;
+  user-select: none;
+  opacity: 0; transition: opacity 200ms ease;
+}
+.hud.visible { opacity: 1; }
+.hud button {
+  background: transparent; border: 0; color: inherit;
+  font: inherit; cursor: pointer;
+  padding: 2px 6px; border-radius: 4px;
+}
+.hud button:hover { background: oklch(0.97 0.012 85 / 0.12); }
+.hud .pos { letter-spacing: 0.1em; }
+.hud .sep { opacity: 0.4; }
+
+/* ── Print: one slide per 16:9 page ───────────────────────────────────── */
+@page {
+  size: 16.6667in 9.375in;   /* 1600 × 900 px @ 96dpi */
+  margin: 0;
+}
+@media print {
+  html, body {
+    background: var(--paper);
+    overflow: visible;
+    height: auto;
+  }
+  .deck {
+    position: static;
+    display: block;
+    perspective: none;
+  }
+  .stage {
+    position: static;
+    width: 1600px;
+    height: auto;
+    transform: none;
+  }
+  .slide {
+    position: relative;
+    inset: auto;
+    width: 1600px;
+    height: 900px;
+    opacity: 1 !important;
+    pointer-events: auto;
+    page-break-after: always;
+    break-after: page;
+    transition: none;
+  }
+  .slide:last-child { page-break-after: auto; break-after: auto; }
+  .hud { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+  <div class="stage" id="stage">
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 1 — Title
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide is-bleed" data-slide="1">
+      <div class="hero">
+        <div class="hero-photo" style="background-image: url('images/tractor_ph_rice_field.jpg');">
+          <span class="photo-cap">Tractor · Philippine rice paddy · field test</span>
+        </div>
+        <div class="hero-text">
+          <div class="lockup">
+            <span class="mark">RF</span>
+            <span>AI 201 · Final Project · 2026</span>
+          </div>
+          <h1>
+            A pilot machine-learning model for fuel-requirement estimation in agricultural mechanization.
+          </h1>
+          <div class="meta">
+            <div class="authors">
+              Ronald Melvin R. Rosas
+              <span class="sep">·</span>
+              Marcus Rafael Tiongson
+            </div>
+            <div class="institute">
+              UNIV. OF THE PHILIPPINES<br>DILIMAN
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 2 — The problem (combine vs water pump)
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="2">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">01</span>
+        <span>The problem</span>
+        <span class="rule"></span>
+        <span>Static coefficients vs. real-world variance</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">A single generalized coefficient cannot describe two machines this far apart.</h2>
+        <div class="head-meta">
+          BAFE FUEL FORMULA<br>
+          Static · 1990s · Single coefficient
+        </div>
+      </div>
+
+      <div class="compare">
+        <div class="compare-card">
+          <div class="compare-photo" style="background-image: url('images/combine_harvester.jpg');"></div>
+          <h3 class="compare-name">Combine Harvester</h3>
+          <dl class="compare-spec">
+            <dt>Power</dt>     <dd>&gt; 50 kW</dd>
+            <dt>Mode</dt>      <dd>Mobile · field</dd>
+            <dt>Load</dt>      <dd>High, variable</dd>
+          </dl>
+        </div>
+
+        <div class="compare-divider">
+          <span>≠</span>
+          <span class="label">treated alike</span>
+        </div>
+
+        <div class="compare-card">
+          <div class="compare-photo" style="background-image: url('images/water_pump_stationary.jpg');"></div>
+          <h3 class="compare-name">Stationary Water Pump</h3>
+          <dl class="compare-spec">
+            <dt>Power</dt>     <dd>&lt; 5 kW</dd>
+            <dt>Mode</dt>      <dd>Fixed · stationary</dd>
+            <dt>Load</dt>      <dd>Low, constant</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="compare-foot">
+        Deterministic formulas apply the same generalized constant to both.
+      </div>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">02 / 12</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 3 — Data: AMTEC + ABEMIS
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="3">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">02</span>
+        <span>The data</span>
+        <span class="rule"></span>
+        <span>AMTEC × ABEMIS</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">Two official datasets, joined at record level.</h2>
+        <div class="head-meta">
+          BAFE-AMTEC · 1990–2026<br>
+          ABEMIS · 17 regions
+        </div>
+      </div>
+
+      <div class="flow">
+        <div class="flow-source">
+          <span class="tag">Source A · Lab</span>
+          <span class="num">376</span>
+          <span class="name">AMTEC test records</span>
+          <span class="body">Standardized, controlled tests. Fuel consumption · power · field efficiency · machinery class.</span>
+          <span class="flow-arrow right">→</span>
+        </div>
+
+        <div class="flow-merge">
+          <span class="tag">→ Pipeline</span>
+          <span class="name">ML Feature Engineering</span>
+          <span class="body">Hierarchical join · derived columns (L/h, L/kWh) · Random Forest · SHAP · LIME.</span>
+        </div>
+
+        <div class="flow-source">
+          <span class="flow-arrow left">←</span>
+          <span class="tag">Source B · Field</span>
+          <span class="num">246,741</span>
+          <span class="name">ABEMIS inventory records</span>
+          <span class="body">National deployment context: machinery type · region · vintage · operator class.</span>
+        </div>
+      </div>
+
+      <div class="flow-foot">
+        <div class="item">
+          <h4>AMTEC</h4>
+          <p>Bureau of Agricultural and Fisheries Engineering · Agricultural Machinery Testing &amp; Evaluation Center. Standardized lab and field tests since the 1990s.</p>
+        </div>
+        <div class="item">
+          <h4>ABEMIS</h4>
+          <p>National machinery inventory across all 17 Philippine regions. Used here to derive regional prevalence and type distribution as context features.</p>
+        </div>
+      </div>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">03 / 12</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 4 — Why Random Forest (custom SVG tree)
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="4">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">03</span>
+        <span>The engine</span>
+        <span class="rule"></span>
+        <span>Capturing non-linear physical interactions</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">Power and fuel do not scale linearly across machinery types.</h2>
+        <div class="head-meta">
+          ENSEMBLE · 100+ trees<br>
+          No manual feature crossing
+        </div>
+      </div>
+
+      <div class="tree-wrap">
+        <svg viewBox="0 0 720 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Decision tree">
+          <defs>
+            <style>
+              .ln { stroke: oklch(0.50 0.09 240); stroke-width: 1.4; fill: none; }
+              .ln-amber { stroke: oklch(0.55 0.19 55); stroke-width: 1.6; fill: none; }
+              .node-rect { fill: oklch(0.945 0.014 85); stroke: oklch(0.18 0.015 85); stroke-width: 1.2; }
+              .leaf-rect { fill: oklch(0.92 0.06 75); stroke: oklch(0.55 0.19 55); stroke-width: 1.2; }
+              .lbl { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 13px; fill: oklch(0.18 0.015 85); }
+              .lbl-leaf { font-family: 'Funnel Display', serif; font-weight: 500; font-size: 21px; fill: oklch(0.55 0.19 55); font-feature-settings: 'tnum' 1; }
+              .lbl-leaf-sub { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; font-weight: 600; fill: oklch(0.34 0.014 85); letter-spacing: 0.08em; text-transform: uppercase; }
+              .edge-lbl { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; font-weight: 600; fill: oklch(0.50 0.09 240); }
+            </style>
+          </defs>
+
+          <!-- Edges first so nodes overlap -->
+          <line class="ln" x1="360" y1="80"  x2="180" y2="220" />
+          <line class="ln" x1="360" y1="80"  x2="540" y2="220" />
+          <line class="ln" x1="180" y1="260" x2="80"  y2="400" />
+          <line class="ln" x1="180" y1="260" x2="280" y2="400" />
+          <line class="ln" x1="540" y1="260" x2="440" y2="400" />
+          <line class="ln-amber" x1="540" y1="260" x2="640" y2="400" />
+
+          <!-- Edge labels -->
+          <text class="edge-lbl" x="248" y="148">YES</text>
+          <text class="edge-lbl" x="448" y="148">NO</text>
+          <text class="edge-lbl" x="118" y="328">YES</text>
+          <text class="edge-lbl" x="248" y="328">NO</text>
+          <text class="edge-lbl" x="478" y="328">YES</text>
+          <text class="edge-lbl" x="608" y="328">NO</text>
+
+          <!-- Root -->
+          <rect class="node-rect" x="270" y="40"  width="180" height="56" rx="2"/>
+          <text class="lbl" x="360" y="65"  text-anchor="middle">power_kw &gt; 10.43?</text>
+          <text class="lbl" x="360" y="83"  text-anchor="middle" style="opacity:0.5">root split</text>
+
+          <!-- Left mid -->
+          <rect class="node-rect" x="80"  y="220" width="200" height="60" rx="2"/>
+          <text class="lbl" x="180" y="245" text-anchor="middle">machinery_family =</text>
+          <text class="lbl" x="180" y="263" text-anchor="middle">Mobile Field?</text>
+
+          <!-- Right mid -->
+          <rect class="node-rect" x="440" y="220" width="200" height="60" rx="2"/>
+          <text class="lbl" x="540" y="245" text-anchor="middle">year &gt; 2010?</text>
+          <text class="lbl" x="540" y="263" text-anchor="middle" style="opacity:0.5">vintage gate</text>
+
+          <!-- Leaves -->
+          <g>
+            <rect class="leaf-rect" x="20"  y="400" width="120" height="78" rx="2"/>
+            <text class="lbl-leaf-sub" x="80"  y="421" text-anchor="middle">predicted</text>
+            <text class="lbl-leaf"     x="80"  y="450" text-anchor="middle">8.2 L/h</text>
+            <text class="lbl-leaf-sub" x="80"  y="468" text-anchor="middle">heavy mobile</text>
+          </g>
+          <g>
+            <rect class="leaf-rect" x="220" y="400" width="120" height="78" rx="2"/>
+            <text class="lbl-leaf-sub" x="280" y="421" text-anchor="middle">predicted</text>
+            <text class="lbl-leaf"     x="280" y="450" text-anchor="middle">3.1 L/h</text>
+            <text class="lbl-leaf-sub" x="280" y="468" text-anchor="middle">aux high-power</text>
+          </g>
+          <g>
+            <rect class="leaf-rect" x="380" y="400" width="120" height="78" rx="2"/>
+            <text class="lbl-leaf-sub" x="440" y="421" text-anchor="middle">predicted</text>
+            <text class="lbl-leaf"     x="440" y="450" text-anchor="middle">1.4 L/h</text>
+            <text class="lbl-leaf-sub" x="440" y="468" text-anchor="middle">small modern</text>
+          </g>
+          <g>
+            <rect class="leaf-rect" x="580" y="400" width="120" height="78" rx="2"/>
+            <text class="lbl-leaf-sub" x="640" y="421" text-anchor="middle">predicted</text>
+            <text class="lbl-leaf"     x="640" y="450" text-anchor="middle">0.9 L/h</text>
+            <text class="lbl-leaf-sub" x="640" y="468" text-anchor="middle">small legacy</text>
+          </g>
+        </svg>
+
+        <div class="tree-side">
+          <h3>Why not OLS?</h3>
+          <ul>
+            <li>Power and fuel do not scale linearly across machine types.</li>
+            <li>Each tree partitions the feature space differently.</li>
+            <li>100+ trees average out variance, robust predictions.</li>
+            <li>No manual feature crossing required.</li>
+          </ul>
+          <div class="compare-r2">
+            <span><span class="big">0.916</span> <span style="font-size:14px;color:var(--ink-3);font-family:var(--mono);font-weight:500;">R² · Random Forest</span></span>
+            <span class="vs">vs.</span>
+            <span><span class="small">0.704</span> <span style="font-size:14px;color:var(--ink-3);font-family:var(--mono);font-weight:500;">R² · OLS baseline</span></span>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">04 / 12</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 5 — Results
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="5">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">04</span>
+        <span>The result</span>
+        <span class="rule"></span>
+        <span>Random Forest vs. OLS baseline · n_test = 76</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">Random Forest improves R<sup>2</sup> by 30 % and halves the absolute error.</h2>
+        <div class="head-meta">
+          HOLDOUT · n = 76<br>
+          Stratified by machinery family
+        </div>
+      </div>
+
+      <div class="results">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>R<sup>2</sup></th>
+              <th>MAE (L/h)</th>
+              <th>RMSE (L/h)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>OLS · Global Linear</td>
+              <td>0.704</td>
+              <td>1.882</td>
+              <td>2.875</td>
+            </tr>
+            <tr>
+              <td>OLS · Hierarchical Fallback</td>
+              <td>0.703</td>
+              <td>1.879</td>
+              <td>2.879</td>
+            </tr>
+            <tr class="winner">
+              <td>Random Forest</td>
+              <td>0.916</td>
+              <td>0.950</td>
+              <td>1.534</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="results-deltas">
+          <div class="delta">
+            <span class="figure">+30<span class="sup">%</span></span>
+            <span class="desc">Better R<sup>2</sup></span>
+          </div>
+          <div class="delta">
+            <span class="figure">2×</span>
+            <span class="desc">Lower MAE</span>
+          </div>
+          <div class="delta">
+            <span class="figure">2×</span>
+            <span class="desc">Lower RMSE</span>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">05 / 12</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 6 — Pivot: why does the model trust these predictions?
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide is-bleed" data-slide="6">
+      <div class="pivot">
+        <header class="kicker">
+          <span class="dot"></span>
+          <span class="num">II</span>
+          <span>Interlude</span>
+          <span class="rule"></span>
+          <span>Opening the black box</span>
+        </header>
+        <div>
+          <h2>How the model justifies each prediction.</h2>
+          <p class="sub">Strong R<sup>2</sup> is not enough. BAFE engineers must understand <em>why</em> the model made each call before they will trust it for national planning. SHAP for the model. LIME for the case.</p>
+        </div>
+        <footer class="footline">
+          <div class="meta">
+            <span>Rosas · Tiongson</span>
+            <span>Fuel Estimation ML</span>
+          </div>
+          <span class="pg">06 / 12</span>
+        </footer>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 7 — SHAP global
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="7">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">05</span>
+        <span>Global interpretability</span>
+        <span class="rule"></span>
+        <span>SHAP · what drives the model</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">Global feature attribution recovers the physics of fuel consumption.</h2>
+        <div class="head-meta">
+          SHAP · TreeExplainer<br>
+          n = 376 · all features
+        </div>
+      </div>
+
+      <div class="shap-wrap">
+        <div class="shap-img">
+          <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/shap_summary_bar.png" alt="SHAP feature importance bar plot">
+        </div>
+        <div class="shap-side">
+          <h3>What drives the predictions?</h3>
+          <div class="stat">~76 %</div>
+          <div class="stat-label">share of total importance · power_kw</div>
+          <p class="body">
+            Engine power alone accounts for roughly three-quarters of the model's prediction signal.
+            This directly mirrors the physical law of fuel-power proportionality.
+          </p>
+          <p class="body">
+            ABEMIS regional features supply the contextual fine-tuning around that physical core.
+          </p>
+          <p class="pull">
+            <em>It learned what an engineer would expect.</em>
+          </p>
+        </div>
+      </div>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">07 / 12</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 8 — LIME local
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="8">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">06</span>
+        <span>Local interpretability</span>
+        <span class="rule"></span>
+        <span>LIME · explaining a single call</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">Per-instance attribution for a single small engine.</h2>
+        <div class="head-meta">
+          LIME · linear surrogate<br>
+          Single AMTEC instance
+        </div>
+      </div>
+
+      <div class="lime-wrap">
+        <div class="lime-img">
+          <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/lime_example_0.png" alt="LIME explanation for a single prediction">
+        </div>
+        <div class="lime-side">
+          <div class="reading">Predicted</div>
+          <div class="figure">4.77<span class="unit">L/h</span></div>
+          <h3>Why this number, for this engine?</h3>
+          <p class="body">
+            LIME fits a local linear surrogate around the prediction and reports per-feature
+            contributions: the rated power pushed the estimate up; the machinery family pulled it down.
+          </p>
+          <p class="body">
+            This is the granular transparency BAFE engineers need to actually adopt the tool, not
+            global metrics.
+          </p>
+        </div>
+      </div>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">08 / 12</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 9 — National impact
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="9">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">07</span>
+        <span>National scale</span>
+        <span class="rule"></span>
+        <span>From lab to deployed inventory</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">Inference applied to the full national inventory.</h2>
+        <div class="head-meta">
+          ABEMIS · 17 regions<br>
+          Raw inventory: 246,741
+        </div>
+      </div>
+
+      <div class="impact">
+        <div class="impact-figure">
+          <div class="big">172,<span class="accent">265</span></div>
+          <div class="legend">machines successfully scored across the national inventory.</div>
+          <div class="impact-bar">
+            <span class="scored"></span>
+            <span class="gap"></span>
+          </div>
+          <dl class="impact-stats">
+            <dt>National inventory</dt> <dd>246,741</dd>
+            <dt>Coverage</dt>           <dd>70 %</dd>
+            <dt>Missing power data</dt> <dd>62,808</dd>
+            <dt>Unmappable type</dt>    <dd>11,668</dd>
+          </dl>
+        </div>
+
+        <div class="impact-side">
+          <h3>Outputs per region</h3>
+          <ol>
+            <li>Per-record fuel estimate, in L/h.</li>
+            <li>Per-region aggregate fuel demand.</li>
+            <li>Per-region × machinery-type breakdown.</li>
+          </ol>
+          <p class="note">
+            The unscored 30 % is a <em>data gap</em>, not a model failure. Closing those gaps is on the roadmap.
+          </p>
+        </div>
+      </div>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">09 / 12</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 10 — Pivot: what's next?
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide is-bleed" data-slide="10">
+      <div class="pivot">
+        <header class="kicker">
+          <span class="dot"></span>
+          <span class="num">III</span>
+          <span>Roadmap</span>
+          <span class="rule"></span>
+          <span>What's next</span>
+        </header>
+        <div>
+          <h2>Closing the data gaps. Validating in the field.</h2>
+          <p class="sub">Three concrete next iterations: enlarge the corpus, integrate the cropping calendar, validate against in-field telemetry.</p>
+        </div>
+        <footer class="footline">
+          <div class="meta">
+            <span>Rosas · Tiongson</span>
+            <span>Fuel Estimation ML</span>
+          </div>
+          <span class="pg">10 / 12</span>
+        </footer>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 11 — Future iterations
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="11">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">08</span>
+        <span>Next iterations</span>
+        <span class="rule"></span>
+        <span>Three concrete asks</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">Three iterations from pilot to deployed planning tool.</h2>
+        <div class="head-meta">
+          ROADMAP · 2026 →<br>
+          BAFE · RAED · field pilot
+        </div>
+      </div>
+
+      <div class="future">
+        <div class="future-col">
+          <span class="ix">01 / Corpus</span>
+          <h4>Expand the <em>training</em> corpus.</h4>
+          <p>Acquire the 3,065-PDF collaborator set. Tesseract 5.5 OCR is already deployed on 267 scanned reports, which already brought the corpus from 352 to 376 records.</p>
+          <span class="stat">Current: 376 records · Target: ~3,400</span>
+        </div>
+        <div class="future-col">
+          <span class="ix">02 / Calendar</span>
+          <h4>Integrate the <em>RAED cropping calendar</em>.</h4>
+          <p>Adds temporal-load timing as a predictive feature: when does each machinery type actually run, by region and crop stage? Form acquired; data not yet ingested.</p>
+          <span class="stat">Adds: is_in_season · crop_stage_intensity</span>
+        </div>
+        <div class="future-col">
+          <span class="ix">03 / Telemetry</span>
+          <h4>Validate with <em>field telemetry</em>.</h4>
+          <p>Pilot deployment with GPS and flow-sensor instrumentation on a regional machinery cohort. Closes the lab-to-field loop the AMTEC corpus alone cannot.</p>
+          <span class="stat">Validation: in-field, instrumented</span>
+        </div>
+      </div>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">11 / 12</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 12 — Thanks
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="12">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">12</span>
+        <span>End</span>
+        <span class="rule"></span>
+        <span>Q &amp; A</span>
+      </header>
+
+      <div class="thanks">
+        <h1>Thank you.</h1>
+        <div class="sig">
+          Ronald Melvin R. Rosas
+          <span class="sep">·</span>
+          Marcus Rafael Tiongson
+        </div>
+        <div class="institute">AI 201 · University of the Philippines, Diliman</div>
+      </div>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">12 / 12</span>
+      </footer>
+    </section>
+
+  </div>
+</div>
+
+<div class="hud" id="hud" aria-hidden="true">
+  <button id="prev" aria-label="Previous slide">←</button>
+  <span class="pos"><span id="cur">01</span><span class="sep"> / </span><span id="tot">12</span></span>
+  <button id="next" aria-label="Next slide">→</button>
+</div>
+
+<script>
+(function () {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  const cur = document.getElementById('cur');
+  const tot = document.getElementById('tot');
+  const hud = document.getElementById('hud');
+  tot.textContent = String(total).padStart(2, '0');
+
+  let i = 0;
+
+  function show(n) {
+    i = Math.max(0, Math.min(total - 1, n));
+    slides.forEach((s, ix) => s.classList.toggle('is-active', ix === i));
+    cur.textContent = String(i + 1).padStart(2, '0');
+    if (location.hash !== '#' + (i + 1)) {
+      history.replaceState(null, '', '#' + (i + 1));
+    }
+  }
+
+  function fit() {
+    const stage = document.getElementById('stage');
+    const sw = window.innerWidth, sh = window.innerHeight;
+    const scale = Math.min(sw / 1600, sh / 900);
+    stage.style.setProperty('--scale', scale);
+  }
+
+  window.addEventListener('resize', fit);
+  fit();
+
+  // Initial slide from hash
+  const hashN = parseInt((location.hash || '').replace('#', ''), 10);
+  show(Number.isFinite(hashN) && hashN >= 1 && hashN <= total ? hashN - 1 : 0);
+
+  document.addEventListener('keydown', (e) => {
+    if (['ArrowRight', 'PageDown', ' ', 'l', 'L', 'j', 'J'].includes(e.key)) { show(i + 1); e.preventDefault(); }
+    else if (['ArrowLeft', 'PageUp', 'h', 'H', 'k', 'K'].includes(e.key)) { show(i - 1); e.preventDefault(); }
+    else if (e.key === 'Home') { show(0); e.preventDefault(); }
+    else if (e.key === 'End')  { show(total - 1); e.preventDefault(); }
+    else if (/^[0-9]$/.test(e.key)) {
+      const n = parseInt(e.key, 10);
+      if (n === 0) show(9); else show(n - 1);
+    }
+  });
+
+  document.getElementById('prev').addEventListener('click', () => show(i - 1));
+  document.getElementById('next').addEventListener('click', () => show(i + 1));
+
+  document.getElementById('deck').addEventListener('click', (e) => {
+    if (e.target.closest('.hud') || e.target.closest('a')) return;
+    const x = e.clientX / window.innerWidth;
+    show(x > 0.5 ? i + 1 : i - 1);
+  });
+
+  let hudTimer;
+  function flashHud() {
+    hud.classList.add('visible');
+    clearTimeout(hudTimer);
+    hudTimer = setTimeout(() => hud.classList.remove('visible'), 2200);
+  }
+  document.addEventListener('mousemove', flashHud);
+  flashHud();
+
+  // Touch swipe
+  let touchX = null;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    if (touchX == null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1));
+    touchX = null;
+  });
+})();
+</script>
+</body>
+</html>
