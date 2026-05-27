@@ -1,0 +1,1382 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.27)  28 MAY 2026 01:57
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**"./Final Paper.tex"
+(Final Paper.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo
+File: size10.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count275
+\c@section=\count276
+\c@subsection=\count277
+\c@subsubsection=\count278
+\c@paragraph=\count279
+\c@subparagraph=\count280
+\c@figure=\count281
+\c@table=\count282
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen148
+)
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.st
+y
+Package: geometry 2026/03/07 v6.0 Page Geometry
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+) (C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+))
+\Gm@cnth=\count283
+\Gm@cntv=\count284
+\c@Gm@tempcnt=\count285
+\Gm@bindingoffset=\dimen149
+\Gm@wd@mp=\dimen150
+\Gm@odd@mp=\dimen151
+\Gm@even@mp=\dimen152
+\Gm@layoutwidth=\dimen153
+\Gm@layoutheight=\dimen154
+\Gm@layouthoffset=\dimen155
+\Gm@layoutvoffset=\dimen156
+\Gm@dimlist=\toks18
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cf
+g))
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/parskip\parskip.sty
+Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.
+sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.st
+y
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.
+sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+))
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.st
+y
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count286
+))
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+Package: amsmath 2025/07/09 v2.17z AMS math features
+\@mathmargin=\skip51
+
+For additional information on amsmath, use the `?' option.
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+Package: amstext 2024/11/17 v2.01 AMS text
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks19
+\ex@=\dimen157
+)) (C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.st
+y
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen158
+) (C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count287
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count288
+\leftroot@=\count289
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count290
+\DOTSCASE@=\count291
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box53
+\strutbox@=\box54
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen159
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count292
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count293
+\dotsspace@=\muskip17
+\c@parentequation=\count294
+\dspbrk@lvl=\count295
+\tag@help=\toks20
+\row@=\count296
+\column@=\count297
+\maxfields@=\count298
+\andhelp@=\toks21
+\eqnshift@=\dimen160
+\alignsep@=\dimen161
+\tagshift@=\dimen162
+\tagwidth@=\dimen163
+\totwidth@=\dimen164
+\lineht@=\dimen165
+\@envbody=\toks22
+\multlinegap=\skip52
+\multlinetaggap=\skip53
+\mathdisplay@stack=\toks23
+LaTeX Info: Redefining \[ on input line 2950.
+LaTeX Info: Redefining \] on input line 2951.
+)
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.st
+y
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.st
+y
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.st
+y
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+ (C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphic
+s.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.
+def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen166
+\Gin@req@width=\dimen167
+)
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.st
+y
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen168
+\lightrulewidth=\dimen169
+\cmidrulewidth=\dimen170
+\belowrulesep=\dimen171
+\belowbottomsep=\dimen172
+\aboverulesep=\dimen173
+\abovetopsep=\dimen174
+\cmidrulesep=\dimen175
+\cmidrulekern=\dimen176
+\defaultaddspace=\dimen177
+\@cmidla=\count299
+\@cmidlb=\count300
+\@aboverulesep=\dimen178
+\@belowrulesep=\dimen179
+\@thisruleclass=\count301
+\@lastruleclass=\count302
+\@thisrulewidth=\dimen180
+)
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen181
+\captionmargin=\dimen182
+\caption@leftmargin=\dimen183
+\caption@rightmargin=\dimen184
+\caption@width=\dimen185
+\caption@indent=\dimen186
+\caption@parindent=\dimen187
+\caption@hangindent=\dimen188
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count303
+\c@continuedfloat=\count304
+) (C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count305
+\float@exts=\toks24
+\float@box=\box55
+\@float@everytoks=\toks25
+\@floatcapt=\box56
+)
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.st
+y
+Package: biblatex 2025/07/10 v3.21 programmable bibliographies (PK/MW)
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexc
+mds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarer
+r.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.sty
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count306
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.def
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
+))
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+)
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+\Urlmuskip=\muskip18
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+\c@tabx@nest=\count307
+\c@listtotal=\count308
+\c@listcount=\count309
+\c@liststart=\count310
+\c@liststop=\count311
+\c@citecount=\count312
+\c@citetotal=\count313
+\c@multicitecount=\count314
+\c@multicitetotal=\count315
+\c@instcount=\count316
+\c@maxnames=\count317
+\c@minnames=\count318
+\c@maxitems=\count319
+\c@minitems=\count320
+\c@citecounter=\count321
+\c@maxcitecounter=\count322
+\c@savedcitecounter=\count323
+\c@uniquelist=\count324
+\c@uniquename=\count325
+\c@refsection=\count326
+\c@refsegment=\count327
+\c@maxextratitle=\count328
+\c@maxextratitleyear=\count329
+\c@maxextraname=\count330
+\c@maxextradate=\count331
+\c@maxextraalpha=\count332
+\c@abbrvpenalty=\count333
+\c@highnamepenalty=\count334
+\c@lownamepenalty=\count335
+\c@maxparens=\count336
+\c@parenlevel=\count337
+\blx@tempcnta=\count338
+\blx@tempcntb=\count339
+\blx@tempcntc=\count340
+\c@blx@maxsection=\count341
+\blx@maxsegment@0=\count342
+\blx@notetype=\count343
+\blx@parenlevel@text=\count344
+\blx@parenlevel@foot=\count345
+\blx@sectionciteorder@0=\count346
+\blx@sectionciteorderinternal@0=\count347
+\blx@entrysetcounter=\count348
+\blx@biblioinstance=\count349
+\labelnumberwidth=\skip54
+\labelalphawidth=\skip55
+\biblabelsep=\skip56
+\bibitemsep=\skip57
+\bibnamesep=\skip58
+\bibinitsep=\skip59
+\bibparsep=\skip60
+\bibhang=\skip61
+\blx@bcfin=\read2
+\blx@bcfout=\write3
+\blx@langwohyphens=\language79
+\c@mincomprange=\count350
+\c@maxcomprange=\count351
+\c@mincompwidth=\count352
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-dm.def
+File: blx-dm.def 2025/07/10 v3.21 biblatex datamodel (PK/MW)
+)
+Package biblatex Info: Trying to load biblatex style data model...
+Package biblatex Info: ... file 'authoryear.dbx' not found.
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count353
+\c@savedafterword=\count354
+\c@annotator=\count355
+\c@savedannotator=\count356
+\c@author=\count357
+\c@savedauthor=\count358
+\c@bookauthor=\count359
+\c@savedbookauthor=\count360
+\c@commentator=\count361
+\c@savedcommentator=\count362
+\c@editor=\count363
+\c@savededitor=\count364
+\c@editora=\count365
+\c@savededitora=\count366
+\c@editorb=\count367
+\c@savededitorb=\count368
+\c@editorc=\count369
+\c@savededitorc=\count370
+\c@foreword=\count371
+\c@savedforeword=\count372
+\c@holder=\count373
+\c@savedholder=\count374
+\c@introduction=\count375
+\c@savedintroduction=\count376
+\c@namea=\count377
+\c@savednamea=\count378
+\c@nameb=\count379
+\c@savednameb=\count380
+\c@namec=\count381
+\c@savednamec=\count382
+\c@translator=\count383
+\c@savedtranslator=\count384
+\c@shortauthor=\count385
+\c@savedshortauthor=\count386
+\c@shorteditor=\count387
+\c@savedshorteditor=\count388
+\c@labelname=\count389
+\c@savedlabelname=\count390
+\c@institution=\count391
+\c@savedinstitution=\count392
+\c@lista=\count393
+\c@savedlista=\count394
+\c@listb=\count395
+\c@savedlistb=\count396
+\c@listc=\count397
+\c@savedlistc=\count398
+\c@listd=\count399
+\c@savedlistd=\count400
+\c@liste=\count401
+\c@savedliste=\count402
+\c@listf=\count403
+\c@savedlistf=\count404
+\c@location=\count405
+\c@savedlocation=\count406
+\c@organization=\count407
+\c@savedorganization=\count408
+\c@origlocation=\count409
+\c@savedoriglocation=\count410
+\c@origpublisher=\count411
+\c@savedorigpublisher=\count412
+\c@publisher=\count413
+\c@savedpublisher=\count414
+\c@language=\count415
+\c@savedlanguage=\count416
+\c@origlanguage=\count417
+\c@savedoriglanguage=\count418
+\c@pageref=\count419
+\c@savedpageref=\count420
+\shorthandwidth=\skip62
+\shortjournalwidth=\skip63
+\shortserieswidth=\skip64
+\shorttitlewidth=\skip65
+\shortauthorwidth=\skip66
+\shorteditorwidth=\skip67
+\locallabelnumberwidth=\skip68
+\locallabelalphawidth=\skip69
+\localshorthandwidth=\skip70
+\localshortjournalwidth=\skip71
+\localshortserieswidth=\skip72
+\localshorttitlewidth=\skip73
+\localshortauthorwidth=\skip74
+\localshorteditorwidth=\skip75
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-compat.
+def
+File: blx-compat.def 2025/07/10 v3.21 biblatex compatibility (PK/MW)
+)
+Package biblatex Info: Trying to load BibTeX backend compatibility...
+Package biblatex Info: ... file 'blx-bibtex.def' found.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-bibtex.
+def
+File: blx-bibtex.def 2025/07/10 v3.21 biblatex compatibility (PK/MW)
+
+
+Package biblatex Warning: Using fall-back bibtex backend:
+(biblatex)                functionality may be reduced/unavailable.
+
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex.def' found.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.de
+f
+File: biblatex.def 2025/07/10 v3.21 biblatex compatibility (PK/MW)
+\c@textcitecount=\count421
+\c@textcitetotal=\count422
+\c@textcitemaxnames=\count423
+\c@biburlbigbreakpenalty=\count424
+\c@biburlbreakpenalty=\count425
+\c@biburlnumpenalty=\count426
+\c@biburlucpenalty=\count427
+\c@biburllcpenalty=\count428
+\biburlbigskip=\muskip19
+\biburlnumskip=\muskip20
+\biburlucskip=\muskip21
+\biburllcskip=\muskip22
+\c@smartand=\count429
+)
+Package biblatex Info: Trying to load bibliography style 'authoryear'...
+Package biblatex Info: ... file 'authoryear.bbx' found.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/bbx\authory
+ear.bbx
+File: authoryear.bbx 2025/07/10 v3.21 biblatex bibliography style (PK/MW)
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/bbx\standar
+d.bbx
+File: standard.bbx 2025/07/10 v3.21 biblatex bibliography style (PK/MW)
+\c@bbx:relatedcount=\count430
+\c@bbx:relatedtotal=\count431
+))
+Package biblatex Info: Trying to load citation style 'authoryear'...
+Package biblatex Info: ... file 'authoryear.cbx' found.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/cbx\authory
+ear.cbx
+File: authoryear.cbx 2025/07/10 v3.21 biblatex citation style (PK/MW)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\textcites'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.cf
+g
+File: biblatex.cfg 
+)
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Document encoding is UTF8 ....
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+Package: expl3 2025-12-24 L3 programming layer (loader) 
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-
+pdftex.def
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count432
+))
+Package biblatex Info: ... and expl3
+(biblatex)             2025-12-24 L3 programming layer (loader) 
+(biblatex)             is new enough (at least 2020/04/06),
+(biblatex)             setting 'casechanger=expl3'.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-case-ex
+pl3.sty
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xp
+arse.sty
+Package: xparse 2025-10-09 L3 Experimental document command parser
+)
+Package: blx-case-expl3 2025/07/10 v3.21 expl3 case changing code for biblatex
+))
+\@quotelevel=\count433
+\@quotereset=\count434
+ (Final Paper.aux)
+\openout1 = `"Final Paper.aux"'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(50.58878pt, 496.33032pt, 50.58878pt)
+* v-part:(T,H,B)=(50.58878pt, 743.8693pt, 50.58878pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=496.33032pt
+* \textheight=743.8693pt
+* \oddsidemargin=-21.68121pt
+* \evensidemargin=-21.68121pt
+* \topmargin=-58.68121pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=4.0pt
+* \marginparsep=10.0pt
+* \columnsep=15.89948pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumntrue
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf
+.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count435
+\scratchdimen=\dimen189
+\scratchbox=\box57
+\nofMPsegments=\count436
+\nofMParguments=\count437
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count438
+\MPscratchDim=\dimen190
+\MPnumerator=\count439
+\makeMPintoPDFobject=\count440
+\everyMPtoPDFconversion=\toks27
+)
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopd
+f-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sy
+s.cfg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: End \AtBeginDocument code.
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\english
+.lbx
+File: english.lbx 2025/07/10 v3.21 biblatex localization (PK/MW)
+)
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Data encoding 'utf8' specified.
+(biblatex)             No need to reencode data.
+\openout3 = `Final_Paper-blx.bib'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file '"Final Paper".bbl' found.
+ (Final Paper.bbl)
+Package biblatex Info: Reference section=0 on input line 21.
+Package biblatex Info: Reference segment=0 on input line 21.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 40.
+
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 40.
+
+
+(C:\Users\C5396183\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Underfull \hbox (badness 2635) in paragraph at lines 40--41
+\OT1/cmr/m/n/10 train-ing records was as-sem-bled from Agri-cul-tural
+ []
+
+
+Underfull \hbox (badness 2197) in paragraph at lines 40--41
+\OT1/cmr/m/n/10 PDF test reports---including 24 records re-cov-ered
+ []
+
+
+Underfull \hbox (badness 1776) in paragraph at lines 40--41
+\OT1/cmr/m/n/10 Lin-ear Re-gres-sion (OLS) base-line and a Ran-dom
+ []
+
+
+Underfull \hbox (badness 1122) in paragraph at lines 40--41
+\OT1/cmr/m/n/10 for the RF model---five nu-meric (\OT1/cmtt/m/n/10 power[]kw\OT
+1/cmr/m/n/10 , \OT1/cmtt/m/n/10 year\OT1/cmr/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--41
+\OT1/cmtt/m/n/10 abemis[]total[]count\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 abemis[
+]region[]breadth\OT1/cmr/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--41
+\OT1/cmtt/m/n/10 abemis[]dominant[]region[]share\OT1/cmr/m/n/10 ) and three
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--41
+\OT1/cmr/m/n/10 categorical-encoded (\OT1/cmtt/m/n/10 machinery[]type\OT1/cmr/m
+/n/10 ,
+ []
+
+
+Underfull \hbox (badness 1442) in paragraph at lines 40--41
+\OT1/cmr/m/n/10 out-per-form-ing the OLS base-line. SHAP feature-
+ []
+
+
+Underfull \hbox (badness 2744) in paragraph at lines 40--41
+\OT1/cmr/m/n/10 (\OT1/cmtt/m/n/10 power[]kw\OT1/cmr/m/n/10 ) dom-i-nates at ap-
+prox-i-mately 66.5% of
+ []
+
+
+Underfull \hbox (badness 3209) in paragraph at lines 40--41
+\OT1/cmr/m/n/10 to-tal im-por-tance, con-sis-tent with the fuel--power
+ []
+
+
+Underfull \hbox (badness 1082) in paragraph at lines 40--41
+\OT1/cmr/m/n/10 pro-por-tion-al-ity es-tab-lished in the lit-er-a-ture. The
+ []
+
+
+Underfull \hbox (badness 2057) in paragraph at lines 40--41
+\OT1/cmr/m/n/10 Sys-tem (ABE-MIS) na-tional in-ven-tory, suc-cess-fully
+ []
+
+[1{C:/Users/C5396183/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
+
+
+]
+Underfull \vbox (badness 1472) has occurred while \output is active []
+
+ [2]
+Underfull \hbox (badness 10000) in paragraph at lines 144--145
+[]\OT1/cmr/bx/n/10 Field/Context: \OT1/cmtt/m/n/10 abemis[]total[]count \OT1/cm
+r/m/n/10 (to-
+ []
+
+
+Underfull \hbox (badness 2050) in paragraph at lines 144--145
+\OT1/cmr/m/n/10 tal na-tional in-ven-tory count for the ma-chin-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 144--145
+\OT1/cmr/m/n/10 ery type), \OT1/cmtt/m/n/10 abemis[]region[]breadth \OT1/cmr/m/
+n/10 (num-
+ []
+
+
+Underfull \hbox (badness 2452) in paragraph at lines 144--145
+\OT1/cmr/m/n/10 ber of re-gions where the type is de-ployed),
+ []
+
+
+Underfull \hbox (badness 1377) in paragraph at lines 144--145
+\OT1/cmtt/m/n/10 abemis[]dominant[]region[]share \OT1/cmr/m/n/10 (share held by
+
+ []
+
+
+Underfull \hbox (badness 2261) in paragraph at lines 148--149
+\OT1/cmr/m/n/10 ter-mi-nants as pri-mary pre-dic-tors, with \OT1/cmtt/m/n/10 ye
+ar \OT1/cmr/m/n/10 en-
+ []
+
+
+Underfull \hbox (badness 1688) in paragraph at lines 148--149
+\OT1/cmr/m/n/10 cod-ing equipment-generation ef-fects, and ABE-MIS
+ []
+
+
+Overfull \hbox (42.3277pt too wide) detected at line 151
+\OT1/cmr/bx/n/10 x[] \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 x[];  x[];  x[];  x[]
+;  x[];  x[];  x[];  x[][][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 160--161
+\OT1/cmr/m/n/10 AMTEC ma-chin-ery test re-ports (avail-able at
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 160--161
+\OT1/cmtt/m/n/10 https://bit.ly/AMTECTestReports2026\OT1/cmr/m/n/10 ) pro-vide
+ []
+
+
+Underfull \hbox (badness 2005) in paragraph at lines 160--161
+\OT1/cmr/m/n/10 Re-ports cover field ma-chin-ery, har-vesters, dry-ers,
+ []
+
+
+Underfull \hbox (badness 2818) in paragraph at lines 160--161
+\OT1/cmr/m/n/10 and other mech-a-niza-tion equip-ment tested un-der
+ []
+
+<power_vs_fuel_all.png, id=15, 578.16pt x 433.62pt>
+File: power_vs_fuel_all.png Graphic file (type png)
+<use power_vs_fuel_all.png>
+Package pdftex.def Info: power_vs_fuel_all.png  used on input line 166.
+(pdftex.def)             Requested size: 240.21542pt x 180.16068pt.
+<average_fuel_by_machinery_family.png, id=17, 867.24pt x 433.62pt>
+File: average_fuel_by_machinery_family.png Graphic file (type png)
+<use average_fuel_by_machinery_family.png>
+Package pdftex.def Info: average_fuel_by_machinery_family.png  used on input li
+ne 173.
+(pdftex.def)             Requested size: 240.21542pt x 120.1027pt.
+[3 <./power_vs_fuel_all.png> <./average_fuel_by_machinery_family.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 190--191
+[]\OT1/cmr/bx/n/10 Numeric (5): \OT1/cmtt/m/n/10 power[]kw\OT1/cmr/m/n/10 , \OT
+1/cmtt/m/n/10 year\OT1/cmr/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 190--191
+\OT1/cmtt/m/n/10 abemis[]total[]count\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 abemis[
+]region[]breadth\OT1/cmr/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 3735) in paragraph at lines 191--192
+[]\OT1/cmr/bx/n/10 Categorical-encoded (3): \OT1/cmtt/m/n/10 machinery[]type\OT
+1/cmr/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 1147) in paragraph at lines 205--206
+[]\OT1/cmr/bx/n/10 Outlier Fil-ter-ing \OT1/cmr/m/n/10 --- Records with im-plau
+-si-
+ []
+
+
+Underfull \hbox (badness 5548) in paragraph at lines 206--207
+[]\OT1/cmr/bx/n/10 Feature En-gi-neer-ing \OT1/cmr/m/n/10 --- ABE-MIS con-text
+ []
+
+
+Underfull \hbox (badness 5316) in paragraph at lines 206--207
+\OT1/cmr/m/n/10 fea-tures are joined to AMTEC records by
+ []
+
+
+Underfull \hbox (badness 4193) in paragraph at lines 241--242
+\OT1/cmr/m/n/10 learn with hy-per-pa-ram-e-ters: \OT1/cmtt/m/n/10 n[]estimators
+=300\OT1/cmr/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 241--242
+\OT1/cmtt/m/n/10 max[]depth=None\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 min[]samples
+[]split=5\OT1/cmr/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 1067) in paragraph at lines 241--242
+\OT1/cmr/m/n/10 i-dated with 5-fold cross-validation (\OT1/cmtt/m/n/10 shuffle=
+True\OT1/cmr/m/n/10 ,
+ []
+
+[4]
+Underfull \hbox (badness 2486) in paragraph at lines 258--260
+\OT1/cmr/m/n/10 Global fea-ture im-por-tance (mean ab-so-lute SHAP
+ []
+
+
+Underfull \hbox (badness 1194) in paragraph at lines 258--260
+\OT1/cmr/m/n/10 tions are com-puted. A beeswarm plot vi-su-al-izes
+ []
+
+
+Underfull \hbox (badness 4403) in paragraph at lines 303--304
+[]\OT1/cmr/m/n/8 Note: Hi-er-ar-chi-cal OLS uses a per-machinery-type fall-
+ []
+
+
+Underfull \hbox (badness 3396) in paragraph at lines 303--304
+\OT1/cmr/m/n/8 back chain (type $\OMS/cmsy/m/n/8 !$ \OT1/cmr/m/n/8 fam-ily $\OM
+S/cmsy/m/n/8 !$ \OT1/cmr/m/n/8 global). Ran-dom For-
+ []
+
+
+Underfull \hbox (badness 1205) in paragraph at lines 303--304
+\OT1/cmr/m/n/8 est 5-fold cross-validation mean $\OMS/cmsy/m/n/8 ^^F$ \OT1/cmr/
+m/n/8 std: R$[]$=0.894$\OMS/cmsy/m/n/8 ^^F$\OT1/cmr/m/n/8 0.023,
+ []
+
+
+Underfull \hbox (badness 1057) in paragraph at lines 307--308
+\OT1/cmr/m/n/10 SHAP anal-y-sis (Fig-ures 4[]--5[] and Fig-ure 3[] in the
+ []
+
+
+Underfull \hbox (badness 2293) in paragraph at lines 307--308
+\OT1/cmr/m/n/10 main text) re-veals that \OT1/cmtt/m/n/10 power[]kw \OT1/cmr/m/
+n/10 dom-i-nates fea-
+ []
+
+
+Underfull \hbox (badness 1983) in paragraph at lines 307--308
+\OT1/cmr/m/n/10 ture im-por-tance at ap-prox-i-mately 66.5% of to-tal
+ []
+
+
+Underfull \hbox (badness 5741) in paragraph at lines 307--308
+\OT1/cmr/m/n/10 co-horts. Cat-e-gor-i-cal fea-tures (\OT1/cmtt/m/n/10 machinery
+[]type\OT1/cmr/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 307--308
+\OT1/cmtt/m/n/10 machinery[]family\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 analysis[]
+subset\OT1/cmr/m/n/10 ) ac-count
+ []
+
+
+Underfull \hbox (badness 3503) in paragraph at lines 307--308
+\OT1/cmr/m/n/10 for ap-prox-i-mately 12.1% com-bined. The three
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 307--308
+\OT1/cmr/m/n/10 ABE-MIS con-text fea-tures (\OT1/cmtt/m/n/10 abemis[]total[]cou
+nt\OT1/cmr/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 307--308
+\OT1/cmtt/m/n/10 abemis[]dominant[]region[]share\OT1/cmr/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 307--308
+\OT1/cmtt/m/n/10 abemis[]region[]breadth\OT1/cmr/m/n/10 ) con-tribute ap-prox-i
+-mately
+ []
+
+
+Underfull \hbox (badness 1264) in paragraph at lines 307--308
+\OT1/cmr/m/n/10 9.1% com-bined, with \OT1/cmtt/m/n/10 abemis[]region[]breadth \
+OT1/cmr/m/n/10 neg-
+ []
+
+
+Underfull \hbox (badness 6842) in paragraph at lines 307--308
+\OT1/cmr/m/n/10 li-gi-ble ($\OML/cmm/m/it/10 < \OT1/cmr/m/n/10 0\OML/cmm/m/it/1
+0 :\OT1/cmr/m/n/10 2%$) but \OT1/cmtt/m/n/10 abemis[]total[]count \OT1/cmr/m/n/
+10 and
+ []
+
+<shap_summary_bar.png, id=34, 570.933pt x 332.6829pt>
+File: shap_summary_bar.png Graphic file (type png)
+<use shap_summary_bar.png>
+Package pdftex.def Info: shap_summary_bar.png  used on input line 335.
+(pdftex.def)             Requested size: 240.21542pt x 139.9746pt.
+[5 <./shap_summary_bar.png>]
+Underfull \hbox (badness 1354) in paragraph at lines 348--349
+[]\OT1/cmr/bx/n/10 Successfully scored: \OT1/cmr/m/n/10 172,265 records (70%)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 353--354
+[]\OT1/cmr/m/n/10 Regional fuel es-ti-mates and dom-i-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 353--354
+\OT1/cmr/m/n/10 nant ma-chin-ery fam-i-lies are re-ported in
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 353--354
+\OT1/cmtt/m/n/10 ABEMIS[]Regional[]Fuel[]Estimates.xlsx\OT1/cmr/m/n/10 . Mo-bil
+e
+ []
+
+
+Underfull \hbox (badness 1107) in paragraph at lines 353--354
+\OT1/cmr/m/n/10 field ma-chin-ery (trac-tors, tillers) and har-vest ma-
+ []
+
+
+Underfull \hbox (badness 7099) in paragraph at lines 365--366
+\OT1/cmr/m/n/10 The three ABE-MIS deployment-context fea-tures
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 365--366
+\OT1/cmr/m/n/10 con-tribute ap-prox-i-mately 9.1% of to-tal SHAP
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 365--366
+\OT1/cmr/m/n/10 im-por-tance com-bined (\OT1/cmtt/m/n/10 abemis[]total[]count\O
+T1/cmr/m/n/10 :
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 365--366
+\OT1/cmr/m/n/10 4.7%, \OT1/cmtt/m/n/10 abemis[]dominant[]region[]share\OT1/cmr/
+m/n/10 : 4.2%,
+ []
+
+
+Underfull \hbox (badness 5504) in paragraph at lines 374--375
+\OT1/cmr/m/n/10 time-dimension pre-dic-tor (crop stage, plant-
+ []
+
+
+Underfull \hbox (badness 4995) in paragraph at lines 385--386
+\OT1/cmr/m/n/10 achieves strong hold-out per-for-mance (R$[]$=0.916,
+ []
+
+[6]
+Underfull \hbox (badness 4647) in paragraph at lines 396--397
+[]\OT1/cmr/bx/n/10 ABEMIS--AMTEC machinery-type map-
+ []
+
+
+Underfull \hbox (badness 2547) in paragraph at lines 404--404
+[][]\OT1/cmr/m/n/10 Bureau of Agri-cul-tural and Fish-eries En-gi-neer-ing
+ []
+
+
+Underfull \hbox (badness 6808) in paragraph at lines 404--404
+[][]\OT1/cmr/m/n/10 Japan In-ter-na-tional Co-op-er-a-tion Agency (1986).
+ []
+
+[7]
+File: shap_summary_bar.png Graphic file (type png)
+<use shap_summary_bar.png>
+Package pdftex.def Info: shap_summary_bar.png  used on input line 417.
+(pdftex.def)             Requested size: 421.88379pt x 245.84137pt.
+<shap_summary_beeswarm.png, id=56, 565.8741pt x 332.9238pt>
+File: shap_summary_beeswarm.png Graphic file (type png)
+<use shap_summary_beeswarm.png>
+Package pdftex.def Info: shap_summary_beeswarm.png  used on input line 424.
+(pdftex.def)             Requested size: 421.88379pt x 248.21902pt.
+<MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_residuals_vs_fitted.pn
+g, id=57, 578.16pt x 433.62pt>
+File: MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_residuals_vs_fitt
+ed.png Graphic file (type png)
+<use MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_residuals_vs_fitte
+d.png>
+Package pdftex.def Info: MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadrati
+c_residuals_vs_fitted.png  used on input line 438.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_qqplot.png, id=58, 462
+.528pt x 346.896pt>
+File: MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_qqplot.png Graphi
+c file (type png)
+<use MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_qqplot.png>
+Package pdftex.def Info: MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadrati
+c_qqplot.png  used on input line 440.
+(pdftex.def)             Requested size: 238.23642pt x 178.67725pt.
+ [8
+
+ <./shap_summary_beeswarm.png>]
+<MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_leverage.png, id=63, 5
+78.16pt x 433.62pt>
+File: MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_leverage.png Grap
+hic file (type png)
+<use MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_leverage.png>
+Package pdftex.def Info: MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadrati
+c_leverage.png  used on input line 446.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_studentized_residuals.
+png, id=64, 578.16pt x 433.62pt>
+File: MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_studentized_resid
+uals.png Graphic file (type png)
+<use MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_studentized_residu
+als.png>
+Package pdftex.def Info: MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadrati
+c_studentized_residuals.png  used on input line 448.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_residuals_vs_fitted.png, id
+=65, 578.16pt x 433.62pt>
+File: MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_residuals_vs_fitted.pn
+g Graphic file (type png)
+<use MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_residuals_vs_fitted.png
+>
+Package pdftex.def Info: MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_res
+iduals_vs_fitted.png  used on input line 456.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_qqplot.png, id=66, 462.528p
+t x 346.896pt>
+File: MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_qqplot.png Graphic fil
+e (type png)
+<use MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_qqplot.png>
+Package pdftex.def Info: MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_qqp
+lot.png  used on input line 458.
+(pdftex.def)             Requested size: 238.23642pt x 178.67725pt.
+<MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_leverage.png, id=67, 578.16
+pt x 433.62pt>
+File: MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_leverage.png Graphic f
+ile (type png)
+<use MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_leverage.png>
+Package pdftex.def Info: MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_lev
+erage.png  used on input line 464.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_studentized_residuals.png, 
+id=68, 578.16pt x 433.62pt>
+File: MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_studentized_residuals.
+png Graphic file (type png)
+<use MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_studentized_residuals.p
+ng>
+Package pdftex.def Info: MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_stu
+dentized_residuals.png  used on input line 466.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+
+Underfull \vbox (badness 3746) has occurred while \output is active []
+
+ [9 <./MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_residuals_vs_fit
+ted.png> <./MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_qqplot.png>
+ <./MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_leverage.png> <./MA
+CHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_studentized_residuals.png
+> <./MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_residuals_vs_fitted.png
+> <./MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_qqplot.png>]
+<MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_residuals_vs_fitted.png, id=
+78, 578.16pt x 433.62pt>
+File: MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_residuals_vs_fitted.png
+ Graphic file (type png)
+<use MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_residuals_vs_fitted.png>
+
+Package pdftex.def Info: MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_resi
+duals_vs_fitted.png  used on input line 474.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_qqplot.png, id=79, 462.528pt
+ x 346.896pt>
+File: MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_qqplot.png Graphic file
+ (type png)
+<use MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_qqplot.png>
+Package pdftex.def Info: MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_qqpl
+ot.png  used on input line 476.
+(pdftex.def)             Requested size: 238.23642pt x 178.67725pt.
+<MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_leverage.png, id=80, 578.16p
+t x 433.62pt>
+File: MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_leverage.png Graphic fi
+le (type png)
+<use MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_leverage.png>
+Package pdftex.def Info: MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_leve
+rage.png  used on input line 482.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_studentized_residuals.png, i
+d=81, 578.16pt x 433.62pt>
+File: MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_studentized_residuals.p
+ng Graphic file (type png)
+<use MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_studentized_residuals.pn
+g>
+Package pdftex.def Info: MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_stud
+entized_residuals.png  used on input line 484.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_residuals_vs_fitted.png, id=8
+2, 578.16pt x 433.62pt>
+File: MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_residuals_vs_fitted.png 
+Graphic file (type png)
+<use MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_residuals_vs_fitted.png>
+Package pdftex.def Info: MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_resid
+uals_vs_fitted.png  used on input line 492.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_qqplot.png, id=83, 462.528pt 
+x 346.896pt>
+File: MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_qqplot.png Graphic file 
+(type png)
+<use MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_qqplot.png>
+Package pdftex.def Info: MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_qqplo
+t.png  used on input line 494.
+(pdftex.def)             Requested size: 238.23642pt x 178.67725pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [10 <./MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_leverage.png> <./MAC
+HINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_studentized_residuals.png> <./M
+ACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_residuals_vs_fitted.png> <./MA
+CHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_qqplot.png> <./MACHINERY_TYPE_F
+our_Wheel_Tractor_FINAL_quadratic_leverage.png> <./MACHINERY_TYPE_Four_Wheel_Tr
+actor_FINAL_quadratic_studentized_residuals.png>]
+<MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_leverage.png, id=93, 578.16pt
+ x 433.62pt>
+File: MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_leverage.png Graphic fil
+e (type png)
+<use MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_leverage.png>
+Package pdftex.def Info: MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_lever
+age.png  used on input line 500.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_studentized_residuals.png, id
+=94, 578.16pt x 433.62pt>
+File: MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_studentized_residuals.pn
+g Graphic file (type png)
+<use MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_studentized_residuals.png
+>
+Package pdftex.def Info: MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_stude
+ntized_residuals.png  used on input line 502.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_residuals_vs_fitted.png, id=95
+, 578.16pt x 433.62pt>
+File: MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_residuals_vs_fitted.png G
+raphic file (type png)
+<use MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_residuals_vs_fitted.png>
+Package pdftex.def Info: MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_residu
+als_vs_fitted.png  used on input line 510.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_qqplot.png, id=96, 462.528pt x
+ 346.896pt>
+File: MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_qqplot.png Graphic file (
+type png)
+<use MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_qqplot.png>
+Package pdftex.def Info: MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_qqplot
+.png  used on input line 512.
+(pdftex.def)             Requested size: 238.23642pt x 178.67725pt.
+<MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_leverage.png, id=97, 578.16pt 
+x 433.62pt>
+File: MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_leverage.png Graphic file
+ (type png)
+<use MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_leverage.png>
+Package pdftex.def Info: MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_levera
+ge.png  used on input line 518.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_studentized_residuals.png, id=
+98, 578.16pt x 433.62pt>
+File: MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_studentized_residuals.png
+ Graphic file (type png)
+<use MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_studentized_residuals.png>
+
+Package pdftex.def Info: MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_studen
+tized_residuals.png  used on input line 520.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+
+Underfull \vbox (badness 3746) has occurred while \output is active []
+
+ [11 <./MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_residuals_vs_fitted.pn
+g> <./MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_qqplot.png> <./MACHINERY
+_TYPE_Combine_Harvester_FINAL_quadratic_leverage.png> <./MACHINERY_TYPE_Combine
+_Harvester_FINAL_quadratic_studentized_residuals.png> <./MACHINERY_TYPE_Mechani
+cal_Dryer_FINAL_quadratic_residuals_vs_fitted.png> <./MACHINERY_TYPE_Mechanical
+_Dryer_FINAL_quadratic_qqplot.png>]
+<GLOBAL_ALL_MACHINERY_FINAL_quadratic_residuals_vs_fitted.png, id=108, 578.16pt
+ x 433.62pt>
+File: GLOBAL_ALL_MACHINERY_FINAL_quadratic_residuals_vs_fitted.png Graphic file
+ (type png)
+<use GLOBAL_ALL_MACHINERY_FINAL_quadratic_residuals_vs_fitted.png>
+Package pdftex.def Info: GLOBAL_ALL_MACHINERY_FINAL_quadratic_residuals_vs_fitt
+ed.png  used on input line 528.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<GLOBAL_ALL_MACHINERY_FINAL_quadratic_qqplot.png, id=109, 462.528pt x 346.896pt
+>
+File: GLOBAL_ALL_MACHINERY_FINAL_quadratic_qqplot.png Graphic file (type png)
+<use GLOBAL_ALL_MACHINERY_FINAL_quadratic_qqplot.png>
+Package pdftex.def Info: GLOBAL_ALL_MACHINERY_FINAL_quadratic_qqplot.png  used 
+on input line 530.
+(pdftex.def)             Requested size: 238.23642pt x 178.67725pt.
+<GLOBAL_ALL_MACHINERY_FINAL_quadratic_leverage.png, id=110, 578.16pt x 433.62pt
+>
+File: GLOBAL_ALL_MACHINERY_FINAL_quadratic_leverage.png Graphic file (type png)
+
+<use GLOBAL_ALL_MACHINERY_FINAL_quadratic_leverage.png>
+Package pdftex.def Info: GLOBAL_ALL_MACHINERY_FINAL_quadratic_leverage.png  use
+d on input line 536.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<GLOBAL_ALL_MACHINERY_FINAL_quadratic_studentized_residuals.png, id=111, 578.16
+pt x 433.62pt>
+File: GLOBAL_ALL_MACHINERY_FINAL_quadratic_studentized_residuals.png Graphic fi
+le (type png)
+<use GLOBAL_ALL_MACHINERY_FINAL_quadratic_studentized_residuals.png>
+Package pdftex.def Info: GLOBAL_ALL_MACHINERY_FINAL_quadratic_studentized_resid
+uals.png  used on input line 538.
+(pdftex.def)             Requested size: 238.23642pt x 178.67195pt.
+<lime_example_0.png, id=112, 453.8556pt x 343.0416pt>
+File: lime_example_0.png Graphic file (type png)
+<use lime_example_0.png>
+Package pdftex.def Info: lime_example_0.png  used on input line 549.
+(pdftex.def)             Requested size: 421.88379pt x 318.8788pt.
+ [12 <./MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_leverage.png> <./MACHIN
+ERY_TYPE_Mechanical_Dryer_FINAL_quadratic_studentized_residuals.png> <./GLOBAL_
+ALL_MACHINERY_FINAL_quadratic_residuals_vs_fitted.png> <./GLOBAL_ALL_MACHINERY_
+FINAL_quadratic_qqplot.png> <./GLOBAL_ALL_MACHINERY_FINAL_quadratic_leverage.pn
+g> <./GLOBAL_ALL_MACHINERY_FINAL_quadratic_studentized_residuals.png>]
+<lime_example_1.png, id=122, 452.4102pt x 343.0416pt>
+File: lime_example_1.png Graphic file (type png)
+<use lime_example_1.png>
+Package pdftex.def Info: lime_example_1.png  used on input line 555.
+(pdftex.def)             Requested size: 421.88379pt x 319.89427pt.
+<lime_example_2.png, id=123, 450.483pt x 343.0416pt>
+File: lime_example_2.png Graphic file (type png)
+<use lime_example_2.png>
+Package pdftex.def Info: lime_example_2.png  used on input line 561.
+(pdftex.def)             Requested size: 421.88379pt x 321.27092pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [13 <./lime_example_0.png> <./lime_example_1.png>]
+<lime_example_3.png, id=130, 455.301pt x 343.0416pt>
+File: lime_example_3.png Graphic file (type png)
+<use lime_example_3.png>
+Package pdftex.def Info: lime_example_3.png  used on input line 567.
+(pdftex.def)             Requested size: 421.88379pt x 317.87381pt.
+<lime_example_4.png, id=131, 455.301pt x 343.0416pt>
+File: lime_example_4.png Graphic file (type png)
+<use lime_example_4.png>
+Package pdftex.def Info: lime_example_4.png  used on input line 573.
+(pdftex.def)             Requested size: 421.88379pt x 317.87381pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [14 <./lime_example_2.png> <./lime_example_3.png>]
+<lime_example_5.png, id=137, 455.301pt x 343.0416pt>
+File: lime_example_5.png Graphic file (type png)
+<use lime_example_5.png>
+Package pdftex.def Info: lime_example_5.png  used on input line 579.
+(pdftex.def)             Requested size: 421.88379pt x 317.87381pt.
+<lime_example_6.png, id=138, 455.301pt x 343.0416pt>
+File: lime_example_6.png Graphic file (type png)
+<use lime_example_6.png>
+Package pdftex.def Info: lime_example_6.png  used on input line 585.
+(pdftex.def)             Requested size: 421.88379pt x 317.87381pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [15 <./lime_example_4.png> <./lime_example_5.png>]
+<lime_example_7.png, id=144, 450.483pt x 343.0416pt>
+File: lime_example_7.png Graphic file (type png)
+<use lime_example_7.png>
+Package pdftex.def Info: lime_example_7.png  used on input line 591.
+(pdftex.def)             Requested size: 421.88379pt x 321.27092pt.
+<lime_example_8.png, id=145, 455.301pt x 343.0416pt>
+File: lime_example_8.png Graphic file (type png)
+<use lime_example_8.png>
+Package pdftex.def Info: lime_example_8.png  used on input line 597.
+(pdftex.def)             Requested size: 421.88379pt x 317.87381pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [16 <./lime_example_6.png> <./lime_example_7.png>]
+<lime_example_9.png, id=151, 462.0462pt x 343.0416pt>
+File: lime_example_9.png Graphic file (type png)
+<use lime_example_9.png>
+Package pdftex.def Info: lime_example_9.png  used on input line 603.
+(pdftex.def)             Requested size: 421.88379pt x 313.2309pt.
+File: average_fuel_by_machinery_family.png Graphic file (type png)
+<use average_fuel_by_machinery_family.png>
+Package pdftex.def Info: average_fuel_by_machinery_family.png  used on input li
+ne 614.
+(pdftex.def)             Requested size: 421.88379pt x 210.94063pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [17 <./lime_example_8.png> <./lime_example_9.png>]
+<average_fuel_by_machinery_type.png, id=157, 867.24pt x 433.62pt>
+File: average_fuel_by_machinery_type.png Graphic file (type png)
+<use average_fuel_by_machinery_type.png>
+Package pdftex.def Info: average_fuel_by_machinery_type.png  used on input line
+ 620.
+(pdftex.def)             Requested size: 421.88379pt x 210.94063pt.
+<fuel_intensity_by_machinery_type.png, id=158, 867.24pt x 433.62pt>
+File: fuel_intensity_by_machinery_type.png Graphic file (type png)
+<use fuel_intensity_by_machinery_type.png>
+Package pdftex.def Info: fuel_intensity_by_machinery_type.png  used on input li
+ne 626.
+(pdftex.def)             Requested size: 421.88379pt x 210.94063pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [18 <./average_fuel_by_machinery_type.png>]
+File: power_vs_fuel_all.png Graphic file (type png)
+<use power_vs_fuel_all.png>
+Package pdftex.def Info: power_vs_fuel_all.png  used on input line 632.
+(pdftex.def)             Requested size: 421.88379pt x 316.40764pt.
+<power_vs_fuel_field_machinery.png, id=163, 578.16pt x 433.62pt>
+File: power_vs_fuel_field_machinery.png Graphic file (type png)
+<use power_vs_fuel_field_machinery.png>
+Package pdftex.def Info: power_vs_fuel_field_machinery.png  used on input line 
+638.
+(pdftex.def)             Requested size: 421.88379pt x 316.40764pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [19 <./fuel_intensity_by_machinery_type.png>] [20 <./power_vs_fuel_field_machi
+nery.png>]
+(Final Paper.aux)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+ ***********
+Package logreq Info: Writing requests to '"Final Paper".run.xml'.
+\openout1 = `"Final Paper.run.xml"'.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 13312 strings out of 467871
+ 258275 string characters out of 5416924
+ 872753 words of memory out of 5000000
+ 42055 multiletter control sequences out of 15000+600000
+ 640885 words of font info for 89 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 63i,12n,66p,1892b,1435s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\C5396183\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\t
+crm1000.pk><C:/Users/C5396183/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmbx10.pfb><C:/Users/C5396183/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmbx12.pfb><C:/Users/C5396183/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmbx6.pfb><C:/Users/C5396183/AppData/Local/
+Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/C5396183/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users
+/C5396183/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.p
+fb><C:/Users/C5396183/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
+/cm/cmmi10.pfb><C:/Users/C5396183/AppData/Local/Programs/MiKTeX/fonts/type1/pub
+lic/amsfonts/cm/cmmi7.pfb><C:/Users/C5396183/AppData/Local/Programs/MiKTeX/font
+s/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/C5396183/AppData/Local/Programs/
+MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/C5396183/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/C5
+396183/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><
+C:/Users/C5396183/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmr5.pfb><C:/Users/C5396183/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
+sfonts/cm/cmr6.pfb><C:/Users/C5396183/AppData/Local/Programs/MiKTeX/fonts/type1
+/public/amsfonts/cm/cmr7.pfb><C:/Users/C5396183/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/C5396183/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/C5396183/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/C5396183
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Use
+rs/C5396183/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.
+pfb><C:/Users/C5396183/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmsy9.pfb><C:/Users/C5396183/AppData/Local/Programs/MiKTeX/fonts/type1/pub
+lic/amsfonts/cm/cmti10.pfb><C:/Users/C5396183/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/C5396183/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on "Final Paper.pdf" (20 pages, 4276907 bytes).
+PDF statistics:
+ 275 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 206 words of extra memory for PDF output out of 10000 (max. 10000000)
+

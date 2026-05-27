@@ -1,0 +1,331 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{nyt/global//global/global/global}
+  \entry{agaton2024solar}{article}{}{}
+    \name{author}{2}{}{%
+      {{hash=ACB}{%
+         family={Agaton},
+         familyi={A\bibinitperiod},
+         given={Casper\bibnamedelima Boongaling},
+         giveni={C\bibinitperiod\bibinitdelim B\bibinitperiod},
+      }}%
+      {{hash=GCS}{%
+         family={Guno},
+         familyi={G\bibinitperiod},
+         given={Charmaine\bibnamedelima Samala},
+         giveni={C\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ACBGCS1}
+    \strng{fullhash}{ACBGCS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2024}
+    \field{labeldatesource}{}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \verb{doi}
+    \verb 10.3390/resources11060059
+    \endverb
+    \field{number}{6}
+    \field{pages}{59}
+    \field{title}{Promoting sustainable agriculture using solar irrigation:
+  Case study of small-scale farmers in the Philippines}
+    \field{volume}{11}
+    \field{journaltitle}{Resources}
+    \field{year}{2024}
+  \endentry
+
+  \entry{bautista2024enhancing}{article}{}{}
+    \name{author}{3}{}{%
+      {{hash=BCJ}{%
+         family={Bautista},
+         familyi={B\bibinitperiod},
+         given={C.\bibnamedelima J.},
+         giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=QJ}{%
+         family={Quipo},
+         familyi={Q\bibinitperiod},
+         given={J.},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=TM}{%
+         family={Taldhay},
+         familyi={T\bibinitperiod},
+         given={M.},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{BCJQJTM1}
+    \strng{fullhash}{BCJQJTM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2024}
+    \field{labeldatesource}{}
+    \field{sortinit}{B}
+    \field{sortinithash}{B}
+    \verb{doi}
+    \verb 10.13140/RG.2.2.33195.25125
+    \endverb
+    \field{title}{Enhancing agricultural productivity in the Philippines: A
+  comprehensive review of mechanization status and sustainable strategies}
+    \field{journaltitle}{European Journal of Science, Innovation and
+  Technology}
+    \field{year}{2024}
+  \endentry
+
+  \entry{briones2021philippine}{report}{}{}
+    \name{author}{1}{}{%
+      {{hash=BRM}{%
+         family={Briones},
+         familyi={B\bibinitperiod},
+         given={Roehlano\bibnamedelima M.},
+         giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{BRM1}
+    \strng{fullhash}{BRM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2021}
+    \field{labeldatesource}{}
+    \field{sortinit}{B}
+    \field{sortinithash}{B}
+    \field{number}{Policy Note No. 2021-12}
+    \field{title}{Philippine agriculture: Current state, challenges, and ways
+  forward}
+    \list{institution}{1}{%
+      {Philippine Institute for Development Studies}%
+    }
+    \field{type}{techreport}
+    \field{year}{2021}
+  \endentry
+
+  \entry{pnspaes148}{misc}{}{}
+    \name{author}{1}{}{%
+      {{hash=B}{%
+         family={{Bureau of Agricultural and Fisheries Engineering}},
+         familyi={B\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{B1}
+    \strng{fullhash}{B1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2010}
+    \field{labeldatesource}{}
+    \field{sortinit}{B}
+    \field{sortinithash}{B}
+    \field{howpublished}{Bureau of Product Standards, Department of Trade and
+  Industry, Philippines}
+    \field{title}{PNS/PAES 148:2010 -- Philippine Agricultural Engineering
+  Standard: Tractor Test Procedure}
+    \field{year}{2010}
+  \endentry
+
+  \entry{domsch1999fuel}{article}{}{}
+    \name{author}{4}{}{%
+      {{hash=DH}{%
+         family={Domsch},
+         familyi={D\bibinitperiod},
+         given={H.},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=ED}{%
+         family={Ehlert},
+         familyi={E\bibinitperiod},
+         given={D.},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=SAS}{%
+         family={Smrikarov},
+         familyi={S\bibinitperiod},
+         given={A.\bibnamedelima S.},
+         giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+      {{hash=BNV}{%
+         family={Bentscheva},
+         familyi={B\bibinitperiod},
+         given={N.\bibnamedelima V.},
+         giveni={N\bibinitperiod\bibinitdelim V\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DH+1}
+    \strng{fullhash}{DHEDSASBNV1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{1999}
+    \field{labeldatesource}{}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \field{number}{5}
+    \field{pages}{278\bibrangedash 279}
+    \field{title}{Fuel consumption measurement with agricultural machinery}
+    \field{volume}{54}
+    \field{journaltitle}{Landtechnik}
+    \field{year}{1999}
+  \endentry
+
+  \entry{espino2024mechanization}{article}{}{}
+    \name{author}{4}{}{%
+      {{hash=ELC}{%
+         family={Espino},
+         familyi={E\bibinitperiod},
+         given={L.\bibnamedelima C.},
+         giveni={L\bibinitperiod\bibinitdelim C\bibinitperiod},
+      }}%
+      {{hash=LRJ}{%
+         family={Lutarte},
+         familyi={L\bibinitperiod},
+         given={R.\bibnamedelima J.},
+         giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=TAJG}{%
+         family={Traya},
+         familyi={T\bibinitperiod},
+         given={A.\bibnamedelima J.\bibnamedelima G.},
+         giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim
+  G\bibinitperiod},
+      }}%
+      {{hash=AAG}{%
+         family={Antipolo},
+         familyi={A\bibinitperiod},
+         given={A.\bibnamedelima G.},
+         giveni={A\bibinitperiod\bibinitdelim G\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ELC+1}
+    \strng{fullhash}{ELCLRJTAJGAAG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2024}
+    \field{labeldatesource}{}
+    \field{sortinit}{E}
+    \field{sortinithash}{E}
+    \verb{doi}
+    \verb 10.47772/IJRISS.2024.8110204
+    \endverb
+    \field{title}{Agricultural mechanization policy: Farmers in focus}
+    \field{journaltitle}{International Journal of Research and Innovation in
+  Social Science}
+    \field{year}{2024}
+  \endentry
+
+  \entry{ichwandiani2025industry}{report}{}{}
+    \name{author}{2}{}{%
+      {{hash=IR}{%
+         family={Ichwandiani},
+         familyi={I\bibinitperiod},
+         given={R.},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=HSH}{%
+         family={Hassan},
+         familyi={H\bibinitperiod},
+         given={S.\bibnamedelima H.},
+         giveni={S\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{IRHSH1}
+    \strng{fullhash}{IRHSH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2025}
+    \field{labeldatesource}{}
+    \field{sortinit}{I}
+    \field{sortinithash}{I}
+    \field{title}{Industry analysis: Agriculture in the Philippines}
+    \list{institution}{1}{%
+      {ASEAN Research Center}%
+    }
+    \field{type}{techreport}
+    \field{year}{2025}
+  \endentry
+
+  \entry{itc2010machinery}{report}{}{}
+    \name{author}{1}{}{%
+      {{hash=I}{%
+         family={{International Trade Centre}},
+         familyi={I\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{I1}
+    \strng{fullhash}{I1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2010}
+    \field{labeldatesource}{}
+    \field{sortinit}{I}
+    \field{sortinithash}{I}
+    \field{title}{Agricultural machinery industry in the Philippines}
+    \list{institution}{1}{%
+      {International Trade Centre}%
+    }
+    \field{type}{techreport}
+    \field{year}{2010}
+  \endentry
+
+  \entry{jica1986philippines}{report}{}{}
+    \name{author}{1}{}{%
+      {{hash=J}{%
+         family={{Japan International Cooperation Agency}},
+         familyi={J\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{J1}
+    \strng{fullhash}{J1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{1986}
+    \field{labeldatesource}{}
+    \field{sortinit}{J}
+    \field{sortinithash}{J}
+    \field{title}{Project background and program evaluation: Japan's Increased
+  Food Production Program for the Philippines (Vol. 2)}
+    \list{institution}{1}{%
+      {JICA}%
+    }
+    \field{type}{techreport}
+    \field{year}{1986}
+  \endentry
+
+  \entry{philmech_harvesters}{misc}{}{}
+    \name{author}{1}{}{%
+      {{hash=P}{%
+         family={{Philippine Center for Postharvest Development and
+  Mechanization}},
+         familyi={P\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{P1}
+    \strng{fullhash}{P1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2019}
+    \field{labeldatesource}{}
+    \field{sortinit}{P}
+    \field{sortinithash}{P}
+    \field{howpublished}{PHilMech Technical Report}
+    \field{title}{Analysis of the technical performance of commercially
+  available rice combine harvesters}
+    \field{year}{2019}
+  \endentry
+\enddatalist
+\endinput
