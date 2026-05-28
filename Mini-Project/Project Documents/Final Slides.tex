@@ -52,74 +52,187 @@
 
 % ── Slide 1: Title & Hook ────────────────────────────────────────────────────
 {%
-\IfFileExists{images/tractor_ph_rice_field.jpg}{%
+\IfFileExists{images/farmersKYC.jpg}{%
   \usebackgroundtemplate{%
-    \begin{tikzpicture}
-      \node[inner sep=0pt] (bgimg) at (0,0)
-        {\includegraphics[width=\paperwidth,height=\paperheight]{tractor_ph_rice_field.jpg}};
-      \fill[black,opacity=0.55] (bgimg.south west) rectangle (bgimg.north east);
-    \end{tikzpicture}}%
+    \begin{tikzpicture}[remember picture,overlay]
+
+      % Background image
+      \node[inner sep=0pt] (bgimg)
+      at (current page.center)
+      {
+        \includegraphics[
+          width=\paperwidth,
+          height=\paperheight
+        ]{farmersKYC.jpg}
+      };
+
+      % Dark overlay
+      \fill[
+        black,
+        opacity=0.75
+      ]
+      (current page.south west)
+      rectangle
+      (current page.north east);
+
+    \end{tikzpicture}
+  }%
 }{}
+
 \begin{frame}[plain]
+
   \vspace{2.2cm}
+
   \centering
+
+  % Main Title
   {\color{white}\LARGE\bfseries
     Pilot Machine Learning Model for\\[0.4em]
     Fuel Requirement Estimation\\[0.4em]
-    in Agricultural Mechanization}\\[1.2em]
-  {\color{white}\normalsize
-    Ronald Melvin R.\ Rosas \quad|\quad Marcus Rafael Tiongson}\\[0.3em]
-  {\color{white}\small AI 201 --- University of the Philippines, Diliman}
+    in Agricultural Mechanization
+  }
 
-  \note{Introduce the core thesis immediately. We are moving from static, outdated
-  engineering estimates to dynamic, data-driven machine learning. This pilot shows
-  that a Random Forest trained on AMTEC test data reaches R\textsuperscript{2} = 0.916
-  and immediately scores 172{,}265 machines across the national ABEMIS inventory.}
+  \vspace{1.2em}
+
+  % Authors
+  {\color{white}\normalsize
+    Ronald Melvin R.\ Rosas \quad|\quad Marcus Rafael Tiongson
+  }
+
+  \vspace{0.3em}
+
+  % Affiliation
+  {\color{white}\small
+    AI 201 --- University of the Philippines Diliman
+  }
+
+  % ── Photo Credit Overlay ───────────────────────────────────────────────
+  \begin{tikzpicture}[remember picture,overlay]
+
+    \node[
+      anchor=south west,
+      xshift=0.45cm,
+      yshift=0.30cm,
+      fill=black,
+      fill opacity=0.72,
+      text opacity=1,
+      rounded corners=3pt,
+      inner sep=5pt
+    ]
+    at (current page.south west)
+    {
+      \parbox{0.74\paperwidth}{
+        \color{white}\scriptsize\textit{
+        Photo credit: DA Region VII --- Conduct of KYC verification of farmers and fisherfolk beneficiaries of Fuel Assistance to Farmers and Fisherfolk.
+        }
+      }
+    };
+
+  \end{tikzpicture}
+
+  % Speaker Notes
+  \note{
+  Introduce the core thesis immediately. We are moving from static,
+  outdated engineering estimates to dynamic, data-driven machine learning.
+  This pilot shows that a Random Forest trained on AMTEC test data reaches
+  R\textsuperscript{2} = 0.916 and immediately scores 172,265 machines
+  across the national ABEMIS inventory.
+  }
+
 \end{frame}
 }
 
-% ── Slide 2: The Core Problem ────────────────────────────────────────────────
-\begin{frame}{Static Coefficients vs.\ Real-World Variance}
-  \begin{columns}[c]
-    \column{0.46\textwidth}
-      \centering
-      \IfFileExists{images/combine_harvester.jpg}{%
-        \includegraphics[width=\linewidth,height=0.52\textheight,keepaspectratio]%
-          {combine_harvester.jpg}%
-      }{%
-        \begin{tikzpicture}
-          \draw[phblue, thick, rounded corners=4pt, fill=lightblue]
-            (0,0) rectangle (5,3.2);
-          \node[font=\small, align=center] at (2.5,1.6)
-            {Combine Harvester\\$>$\,50 kW, mobile, high load};
-        \end{tikzpicture}%
-      }\\[0.4em]
-      {\small\textbf{Combine Harvester}\\$>$\,50\,kW · mobile · high field load}
-    \column{0.08\textwidth}
-      \centering
-      {\color{phblue}\LARGE$\neq$}
-    \column{0.46\textwidth}
-      \centering
-      \IfFileExists{images/water_pump_stationary.jpg}{%
-        \includegraphics[width=\linewidth,height=0.52\textheight,keepaspectratio]%
-          {water_pump_stationary.jpg}%
-      }{%
-        \begin{tikzpicture}
-          \draw[phblue, thick, rounded corners=4pt, fill=lightblue]
-            (0,0) rectangle (5,3.2);
-          \node[font=\small, align=center] at (2.5,1.6)
-            {Stationary Water Pump\\$<$\,5 kW, fixed load};
-        \end{tikzpicture}%
-      }\\[0.4em]
-      {\small\textbf{Stationary Water Pump}\\$<$\,5\,kW · fixed · low load}
-  \end{columns}
-  \vspace{0.6em}
-  \centering\small\textit{Deterministic formulas apply the same generalized constant to both.}
-  \note{Point to the images. Current deterministic formulas treat fuel consumption
-  with generalized constants. Those formulas fail because they cannot capture the
-  massive non-linear operational differences between the machine on the left and the
-  machine on the right.}
+
+
+% ── Slide 2: Philippine Agricultural Mechanization Context ──────────────────
+\begin{frame}{Agricultural Mechanization in the Philippine Context}
+
+\centering
+
+% Main diagram/image
+\IfFileExists{images/Philippine Agricultural Mechanization Context Diagram.png}{%
+    \includegraphics[
+        width=0.96\linewidth,
+        height=0.72\textheight,
+        keepaspectratio
+    ]{images/Philippine Agricultural Mechanization Context Diagram.png}
+}{%
+    \begin{tikzpicture}
+
+        % Placeholder box if image is missing
+        \draw[
+            phblue,
+            thick,
+            rounded corners=5pt,
+            fill=lightblue
+        ]
+        (0,0) rectangle (10,5.8);
+
+        \node[
+            align=center,
+            font=\large
+        ]
+        at (5,2.9)
+        {
+            Insert Philippine Agricultural\\
+            Mechanization Context Diagram Here
+        };
+
+    \end{tikzpicture}
+}
+
+\vspace{0.45em}
+
+% Context statement box
+\begin{center}
+\begin{tikzpicture}
+\node[
+    fill=black!4,
+    draw=phblue,
+    rounded corners=4pt,
+    inner sep=6pt,
+    text width=0.92\linewidth,
+    align=center
+]
+{
+\small
+Fuel-dependent agricultural operations require accurate and scalable
+fuel requirement estimation methods for mechanization planning,
+government support programs, and inventory-based decision support.
+};
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.2em}
+
+% Transition statement
+{\scriptsize\textit{
+However, fuel requirement estimation remains challenging because
+agricultural machinery operations exhibit highly variable real-world behavior.
+}}
+
+\note{
+This slide establishes the broader Philippine agricultural mechanization
+context. Mechanization contributes to productivity improvement,
+rural income generation, operational efficiency, and agricultural
+development. Government support, machinery access, infrastructure,
+and financing all influence mechanization adoption.
+
+Because mechanized agricultural operations are fuel-dependent,
+accurate fuel requirement estimation becomes important for planning,
+resource allocation, and support programs. However, machinery
+operations vary significantly depending on machine type, operating
+conditions, field environment, and workload characteristics. This
+creates challenges for traditional deterministic fuel estimation methods
+and motivates the need for data-driven machine learning approaches.
+}
+
 \end{frame}
+
+
+
+
+
 
 % ── Slide 3: The Data ────────────────────────────────────────────────────────
 \begin{frame}{The Data: AMTEC \& ABEMIS}
@@ -135,12 +248,12 @@
   ]
     \node[box] at (-3.6, 0) (amtec)
       {\textbf{376} AMTEC\\Test Records\\[4pt]
-       \footnotesize Fuel $\cdot$ Power $\cdot$ Field Efficiency};
+       \footnotesize Fuel Consumption $\cdot$ Rated Power};
     \node[box] at (3.6, 0) (abemis)
-      {\textbf{246{,}741} ABEMIS\\Inventory Records\\[4pt]
-       \footnotesize National Deployment Context};
+      {\textbf{246{,}741} ABEMIS\\Machinery Inventory\\[4pt]
+       \footnotesize National Mechanization Context};
     \node[merge] at (0, -2.4) (ml)
-      {ML Feature Engineering Pipeline};
+      {Machine Learning Fuel Estimation Pipeline};
     \draw[arrow] (amtec.south) -- ++(0,-0.6) -- ($(ml.north west)+(0,0)$);
     \draw[arrow] (abemis.south) -- ++(0,-0.6) -- ($(ml.north east)+(0,0)$);
   \end{tikzpicture}
@@ -148,11 +261,11 @@
   \vspace{0.3em}
   \begin{columns}[t]
     \column{0.48\textwidth}
-      \textbf{AMTEC} --- standardized, controlled lab tests\\
-      {\small Source: BAFE-AMTEC (1990s--2026)}
+      \textbf{AMTEC} --- Philippine machinery testing and evaluation center, based in UPLB, providing standardized agricultural machinery performance and fuel consumption data.\\
+      {\small Source: UPLB-AMTEC (1990s--2026)}
     \column{0.48\textwidth}
-      \textbf{ABEMIS} --- national deployment inventory\\
-      {\small Coverage: all 17 Philippine regions}
+      \textbf{ABEMIS} --- National agricultural engineering information system of BAFE for machinery inventory, infrastructure monitoring, and mechanization decision support.\\
+      {\small Coverage: all 18 Philippine regions}
   \end{columns}
   \note{Briefly establish data provenance. You took standardized, controlled test
   data from AMTEC and enriched it with massive, real-world deployment context from
@@ -376,46 +489,134 @@
 \end{frame}
 }
 
+
 % ── Slide 9: Future Work ──────────────────────────────────────────────────────
-\begin{frame}{Next Iterations}
-  \vspace{0.6em}
-  \begin{columns}[c]
-    \column{0.32\textwidth}
-      \centering
-      \begin{tikzpicture}
-        \node[circle, draw=phblue, fill=lightblue,
-              minimum size=1.6cm, font=\Large\bfseries] {PDF};
-      \end{tikzpicture}\\[0.6em]
-      \textbf{Expand Corpus}\\[0.4em]
-      \small Acquire \textbf{3,065-PDF} collaborator set; Tesseract OCR already
-      deployed --- 267 scanned reports processed, 376-record corpus achieved.
-    \column{0.32\textwidth}
-      \centering
-      \begin{tikzpicture}
-        \node[circle, draw=phblue, fill=lightblue,
-              minimum size=1.6cm, font=\Large\bfseries] {CAL};
-      \end{tikzpicture}\\[0.6em]
-      \textbf{RAED Calendar}\\[0.4em]
-      \small Integrate cropping-season data to add \textbf{temporal load timing}
-      as a predictive feature.
-    \column{0.32\textwidth}
-      \centering
-      \begin{tikzpicture}
-        \node[circle, draw=phblue, fill=lightblue,
-              minimum size=1.6cm, font=\Large\bfseries] {$\sim$};
-      \end{tikzpicture}\\[0.6em]
-      \textbf{Field Telemetry}\\[0.4em]
-      \small Validate predictions against \textbf{in-field sensor data} from a
-      pilot deployment.
-  \end{columns}
-  \note{Tesseract OCR was already deployed in this study --- Tesseract 5.5.2 was
-  applied to 267 scanned AMTEC reports, recovering 24 additional records and
-  bringing the corpus to 376. The next step is acquiring the 3,065-PDF
-  collaborator set to further enlarge training data, especially for
-  underrepresented machinery types. RAED cropping calendar data was not yet
-  acquired --- integrating it is the single most important missing feature
-  dimension. Final goal: validate against in-field GPS/flow-sensor telemetry.}
+\begin{frame}{Future Directions of the Study}
+
+\vspace{0.4em}
+
+\begin{center}
+\small
+The proposed framework may be expanded toward national-scale
+fuel forecasting, seasonal planning, and data-driven mechanization support.
+\end{center}
+
+\vspace{0.8em}
+
+\begin{columns}[c]
+
+% ───────────────── Left Column ─────────────────
+\column{0.32\textwidth}
+\centering
+
+\begin{tikzpicture}
+\node[
+    circle,
+    draw=phblue,
+    fill=lightblue,
+    minimum size=1.9cm,
+    font=\Large\bfseries
+] {\Large$\Sigma$};
+\end{tikzpicture}
+
+\vspace{0.6em}
+
+\textbf{National Fuel Forecasting}
+
+\vspace{0.4em}
+
+\small
+Estimate regional and seasonal agricultural fuel demand
+using national machinery inventories and operational datasets.
+
+% ───────────────── Middle Column ─────────────────
+\column{0.32\textwidth}
+\centering
+
+\begin{tikzpicture}
+\node[
+    circle,
+    draw=phblue,
+    fill=lightblue,
+    minimum size=1.9cm,
+    font=\Large\bfseries
+] {\small calendar};
+\end{tikzpicture}
+
+\vspace{0.6em}
+
+\textbf{Seasonal Planning}
+
+\vspace{0.4em}
+
+\small
+Integrate cropping calendars to identify peak planting
+and harvesting fuel demand periods.
+
+% ───────────────── Right Column ─────────────────
+\column{0.32\textwidth}
+\centering
+
+\begin{tikzpicture}
+\node[
+    circle,
+    draw=phblue,
+    fill=lightblue,
+    minimum size=1.9cm,
+    font=\Large\bfseries
+] {\Large$\checkmark$};
+\end{tikzpicture}
+
+\vspace{0.6em}
+
+\textbf{Real-World Validation}
+
+\vspace{0.4em}
+
+\small
+Compare machine learning predictions against
+actual farm-level fuel consumption observations.
+
+\end{columns}
+
+\vspace{1.0em}
+
+% Bottom implication box
+\begin{center}
+\begin{tikzpicture}
+\node[
+    fill=black!4,
+    draw=phblue,
+    rounded corners=4pt,
+    inner sep=6pt,
+    text width=0.92\linewidth,
+    align=center
+]
+{
+\small
+Long-term applications may support fuel assistance programs,
+mechanization planning, and agricultural decision support systems
+in the Philippines.
+};
+\end{tikzpicture}
+\end{center}
+
+\note{
+The long-term goal of this work extends beyond predictive modeling.
+The framework may eventually support regional fuel forecasting,
+seasonal agricultural planning, mechanization analytics, and
+evidence-based government support programs.
+
+Future work includes expanding operational datasets, integrating
+cropping calendars to model seasonal demand behavior, and validating
+predictions using real-world agricultural fuel consumption observations.
+These developments may help improve large-scale mechanization planning
+and agricultural decision support in the Philippine context.
+}
+
 \end{frame}
+
+
 
 % ── Thank You ─────────────────────────────────────────────────────────────────
 \begin{frame}
