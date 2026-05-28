@@ -578,6 +578,65 @@ table.results-table tr.winner td:first-child {
   color: var(--ink-2);
 }
 
+/* ── Slide 5b/c/d: OLS diagnostics ─────────────────────────────────────── */
+.diag-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+  padding: 4px 0 0;
+}
+.diag-item { display: grid; gap: 10px; }
+.diag-item img {
+  width: 100%; height: auto; display: block;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  padding: 14px;
+}
+.diag-item .caption {
+  font-family: var(--mono);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-3); text-align: center;
+}
+.diag-note {
+  margin-top: 22px;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink-2);
+  border-top: 1px solid var(--rule);
+  padding-top: 16px;
+  line-height: 1.4;
+  max-width: 92ch;
+}
+
+/* ── Slide 8b: LIME 2x2 grid ───────────────────────────────────────────── */
+.lime-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  align-items: start;
+  padding: 4px 0 0;
+}
+.lime-grid img {
+  width: 100%; height: auto; display: block;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 8px;
+}
+.lime-grid-note {
+  margin-top: 20px;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink-2);
+  border-top: 1px solid var(--rule);
+  padding-top: 16px;
+  line-height: 1.4;
+  max-width: 92ch;
+}
+
 /* ── Pivot / divider slides ────────────────────────────────────────────── */
 .pivot {
   position: absolute; inset: 0;
@@ -1080,7 +1139,7 @@ table.results-table tr.winner td:first-child {
           <span>Rosas · Tiongson</span>
           <span>Fuel Estimation ML</span>
         </div>
-        <span class="pg">02 / 12</span>
+        <span class="pg">02 / 17</span>
       </footer>
     </section>
 
@@ -1143,7 +1202,7 @@ table.results-table tr.winner td:first-child {
           <span>Rosas · Tiongson</span>
           <span>Fuel Estimation ML</span>
         </div>
-        <span class="pg">03 / 12</span>
+        <span class="pg">03 / 17</span>
       </footer>
     </section>
 
@@ -1244,7 +1303,7 @@ table.results-table tr.winner td:first-child {
           <ul>
             <li>Power and fuel do not scale linearly across machine types.</li>
             <li>Each tree partitions the feature space differently.</li>
-            <li>100+ trees average out variance, robust predictions.</li>
+            <li>300 trees average out variance — robust predictions.</li>
             <li>No manual feature crossing required.</li>
           </ul>
           <div class="compare-r2">
@@ -1260,7 +1319,7 @@ table.results-table tr.winner td:first-child {
           <span>Rosas · Tiongson</span>
           <span>Fuel Estimation ML</span>
         </div>
-        <span class="pg">04 / 12</span>
+        <span class="pg">04 / 17</span>
       </footer>
     </section>
 
@@ -1336,14 +1395,149 @@ table.results-table tr.winner td:first-child {
           <span>Rosas · Tiongson</span>
           <span>Fuel Estimation ML</span>
         </div>
-        <span class="pg">05 / 12</span>
+        <span class="pg">05 / 17</span>
       </footer>
     </section>
 
     <!-- ════════════════════════════════════════════════════════════════════
-         SLIDE 6 — Pivot: why does the model trust these predictions?
+         SLIDE 6 — OLS diagnostics: Global (all machinery)
          ════════════════════════════════════════════════════════════════════ -->
-    <section class="slide is-bleed" data-slide="6">
+    <section class="slide" data-slide="6">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">04a</span>
+        <span>Diagnostics</span>
+        <span class="rule"></span>
+        <span>OLS quadratic · global (all machinery)</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">A single global OLS underfits the high-power tail.</h2>
+        <div class="head-meta">
+          OLS · quadratic in power_kw<br>
+          Scope: all machinery
+        </div>
+      </div>
+
+      <div class="diag-wrap">
+        <div class="diag-item">
+          <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/GLOBAL_ALL_MACHINERY_FINAL_quadratic_residuals_vs_fitted.png" alt="Global residuals vs. fitted">
+          <div class="caption">Residuals vs. fitted</div>
+        </div>
+        <div class="diag-item">
+          <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/GLOBAL_ALL_MACHINERY_FINAL_quadratic_qqplot.png" alt="Global Q-Q plot">
+          <div class="caption">Q-Q plot</div>
+        </div>
+      </div>
+
+      <p class="diag-note">
+        Residuals fan out at the high-power tail and the Q-Q deviates in the upper quantiles —
+        the global quadratic OLS underfits heavy mobile machinery, motivating the per-family fallback
+        and the move to Random Forest.
+      </p>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">06 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 7 — OLS diagnostics: Mobile Field Machinery
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="7">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">04b</span>
+        <span>Diagnostics</span>
+        <span class="rule"></span>
+        <span>OLS quadratic · Mobile Field Machinery</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">Tractors and tillers are the cleanest per-family OLS slice.</h2>
+        <div class="head-meta">
+          OLS · quadratic in power_kw<br>
+          Scope: family = Mobile Field
+        </div>
+      </div>
+
+      <div class="diag-wrap">
+        <div class="diag-item">
+          <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_residuals_vs_fitted.png" alt="Mobile Field residuals vs. fitted">
+          <div class="caption">Residuals vs. fitted</div>
+        </div>
+        <div class="diag-item">
+          <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_qqplot.png" alt="Mobile Field Q-Q plot">
+          <div class="caption">Q-Q plot</div>
+        </div>
+      </div>
+
+      <p class="diag-note">
+        Within Mobile Field Machinery the quadratic fit is markedly tighter — residuals are more
+        symmetric and the Q-Q tracks normal across most of the range. The per-family scope is the
+        most useful OLS slice.
+      </p>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">07 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 8 — OLS diagnostics: Harvest Machinery
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="8">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">04c</span>
+        <span>Diagnostics</span>
+        <span class="rule"></span>
+        <span>OLS quadratic · Harvest Machinery</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">Harvest residuals carry a heavier tail than Mobile Field.</h2>
+        <div class="head-meta">
+          OLS · quadratic in power_kw<br>
+          Scope: family = Harvest
+        </div>
+      </div>
+
+      <div class="diag-wrap">
+        <div class="diag-item">
+          <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_residuals_vs_fitted.png" alt="Harvest residuals vs. fitted">
+          <div class="caption">Residuals vs. fitted</div>
+        </div>
+        <div class="diag-item">
+          <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_qqplot.png" alt="Harvest Q-Q plot">
+          <div class="caption">Q-Q plot</div>
+        </div>
+      </div>
+
+      <p class="diag-note">
+        Harvest machinery (combines, reapers) holds a serviceable quadratic shape but with a heavier
+        upper-quantile Q-Q tail — a residual non-linearity that Random Forest captures without
+        needing manual feature engineering.
+      </p>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">08 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 9 — Pivot: why does the model trust these predictions?
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide is-bleed" data-slide="9">
       <div class="pivot">
         <header class="kicker">
           <span class="dot"></span>
@@ -1361,15 +1555,15 @@ table.results-table tr.winner td:first-child {
             <span>Rosas · Tiongson</span>
             <span>Fuel Estimation ML</span>
           </div>
-          <span class="pg">06 / 12</span>
+          <span class="pg">09 / 17</span>
         </footer>
       </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════════════════
-         SLIDE 7 — SHAP global
+         SLIDE 10 — SHAP global
          ════════════════════════════════════════════════════════════════════ -->
-    <section class="slide" data-slide="7">
+    <section class="slide" data-slide="10">
       <header class="kicker">
         <span class="dot"></span>
         <span class="num">05</span>
@@ -1412,14 +1606,64 @@ table.results-table tr.winner td:first-child {
           <span>Rosas · Tiongson</span>
           <span>Fuel Estimation ML</span>
         </div>
-        <span class="pg">07 / 12</span>
+        <span class="pg">10 / 17</span>
       </footer>
     </section>
 
     <!-- ════════════════════════════════════════════════════════════════════
-         SLIDE 8 — LIME local
+         SLIDE 11 — SHAP beeswarm
          ════════════════════════════════════════════════════════════════════ -->
-    <section class="slide" data-slide="8">
+    <section class="slide" data-slide="11">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">05</span>
+        <span>Global interpretability</span>
+        <span class="rule"></span>
+        <span>SHAP · beeswarm distribution</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">Each feature's pull, distributed across every test record.</h2>
+        <div class="head-meta">
+          SHAP · TreeExplainer<br>
+          Test set · all features
+        </div>
+      </div>
+
+      <div class="shap-wrap">
+        <div class="shap-img">
+          <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/shap_summary_beeswarm.png" alt="SHAP beeswarm plot">
+        </div>
+        <div class="shap-side">
+          <h3>From bars to distributions.</h3>
+          <p class="body">
+            Each dot is one test record; color encodes feature value
+            (<span style="color: var(--amber-deep); font-weight: 600;">red = high</span>,
+            <span style="color: var(--cobalt); font-weight: 600;">blue = low</span>).
+          </p>
+          <p class="body">
+            High <strong>power_kw</strong> consistently stretches predictions to the right.
+            <strong>year</strong> contributions are bidirectional — capturing both older
+            high-fuel and modern efficient cohorts.
+          </p>
+          <p class="pull">
+            <em>The bar chart says what matters. The beeswarm says how.</em>
+          </p>
+        </div>
+      </div>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">11 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 12 — LIME local
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="12">
       <header class="kicker">
         <span class="dot"></span>
         <span class="num">06</span>
@@ -1459,14 +1703,55 @@ table.results-table tr.winner td:first-child {
           <span>Rosas · Tiongson</span>
           <span>Fuel Estimation ML</span>
         </div>
-        <span class="pg">08 / 12</span>
+        <span class="pg">12 / 17</span>
       </footer>
     </section>
 
     <!-- ════════════════════════════════════════════════════════════════════
-         SLIDE 9 — National impact
+         SLIDE 13 — LIME · across machinery types (2x2 grid)
          ════════════════════════════════════════════════════════════════════ -->
-    <section class="slide" data-slide="9">
+    <section class="slide" data-slide="13">
+      <header class="kicker">
+        <span class="dot"></span>
+        <span class="num">06</span>
+        <span>Local interpretability</span>
+        <span class="rule"></span>
+        <span>LIME · more samples across types</span>
+      </header>
+      <div class="head" style="margin-top: 28px;">
+        <h2 class="section">Local attribution holds across machinery types.</h2>
+        <div class="head-meta">
+          LIME · 4 example records<br>
+          Power dominates 9 / 10 inspected
+        </div>
+      </div>
+
+      <div class="lime-grid">
+        <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/lime_example_1.png" alt="LIME example 1">
+        <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/lime_example_2.png" alt="LIME example 2">
+        <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/lime_example_3.png" alt="LIME example 3">
+        <img src="../Agricultural Machinery Inventory from ABEMIS/Regression Parameters Output V3/lime_example_4.png" alt="LIME example 4">
+      </div>
+
+      <p class="lime-grid-note">
+        Across 10 inspected records, <strong>power_kw</strong> is the top local contributor in
+        9 out of 10 cases; <strong>machinery_type</strong> and <strong>analysis_subset</strong>
+        carry the secondary adjustments, particularly for dryers and stationary processing equipment.
+      </p>
+
+      <footer class="footline">
+        <div class="meta">
+          <span>Rosas · Tiongson</span>
+          <span>Fuel Estimation ML</span>
+        </div>
+        <span class="pg">13 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SLIDE 14 — National impact
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide="14">
       <header class="kicker">
         <span class="dot"></span>
         <span class="num">07</span>
@@ -1516,14 +1801,14 @@ table.results-table tr.winner td:first-child {
           <span>Rosas · Tiongson</span>
           <span>Fuel Estimation ML</span>
         </div>
-        <span class="pg">09 / 12</span>
+        <span class="pg">14 / 17</span>
       </footer>
     </section>
 
     <!-- ════════════════════════════════════════════════════════════════════
-         SLIDE 10 — Pivot: what's next?
+         SLIDE 15 — Pivot: what's next?
          ════════════════════════════════════════════════════════════════════ -->
-    <section class="slide is-bleed" data-slide="10">
+    <section class="slide is-bleed" data-slide="15">
       <div class="pivot">
         <header class="kicker">
           <span class="dot"></span>
@@ -1541,15 +1826,15 @@ table.results-table tr.winner td:first-child {
             <span>Rosas · Tiongson</span>
             <span>Fuel Estimation ML</span>
           </div>
-          <span class="pg">10 / 12</span>
+          <span class="pg">15 / 17</span>
         </footer>
       </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════════════════
-         SLIDE 11 — Future iterations
+         SLIDE 16 — Future iterations
          ════════════════════════════════════════════════════════════════════ -->
-    <section class="slide" data-slide="11">
+    <section class="slide" data-slide="16">
       <header class="kicker">
         <span class="dot"></span>
         <span class="num">08</span>
@@ -1591,17 +1876,17 @@ table.results-table tr.winner td:first-child {
           <span>Rosas · Tiongson</span>
           <span>Fuel Estimation ML</span>
         </div>
-        <span class="pg">11 / 12</span>
+        <span class="pg">16 / 17</span>
       </footer>
     </section>
 
     <!-- ════════════════════════════════════════════════════════════════════
-         SLIDE 12 — Thanks
+         SLIDE 17 — Thanks
          ════════════════════════════════════════════════════════════════════ -->
-    <section class="slide" data-slide="12">
+    <section class="slide" data-slide="17">
       <header class="kicker">
         <span class="dot"></span>
-        <span class="num">12</span>
+        <span class="num">17</span>
         <span>End</span>
         <span class="rule"></span>
         <span>Q &amp; A</span>
@@ -1622,7 +1907,7 @@ table.results-table tr.winner td:first-child {
           <span>Rosas · Tiongson</span>
           <span>Fuel Estimation ML</span>
         </div>
-        <span class="pg">12 / 12</span>
+        <span class="pg">17 / 17</span>
       </footer>
     </section>
 

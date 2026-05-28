@@ -370,6 +370,67 @@ and motivates the need for data-driven machine learning approaches.
   feature variances that linear models smooth over.}
 \end{frame}
 
+% ── Slide 5b: OLS Diagnostics — Global (All Machinery) ───────────────────────
+\begin{frame}{OLS Diagnostics --- Global (All Machinery)}
+  \begin{columns}[c]
+    \column{0.48\textwidth}
+      \centering
+      \includegraphics[width=\linewidth,height=0.72\textheight,keepaspectratio]%
+        {GLOBAL_ALL_MACHINERY_FINAL_quadratic_residuals_vs_fitted.png}
+      {\scriptsize Residuals vs.\ fitted}
+    \column{0.48\textwidth}
+      \centering
+      \includegraphics[width=\linewidth,height=0.72\textheight,keepaspectratio]%
+        {GLOBAL_ALL_MACHINERY_FINAL_quadratic_qqplot.png}
+      {\scriptsize Q--Q plot}
+  \end{columns}
+  \vspace{0.3em}
+  {\footnotesize Residuals fan out at the high-power tail and the Q--Q deviates in the upper quantiles --- the global quadratic OLS underfits heavy mobile machinery, motivating the per-family fallback and the move to Random Forest.}
+  \note{The global OLS fit shows clear heteroscedasticity at high power and tail
+  departure from normality. This is the empirical reason the hierarchical fallback
+  and the non-parametric RF outperform a single linear model.}
+\end{frame}
+
+% ── Slide 5c: OLS Diagnostics — Mobile Field Machinery ───────────────────────
+\begin{frame}{OLS Diagnostics --- Mobile Field Machinery}
+  \begin{columns}[c]
+    \column{0.48\textwidth}
+      \centering
+      \includegraphics[width=\linewidth,height=0.72\textheight,keepaspectratio]%
+        {MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_residuals_vs_fitted.png}
+      {\scriptsize Residuals vs.\ fitted}
+    \column{0.48\textwidth}
+      \centering
+      \includegraphics[width=\linewidth,height=0.72\textheight,keepaspectratio]%
+        {MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_qqplot.png}
+      {\scriptsize Q--Q plot}
+  \end{columns}
+  \vspace{0.3em}
+  {\footnotesize Within the Mobile Field family (tractors, tillers) the quadratic fit is markedly tighter --- residuals are more symmetric and the Q--Q tracks normal across most of the range, validating the per-family scope as the most useful OLS slice.}
+  \note{Tractors and tillers are the cleanest OLS slice. Once we restrict to one
+  physical family, the quadratic in power\_kw recovers most of the variance.}
+\end{frame}
+
+% ── Slide 5d: OLS Diagnostics — Harvest Machinery ────────────────────────────
+\begin{frame}{OLS Diagnostics --- Harvest Machinery}
+  \begin{columns}[c]
+    \column{0.48\textwidth}
+      \centering
+      \includegraphics[width=\linewidth,height=0.72\textheight,keepaspectratio]%
+        {MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_residuals_vs_fitted.png}
+      {\scriptsize Residuals vs.\ fitted}
+    \column{0.48\textwidth}
+      \centering
+      \includegraphics[width=\linewidth,height=0.72\textheight,keepaspectratio]%
+        {MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_qqplot.png}
+      {\scriptsize Q--Q plot}
+  \end{columns}
+  \vspace{0.3em}
+  {\footnotesize Harvest machinery (combines, reapers) holds a serviceable quadratic shape but with a heavier upper-quantile Q--Q tail than Mobile Field --- a residual non-linearity that Random Forest captures without needing manual feature engineering.}
+  \note{Combines and reapers show more heavy-tailed residuals than tractors.
+  This is exactly the structure that the non-parametric RF picks up.}
+\end{frame}
+
 % ── Section Divider: Why trust it? ───────────────────────────────────────────
 {%
 \IfFileExists{images/tractor_ph_rice_field.jpg}{%
@@ -415,6 +476,23 @@ and motivates the need for data-driven machine learning approaches.
   contribute a combined ~9\%, providing contextual fine-tuning.}
 \end{frame}
 
+% ── Slide 6b: SHAP Beeswarm ──────────────────────────────────────────────────
+\begin{frame}{SHAP Beeswarm --- Distribution of Feature Contributions}
+  \centering
+  \includegraphics[width=0.92\textwidth,height=0.76\textheight,keepaspectratio]%
+    {shap_summary_beeswarm.png}
+
+  \vspace{0.3em}
+  {\small Each dot is one test record; color encodes feature value (red = high, blue = low).
+  High \texttt{power\_kw} consistently pushes predictions up;
+  \texttt{year} contributions are bidirectional, capturing both older high-fuel
+  and modern efficient cohorts.}
+  \note{Where the bar chart tells you which features matter, the beeswarm tells you
+  how each feature value moves the prediction. Red dots on power\_kw stretch far to the right
+  --- high-power machines always raise the estimate. The year feature splits into two clusters,
+  showing the vintage effect cleanly.}
+\end{frame}
+
 % ── Slide 7: LIME Local Interpretability ─────────────────────────────────────
 \begin{frame}{Explaining Individual Predictions (LIME)}
   \centering
@@ -428,6 +506,26 @@ and motivates the need for data-driven machine learning approaches.
   LIME breaks down why the model predicted 4.77 L/h for one specific small engine.
   This granular transparency is how you get BAFE engineers to actually trust and
   adopt the tool.}
+\end{frame}
+
+% ── Slide 7b: LIME — more samples (2x2 grid) ─────────────────────────────────
+\begin{frame}{LIME --- More Local Explanations Across Machinery Types}
+  \centering
+  \begin{tabular}{cc}
+    \includegraphics[width=0.44\textwidth,keepaspectratio]{lime_example_1.png} &
+    \includegraphics[width=0.44\textwidth,keepaspectratio]{lime_example_2.png} \\[0.3em]
+    \includegraphics[width=0.44\textwidth,keepaspectratio]{lime_example_3.png} &
+    \includegraphics[width=0.44\textwidth,keepaspectratio]{lime_example_4.png} \\
+  \end{tabular}
+
+  \vspace{0.2em}
+  {\footnotesize Across 10 inspected records, \texttt{power\_kw} is the top
+  local contributor in 9 out of 10 cases; \texttt{machinery\_type} and
+  \texttt{analysis\_subset} carry the secondary adjustments, particularly
+  for dryers and stationary processing equipment.}
+  \note{Four LIME plots in a grid demonstrate that the single-instance view
+  on the previous slide is not cherry-picked. Power dominates locally for
+  almost every record; type and subset modulate the magnitude.}
 \end{frame}
 
 % ── Slide 8: National Impact ──────────────────────────────────────────────────

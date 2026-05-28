@@ -388,17 +388,21 @@ This pilot study demonstrates that a Random Forest Regressor trained on 376 AMTE
 \section*{XII. Recommendations and Future Work}
 %% ─────────────────────────────────────────────────────────────────────────────
 
+The most consequential next steps move this pilot from a single trained model into a planning instrument. Three directions are prioritized; data-quality remediation is treated as supporting work that enables them.
+
+\subsection*{A. Priority Directions}
+
 \begin{itemize}
-  \item \textbf{Expand the AMTEC corpus:} Tesseract OCR has been applied to the 267 scanned reports available during this study. Acquiring the remaining collaborator set (estimated 3{,}065 PDFs) and re-running the extraction pipeline would substantially expand the corpus beyond 376 records, with the largest gains expected in underrepresented machinery types (small-scale tillers, irrigation pumps, post-harvest equipment).
+  \item \textbf{National fuel forecasting.} Operationalize the trained RF model as a recurring, region-level fuel demand estimator for BAFE planning workflows. Concretely, this means scoring updated ABEMIS snapshots on a routine schedule, publishing per-region and per-machinery-family demand summaries, and integrating the outputs into fuel-assistance allocation and mechanization budgeting cycles. The 70\% national coverage already achieved is sufficient to support an initial planning release.
 
-  \item \textbf{RAED cropping calendar integration:} Acquire the RAED regional cropping calendar dataset and incorporate crop-stage timing as a temporal predictor. This is the single most important missing feature dimension and could materially improve regional fuel estimates that currently ignore seasonal load variation.
+  \item \textbf{Seasonal planning via the RAED cropping calendar.} Acquire and ingest the Regional Agricultural Engineering Division cropping calendar so that crop-stage timing enters the model as time-dimension predictors (\texttt{is\_in\_season}, \texttt{crop\_stage\_intensity}). This converts the current static, per-record fuel estimate into a season-resolved regional demand forecast --- the single most important missing predictor and the largest available gain in planning relevance.
 
-  \item \textbf{ABEMIS--AMTEC machinery-type mapping expansion:} Develop a systematic crosswalk between all ABEMIS machinery categories and their nearest AMTEC-tested equivalents to recover the 11,668 currently-unmapped rows and reduce reliance on proxy assignments.
-
-  \item \textbf{Rated Power imputation or supplementary linkage:} Address the 62,808 ABEMIS records with missing Rated Power by developing an imputation model (e.g., predicting power from machinery type, manufacturer, and model year) or by linking ABEMIS records to AMTEC power specifications via a machinery registry lookup.
-
-  \item \textbf{In-field telemetry validation:} Validate model predictions against actual fuel consumption measurements from a pilot deployment of GPS- and flow-sensor-equipped machinery in selected regions to assess real-world accuracy beyond standardized AMTEC test conditions.
+  \item \textbf{Real-world validation via in-field telemetry.} Run a pilot deployment of GPS- and flow-sensor-instrumented machinery across selected regions and compare measured fuel use against AMTEC-trained predictions. This closes the lab-to-field loop that the AMTEC corpus alone cannot, calibrates regional adjustment factors, and produces the empirical evidence base required for institutional adoption.
 \end{itemize}
+
+\subsection*{B. Supporting Data-Quality Work}
+
+The following are enabling activities rather than headline directions. Tesseract 5.5 OCR has already been applied to the 267 scanned AMTEC reports available during this study; acquisition of the additional 3{,}065-PDF collaborator set and a routine re-extraction would continue to expand corpus coverage. A systematic ABEMIS--AMTEC machinery-type crosswalk would recover the 11{,}668 currently-unmapped rows, and a rated-power imputation pass (predicting power from machinery type, manufacturer, and model year, or via a machinery registry lookup) would recover the 62{,}808 ABEMIS records missing parseable power. These mechanical improvements raise national coverage and reduce proxy-mapping uncertainty, but the headline value of the framework comes from the three priority directions above.
 
 \printbibliography
 
