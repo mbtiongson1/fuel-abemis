@@ -1,58 +1,54 @@
-\documentclass[10pt,twocolumn]{article}
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
 
-\usepackage[a4paper,margin=0.70in]{geometry}
-\usepackage{parskip}
-\usepackage{amsmath}
-\usepackage{amssymb}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{caption}
 \usepackage{float}
-\usepackage[backend=bibtex,style=authoryear,maxbibnames=99]{biblatex}
-\addbibresource{references.bib}
 
-\setlength{\columnsep}{0.22in}
-\setlength{\parskip}{2pt}
-\setlength{\parindent}{0pt}
 \sloppy
 
 \graphicspath{{./}}
 
+\title{Pilot Machine Learning Model for Fuel Requirement Estimation in Agricultural Mechanization}
+
+\author{\IEEEauthorblockN{Ronald Melvin R. Rosas}
+\IEEEauthorblockA{\textit{University of the Philippines, Diliman}\\
+Diliman, Quezon City, Philippines}
+\and
+\IEEEauthorblockN{Marcus Rafael Tiongson}
+\IEEEauthorblockA{\textit{University of the Philippines, Diliman}\\
+Diliman, Quezon City, Philippines}
+}
+
 \begin{document}
 
-\twocolumn[
-\begin{center}
-{\LARGE \textbf{Pilot Machine Learning Model for Fuel Requirement Estimation in Agricultural Mechanization}}\par
-\vspace{4pt}
-Ronald Melvin R. Rosas and Marcus Rafael Tiongson\par
-\vspace{2pt}
-{\small University of the Philippines, Diliman\par
-\vspace{2pt}
-May 2026\par}
-\end{center}
-\vspace{10pt}
-]
+\maketitle
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{Abstract}
-%% ─────────────────────────────────────────────────────────────────────────────
-
+\begin{abstract}
 This study develops a pilot machine learning model for estimating fuel requirements of agricultural machinery in the Philippines. A corpus of 376 cleaned training records was assembled from Agricultural Machinery Testing and Evaluation Center (AMTEC) PDF test reports---including 5 net new records added via Tesseract 5.5.2 OCR over 267 scanned image PDFs (24 candidate extractions, 5 surviving cleaning)---and used to train two models: a Multiple Linear Regression (OLS) baseline and a Random Forest (RF) Regressor. Eight features were used for the RF model---five numeric (\texttt{power\_kw}, \texttt{year}, \texttt{abemis\_total\_count}, \texttt{abemis\_region\_breadth}, \texttt{abemis\_dominant\_region\_share}) and three categorical-encoded (\texttt{machinery\_type}, \texttt{machinery\_family}, \texttt{analysis\_subset}). On a held-out test set of 76 records, the RF achieves R\textsuperscript{2}\,=\,0.916, MAE\,=\,0.95\,L/h, and RMSE\,=\,1.53\,L/h, substantially outperforming the OLS baseline. SHAP feature-importance analysis reveals that rated engine power (\texttt{power\_kw}) dominates at approximately 66.5\% of total importance, consistent with the fuel--power proportionality established in the literature. The trained model was applied to score the Agricultural and Biosystems Engineering Management Information System (ABEMIS) national inventory, successfully predicting fuel requirements for 172,265 of 246,741 fuel-relevant records (70\%) across all 17 Philippine regions, enabling data-driven national mechanization planning.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Agricultural mechanization, fuel estimation, machine learning, Random Forest, SHAP, LIME, ABEMIS, AMTEC
+\end{IEEEkeywords}
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{I. Introduction}
+\section{Introduction}
 %% ─────────────────────────────────────────────────────────────────────────────
 
-Fuel consumption is a critical cost driver in agricultural mechanization and directly affects operational efficiency and sustainability. In the Philippines, fuel requirement estimation is typically based on generalized coefficients or static assumptions that do not account for variability in machine characteristics, field conditions, and operational practices \parencite{domsch1999fuel}.
+Fuel consumption is a critical cost driver in agricultural mechanization and directly affects operational efficiency and sustainability. In the Philippines, fuel requirement estimation is typically based on generalized coefficients or static assumptions that do not account for variability in machine characteristics, field conditions, and operational practices \cite{domsch1999fuel}.
 
-Traditional engineering-based models provide approximate estimates but are limited in capturing nonlinear relationships among variables such as engine power, implement load, operation type, and field conditions. These models assume deterministic relationships that hold under standardized controlled test conditions; however, actual deployment across the diverse agro-ecological zones of the Philippines introduces variability that fixed coefficients cannot represent \parencite{briones2021philippine}.
+Traditional engineering-based models provide approximate estimates but are limited in capturing nonlinear relationships among variables such as engine power, implement load, operation type, and field conditions. These models assume deterministic relationships that hold under standardized controlled test conditions; however, actual deployment across the diverse agro-ecological zones of the Philippines introduces variability that fixed coefficients cannot represent \cite{briones2021philippine}.
 
 The Agricultural Machinery Testing and Evaluation Center (AMTEC) has accumulated decades of standardized test reports covering a range of machinery types, engine capacities, and operational configurations. Simultaneously, the Bureau of Agricultural and Fisheries Engineering (BAFE) maintains the Agricultural and Biosystems Engineering Management Information System (ABEMIS), a national registry of distributed agricultural machinery. Despite the availability of these datasets, no systematic data-driven fuel estimation framework has been applied to link AMTEC performance data with ABEMIS inventory records.
 
 With the increasing availability of agricultural datasets and the maturation of machine learning tools, it is now feasible to develop predictive models that improve estimation accuracy and support data-driven mechanization planning. This study proposes and evaluates a pilot machine learning model for estimating fuel requirements of selected agricultural machinery operations using structured operational data from AMTEC, enriched with deployment context from ABEMIS.
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{II. Problem Statement}
+\section{Problem Statement}
 %% ─────────────────────────────────────────────────────────────────────────────
 
 Current approaches to estimating fuel consumption in agricultural machinery are:
@@ -65,7 +61,7 @@ Current approaches to estimating fuel consumption in agricultural machinery are:
 As a result, there is a need for a data-driven model that can predict fuel consumption more accurately, adapt to different machine types and operations, and support improved decision-making in mechanized Philippine agriculture.
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{III. Objectives}
+\section{Objectives}
 %% ─────────────────────────────────────────────────────────────────────────────
 
 \textbf{General Objective:} To develop and evaluate a machine learning model for estimating fuel requirements of selected agricultural machinery operations using AMTEC test data and ABEMIS inventory context.
@@ -80,7 +76,7 @@ As a result, there is a need for a data-driven model that can predict fuel consu
 \end{itemize}
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{IV. Scope and Delimitation}
+\section{Scope and Delimitation}
 %% ─────────────────────────────────────────────────────────────────────────────
 
 The study is limited to fuel consumption data extracted from AMTEC PDF test reports and machinery deployment records from ABEMIS. The target variable is fuel consumption in liters per hour (L/h) as reported in standardized AMTEC test conditions. The ABEMIS scoring pipeline applies the trained model to national inventory records to produce region-level fuel requirement estimates.
@@ -90,37 +86,37 @@ The cropping calendar from the Regional Agricultural Engineering Division (RAED)
 The study excludes real-time sensor acquisition, GPS-based field tracking, full mechanization system simulation, and production-system deployment. Tesseract 5.5.2 OCR was applied to 267 low-text or scanned AMTEC PDFs during the study, producing 24 candidate extractions of which 5 survived cleaning and entered the final corpus (371 $\rightarrow$ 376); the remaining unrecovered reports are predominantly 1990s placeholder filings without machine specifications even after OCR processing.
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{V. Review of Related Literature}
+\section{Review of Related Literature}
 %% ─────────────────────────────────────────────────────────────────────────────
 
-\subsection*{A. Fuel Consumption Theory}
+\subsection{Fuel Consumption Theory}
 
-Fuel requirement estimation in agricultural mechanization is based on the relationship between engine power, implement load, and operational efficiency. Fuel consumption is generally proportional to the power requirement of the machine during operation, making it a practical indicator of energy demand \parencite{domsch1999fuel}. Standardized measurement procedures have been developed to characterize this relationship under controlled test conditions, enabling comparison across machine types and power classes.
+Fuel requirement estimation in agricultural mechanization is based on the relationship between engine power, implement load, and operational efficiency. Fuel consumption is generally proportional to the power requirement of the machine during operation, making it a practical indicator of energy demand \cite{domsch1999fuel}. Standardized measurement procedures have been developed to characterize this relationship under controlled test conditions, enabling comparison across machine types and power classes.
 
 However, fuel consumption is not determined solely by engine characteristics. It is influenced by implement type, soil conditions, machine configuration, and operational mode. These relationships indicate that fuel estimation is a multivariate problem, and that single-variable engineering formulas can systematically underperform when applied outside their calibration conditions.
 
-\subsection*{B. Empirical Modeling}
+\subsection{Empirical Modeling}
 
-Empirical studies show that fuel consumption varies significantly under actual operating conditions. Analysis by \textcite{philmech_harvesters} of commercially available rice combine harvesters demonstrates that fuel consumption is closely related to engine power, field efficiency, and operational parameters including crop variety and moisture content. The Philippine Agricultural Engineering Standard \parencite{pnspaes148} establishes the tractor test procedure that underlies AMTEC reporting, linking rated power and field performance to standardized fuel measurements.
+Empirical studies show that fuel consumption varies significantly under actual operating conditions. Analysis by PHilMech \cite{philmech_harvesters} of commercially available rice combine harvesters demonstrates that fuel consumption is closely related to engine power, field efficiency, and operational parameters including crop variety and moisture content. The Philippine Agricultural Engineering Standard \cite{pnspaes148} establishes the tractor test procedure that underlies AMTEC reporting, linking rated power and field performance to standardized fuel measurements.
 
 These empirical baselines confirm that while power is the primary determinant, secondary factors modulate actual consumption in ways that motivate a multivariate modeling approach.
 
-\subsection*{C. Real-World Variability}
+\subsection{Real-World Variability}
 
-Real-world studies further emphasize that fuel consumption varies across agricultural systems and operating environments. \textcite{agaton2024solar} report, in the context of irrigation systems, that diesel fuel use is affected by soil type, environmental conditions, crop water requirements, distance to water source, and system efficiency. Although focused on irrigation rather than field machinery, this finding supports the argument that fuel use is context-dependent and that static coefficients cannot generalize across the heterogeneous conditions of Philippine agriculture.
+Real-world studies further emphasize that fuel consumption varies across agricultural systems and operating environments. Agaton and Guno \cite{agaton2024solar} report, in the context of irrigation systems, that diesel fuel use is affected by soil type, environmental conditions, crop water requirements, distance to water source, and system efficiency. Although focused on irrigation rather than field machinery, this finding supports the argument that fuel use is context-dependent and that static coefficients cannot generalize across the heterogeneous conditions of Philippine agriculture.
 
-\subsection*{D. Mechanization and Structural Context}
+\subsection{Mechanization and Structural Context}
 
-Agricultural mechanization increases productivity but also raises energy demand. Mechanization level, often measured in horsepower per hectare, reflects the degree of energy input in agricultural production \parencite{bautista2024enhancing}. Fuel and maintenance costs are major operational barriers faced by farmers, affecting sustainability and mechanization adoption rates \parencite{espino2024mechanization}.
+Agricultural mechanization increases productivity but also raises energy demand. Mechanization level, often measured in horsepower per hectare, reflects the degree of energy input in agricultural production \cite{bautista2024enhancing}. Fuel and maintenance costs are major operational barriers faced by farmers, affecting sustainability and mechanization adoption rates \cite{espino2024mechanization}.
 
-Broader structural constraints---including policy fragmentation, limited financing, and post-harvest infrastructure gaps---also affect resource use and operational efficiency \parencite{ichwandiani2025industry, briones2021philippine}. Historical assessments of the Philippine agricultural machinery industry \parencite{itc2010machinery, jica1986philippines} document the evolution of mechanization from externally funded programs toward domestically driven adoption, setting the institutional context within which AMTEC and BAFE data originate.
+Broader structural constraints---including policy fragmentation, limited financing, and post-harvest infrastructure gaps---also affect resource use and operational efficiency \cite{ichwandiani2025industry, briones2021philippine}. Historical assessments of the Philippine agricultural machinery industry \cite{itc2010machinery, jica1986philippines} document the evolution of mechanization from externally funded programs toward domestically driven adoption, setting the institutional context within which AMTEC and BAFE data originate.
 
-\subsection*{E. Research Gap}
+\subsection{Research Gap}
 
 Existing approaches to fuel estimation rely largely on deterministic formulas, fixed coefficients, and controlled assumptions. These approaches have limited adaptability across varying field conditions and do not capture interactions among machine, operation, field, and effort-related variables. No prior study has applied machine learning to link AMTEC standardized test data with ABEMIS national inventory records to produce region-level fuel requirement estimates. The present study addresses this gap through a comparative OLS and Random Forest modeling approach with SHAP and LIME interpretability analysis.
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{VI. Conceptual Framework}
+\section{Conceptual Framework}
 %% ─────────────────────────────────────────────────────────────────────────────
 
 Fuel consumption is modeled as a function of four categories of variables:
@@ -152,12 +148,12 @@ This framework captures machine-level physical determinants as primary predictor
 so that the predicted fuel consumption for record $i$ is $\hat{y}_i = \hat{f}(\mathbf{x}_i)$, where $\hat{f}$ is learned from the 300 training records.
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{VII. Dataset Description}
+\section{Dataset Description}
 %% ─────────────────────────────────────────────────────────────────────────────
 
-\subsection*{A. AMTEC Test Reports}
+\subsection{AMTEC Test Reports}
 
-AMTEC machinery test reports (available at \texttt{https://bit.ly/AMTECTestReports2026}) provide the primary source of fuel consumption measurements. Reports cover field machinery, harvesters, dryers, and other mechanization equipment tested under standardized protocols \parencite{pnspaes148}. Text-searchable PDFs were processed using PyMuPDF to extract fuel consumption (L/h), rated engine power (kW), machinery type, fuel type, field efficiency, operating area, and operating time. Tesseract 5.5.2 OCR was applied to 267 scanned or low-text PDFs, yielding 24 candidate extractions of which 5 survived cleaning and entered the corpus. After unit standardization and outlier filtering, 376 clean records (371 legacy + 5 net new from OCR) were retained as the training and test corpus.
+AMTEC machinery test reports (available at \texttt{https://bit.ly/AMTECTestReports2026}) provide the primary source of fuel consumption measurements. Reports cover field machinery, harvesters, dryers, and other mechanization equipment tested under standardized protocols \cite{pnspaes148}. Text-searchable PDFs were processed using PyMuPDF to extract fuel consumption (L/h), rated engine power (kW), machinery type, fuel type, field efficiency, operating area, and operating time. Tesseract 5.5.2 OCR was applied to 267 scanned or low-text PDFs, yielding 24 candidate extractions of which 5 survived cleaning and entered the corpus. After unit standardization and outlier filtering, 376 clean records (371 legacy + 5 net new from OCR) were retained as the training and test corpus.
 
 Figure~\ref{fig:power_fuel_main} illustrates the strong positive relationship between rated power and fuel consumption across all 376 records, and Figure~\ref{fig:avg_fuel_family_main} shows average fuel consumption by machinery family.
 
@@ -175,15 +171,15 @@ Figure~\ref{fig:power_fuel_main} illustrates the strong positive relationship be
   \label{fig:avg_fuel_family_main}
 \end{figure}
 
-\subsection*{B. ABEMIS Inventory}
+\subsection{ABEMIS Inventory}
 
 The Agricultural and Biosystems Engineering Management Information System (ABEMIS), accessible at \texttt{https://abemis.bafe.gov.ph/user/login}, is maintained by BAFE and records the national distribution of agricultural machinery by region, municipality, barangay, and recipient type. After filtering for fuel-relevant records (machinery types that consume liquid fuel during operation), 246,741 records were identified across all 17 Philippine regions. Three ABEMIS-derived context features were engineered per machinery type: total inventory count, regional breadth, and dominant-region share.
 
-\subsection*{C. RAED Cropping Calendar (Deferred)}
+\subsection{RAED Cropping Calendar (Deferred)}
 
 The Regional Agricultural Engineering Division cropping calendar was identified as the source of time-dimension predictors (crop stage, planting/harvesting window) that would link fuel demand to the agricultural season. The RAED dataset was not acquired during the study period. The data gathering instrument (\emph{Data Gathering Form for Cropping Calendar, AO 07-22-2022}) is on file but the dataset itself is pending. Integration is deferred to future work.
 
-\subsection*{D. Feature Summary}
+\subsection{Feature Summary}
 
 The Random Forest model uses 8 features:
 \begin{itemize}
@@ -193,10 +189,10 @@ The Random Forest model uses 8 features:
 \end{itemize}
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{VIII. Methodology}
+\section{Methodology}
 %% ─────────────────────────────────────────────────────────────────────────────
 
-\subsection*{A. Pipeline Overview}
+\subsection{Pipeline Overview}
 
 The modeling pipeline proceeds as follows:
 \begin{enumerate}
@@ -210,7 +206,7 @@ The modeling pipeline proceeds as follows:
   \item \textbf{ABEMIS Scoring} --- The trained RF model scores all 246,741 ABEMIS fuel-relevant records to produce region-level fuel estimates.
 \end{enumerate}
 
-\subsection*{B. Baseline OLS Model}
+\subsection{Baseline OLS Model}
 
 A Multiple Linear Regression baseline is implemented with \texttt{power\_kw} as the primary predictor. Three functional forms are evaluated for each scope:
 
@@ -236,7 +232,7 @@ Parameters $\boldsymbol{\beta}$ are estimated by minimizing the residual sum of 
 
 To handle machinery-type heterogeneity, a group-level fallback hierarchy is applied: the model first uses a \texttt{machinery\_type}-level fit; if insufficient data exist for a given type ($n < 5$), it falls back to the \texttt{machinery\_family}-level fit; and if that also fails, it falls back to the global (all-machinery) model. Only models passing the adjusted-$R^2$ filter threshold (adjusted $R^2 \geq 0.50$) are retained in the prediction hierarchy.
 
-\subsection*{C. Random Forest Regressor}
+\subsection{Random Forest Regressor}
 
 A Random Forest Regressor is trained using scikit-learn with hyperparameters: \texttt{n\_estimators\,=\,300}, \texttt{max\_depth\,=\,None}, \texttt{min\_samples\_split\,=\,5}, \texttt{min\_samples\_leaf\,=\,2}, \texttt{random\_state\,=\,42}, \texttt{n\_jobs\,=\,-1}. All 8 features are used. Label encoders are fitted per categorical feature on the training set and applied to both test and ABEMIS scoring sets. The model is evaluated on the 76-record holdout set and validated with 5-fold cross-validation (\texttt{shuffle\,=\,True}, \texttt{random\_state\,=\,42}).
 
@@ -246,7 +242,7 @@ The ensemble prediction for record $i$ is the average of $B = 300$ regression tr
 \]
 where $T_b(\mathbf{x}_i)$ denotes the prediction of the $b$-th decision tree, each grown on a bootstrap sample of the training data with a random subset of features considered at each split.
 
-\subsection*{D. Interpretability}
+\subsection{Interpretability}
 
 SHAP TreeExplainer is applied to the trained RF model. SHAP decomposes the prediction for each record $i$ into a sum of feature contributions:
 \[
@@ -258,7 +254,7 @@ I_j = \frac{1}{n}\sum_{i=1}^{n}|\phi_{ij}|
 \]
 Global feature importance (mean absolute SHAP value per feature) and per-sample SHAP contributions are computed. A beeswarm plot visualizes the distribution of SHAP values across all test samples. LIME tabular explainer generates local explanations for 10 selected example records, identifying which features most influenced each individual prediction. Results are exported to \texttt{SHAP\_Analysis.xlsx} and \texttt{LIME\_Explanations.xlsx}.
 
-\subsection*{E. Evaluation Metrics}
+\subsection{Evaluation Metrics}
 
 Model performance is evaluated using:
 \[
@@ -274,16 +270,16 @@ R^2 = 1 - \frac{\sum_i (y_i - \hat{y}_i)^2}{\sum_i (y_i - \bar{y})^2}
 where $y_i$ is the actual fuel consumption, $\hat{y}_i$ is the model prediction, $\bar{y}$ is the sample mean, and $n = 76$ for the holdout set.
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{IX. Results}
+\section{Results}
 %% ─────────────────────────────────────────────────────────────────────────────
 
-\subsection*{A. Model Comparison}
+\subsection{Model Comparison}
 
 Table~\ref{tab:metrics} presents the holdout evaluation metrics for the OLS and Random Forest models. The Random Forest substantially outperforms all OLS variants across all three metrics.
 
 \begin{table}[H]
 \centering
-\captionsetup{font=small}
+
 \caption{OLS vs.\ Random Forest holdout metrics ($n = 76$)}
 \label{tab:metrics}
 \footnotesize
@@ -302,13 +298,13 @@ OLS Hierarchical FB & 0.703 & 1.88 & 2.88 \\
 \vspace{2pt}
 {\footnotesize Note: Hierarchical OLS uses a per-machinery-type fallback chain (type $\to$ family $\to$ global). Random Forest 5-fold cross-validation mean $\pm$ std: R\textsuperscript{2}\,=\,0.894\,$\pm$\,0.023, MAE\,=\,1.11\,$\pm$\,0.16\,L/h, RMSE\,=\,1.78\,$\pm$\,0.36\,L/h. Full results are in \texttt{OLS\_vs\_RF\_Comparison.xlsx}.}
 
-\subsection*{B. SHAP Feature Importance}
+\subsection{SHAP Feature Importance}
 
 SHAP analysis (Figures~\ref{fig:shap_bar}--\ref{fig:shap_beeswarm} and Figure~\ref{fig:shap_bar_main} in the main text) reveals that \texttt{power\_kw} dominates feature importance at approximately 66.5\% of total mean absolute SHAP value. The \texttt{year} feature is second at approximately 12.3\%, capturing vintage-related differences in fuel efficiency across equipment cohorts. Categorical features (\texttt{machinery\_type}, \texttt{machinery\_family}, \texttt{analysis\_subset}) account for approximately 12.1\% combined. The three ABEMIS context features (\texttt{abemis\_total\_count}, \texttt{abemis\_dominant\_region\_share}, \texttt{abemis\_region\_breadth}) contribute approximately 9.1\% combined, with \texttt{abemis\_region\_breadth} negligible ($< 0.2\%$) but \texttt{abemis\_total\_count} and \texttt{abemis\_dominant\_region\_share} contributing a consistent 4.7\% and 4.2\% respectively. Full values are reported in Table~\ref{tab:shap}.
 
 \begin{table}[H]
 \centering
-\captionsetup{font=small}
+
 \caption{SHAP global feature importance (mean $|\text{SHAP}|$) for the Random Forest model}
 \label{tab:shap}
 \footnotesize
@@ -328,7 +324,7 @@ SHAP analysis (Figures~\ref{fig:shap_bar}--\ref{fig:shap_beeswarm} and Figure~\r
 \end{tabular}
 \end{table}
 
-The dominance of \texttt{power\_kw} is consistent with the physical fuel--power proportionality established by \textcite{domsch1999fuel}: higher engine power ratings require more fuel to sustain operation regardless of machinery type. The secondary importance of \texttt{year} reflects the improvement in fuel efficiency across equipment generations and is physically interpretable.
+The dominance of \texttt{power\_kw} is consistent with the physical fuel--power proportionality established by Domsch et al. \cite{domsch1999fuel}: higher engine power ratings require more fuel to sustain operation regardless of machinery type. The secondary importance of \texttt{year} reflects the improvement in fuel efficiency across equipment generations and is physically interpretable.
 
 \begin{figure}[H]
   \centering
@@ -337,11 +333,11 @@ The dominance of \texttt{power\_kw} is consistent with the physical fuel--power 
   \label{fig:shap_bar_main}
 \end{figure}
 
-\subsection*{C. LIME Local Explanations}
+\subsection{LIME Local Explanations}
 
 LIME tabular explainer was applied to 10 example records (Appendix~C). Across all 10 instances, \texttt{power\_kw} appeared as the top local contributor in 9 out of 10 cases. Machinery type and \texttt{analysis\_subset} provided secondary adjustments, particularly for records involving dryers and stationary processing equipment. The LIME results are consistent with the global SHAP picture, providing per-record interpretability for model validation.
 
-\subsection*{D. ABEMIS National Scoring}
+\subsection{ABEMIS National Scoring}
 
 The trained RF model was applied to all 246,741 fuel-relevant ABEMIS records to produce regional fuel requirement estimates:
 \begin{itemize}
@@ -353,18 +349,18 @@ The trained RF model was applied to all 246,741 fuel-relevant ABEMIS records to 
 Regional fuel estimates and dominant machinery families are reported in \texttt{ABEMIS\_Regional\_Fuel\_Estimates.xlsx}. Mobile field machinery (tractors, tillers) and harvest machinery (combine harvesters, reapers) account for the largest aggregate regional fuel estimates, consistent with their dominant share of the ABEMIS inventory.
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{X. Discussion}
+\section{Discussion}
 %% ─────────────────────────────────────────────────────────────────────────────
 
-\subsection*{A. Primacy of Engine Power}
+\subsection{Primacy of Engine Power}
 
-The dominant contribution of \texttt{power\_kw} (${\sim}66.5\%$ SHAP importance) confirms the fundamental physical relationship between engine capacity and fuel demand \parencite{domsch1999fuel}. This result holds across all SHAP analysis levels (global bar chart, beeswarm distribution, and individual LIME explanations), providing high confidence in the model's physical coherence. The secondary importance of \texttt{year} (${\sim}12.3\%$) is also physically interpretable: newer equipment generations incorporate improved combustion technology and tighter manufacturing tolerances, resulting in systematically lower fuel intensity at equivalent rated power. The quadratic OLS enrichment of \texttt{power\_kw} also improved OLS performance over the linear baseline, further validating the nonlinear power--fuel relationship.
+The dominant contribution of \texttt{power\_kw} (${\sim}66.5\%$ SHAP importance) confirms the fundamental physical relationship between engine capacity and fuel demand \cite{domsch1999fuel}. This result holds across all SHAP analysis levels (global bar chart, beeswarm distribution, and individual LIME explanations), providing high confidence in the model's physical coherence. The secondary importance of \texttt{year} (${\sim}12.3\%$) is also physically interpretable: newer equipment generations incorporate improved combustion technology and tighter manufacturing tolerances, resulting in systematically lower fuel intensity at equivalent rated power. The quadratic OLS enrichment of \texttt{power\_kw} also improved OLS performance over the linear baseline, further validating the nonlinear power--fuel relationship.
 
-\subsection*{B. ABEMIS Context Features}
+\subsection{ABEMIS Context Features}
 
 The three ABEMIS deployment-context features contribute approximately 9.1\% of total SHAP importance combined (\texttt{abemis\_total\_count}: 4.7\%, \texttt{abemis\_dominant\_region\_share}: 4.2\%, \texttt{abemis\_region\_breadth}: $< 0.2\%$). This suggests that knowledge of how widely and densely a machinery type is deployed across the country provides marginal but real predictive value, possibly capturing the fact that machinery types with higher national inventory counts tend to be better-maintained or operated at higher utilization rates. This contribution is not large enough to substitute for direct power measurement but adds value in scoring scenarios where power alone is insufficient.
 
-\subsection*{C. Limitations}
+\subsection{Limitations}
 
 Several limitations constrain the scope and generalizability of the current results:
 
@@ -379,18 +375,18 @@ Several limitations constrain the scope and generalizability of the current resu
 \end{itemize}
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{XI. Conclusion}
+\section{Conclusion}
 %% ─────────────────────────────────────────────────────────────────────────────
 
 This pilot study demonstrates that a Random Forest Regressor trained on 376 AMTEC test records achieves strong holdout performance (R\textsuperscript{2}\,=\,0.916, MAE\,=\,0.95\,L/h, RMSE\,=\,1.53\,L/h), substantially outperforming the deterministic OLS baseline across all three evaluation metrics. The trained model successfully scores 172,265 ABEMIS deployment records across all 17 Philippine regions, producing the first data-driven, region-level fuel requirement estimates for national agricultural machinery inventory. SHAP and LIME interpretability analyses confirm that the model's behavior is physically coherent, with engine power as the dominant driver and deployment-context features providing consistent secondary contributions. The results demonstrate the feasibility of linking AMTEC test data to ABEMIS inventory for operational planning, and provide a principled foundation for expanding the approach as additional data sources---including scanned AMTEC reports and the RAED cropping calendar---become available.
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{XII. Recommendations and Future Work}
+\section{Recommendations and Future Work}
 %% ─────────────────────────────────────────────────────────────────────────────
 
 The most consequential next steps move this pilot from a single trained model into a planning instrument. Three directions are prioritized; data-quality remediation is treated as supporting work that enables them.
 
-\subsection*{A. Priority Directions}
+\subsection{Priority Directions}
 
 \begin{itemize}
   \item \textbf{National fuel forecasting.} Operationalize the trained RF model as a recurring, region-level fuel demand estimator for BAFE planning workflows. Concretely, this means scoring updated ABEMIS snapshots on a routine schedule, publishing per-region and per-machinery-family demand summaries, and integrating the outputs into fuel-assistance allocation and mechanization budgeting cycles. The 70\% national coverage already achieved is sufficient to support an initial planning release.
@@ -400,19 +396,20 @@ The most consequential next steps move this pilot from a single trained model in
   \item \textbf{Real-world validation via in-field telemetry.} Run a pilot deployment of GPS- and flow-sensor-instrumented machinery across selected regions and compare measured fuel use against AMTEC-trained predictions. This closes the lab-to-field loop that the AMTEC corpus alone cannot, calibrates regional adjustment factors, and produces the empirical evidence base required for institutional adoption.
 \end{itemize}
 
-\subsection*{B. Supporting Data-Quality Work}
+\subsection{Supporting Data-Quality Work}
 
 The following are enabling activities rather than headline directions. Tesseract 5.5 OCR has already been applied to the 267 scanned AMTEC reports available during this study; acquisition of the additional 3{,}065-PDF collaborator set and a routine re-extraction would continue to expand corpus coverage. A systematic ABEMIS--AMTEC machinery-type crosswalk would recover the 11{,}668 currently-unmapped rows, and a rated-power imputation pass (predicting power from machinery type, manufacturer, and model year, or via a machinery registry lookup) would recover the 62{,}808 ABEMIS records missing parseable power. These mechanical improvements raise national coverage and reduce proxy-mapping uncertainty, but the headline value of the framework comes from the three priority directions above.
 
-\printbibliography
+\bibliographystyle{IEEEtran}
+\bibliography{references}
 
 %% =============================================================================
 %% APPENDICES
 %% =============================================================================
 
 \onecolumn
-
-\section*{Appendix A: SHAP Analysis}
+\appendices
+\section{SHAP Analysis}
 
 SHAP (SHapley Additive Explanations) TreeExplainer was applied to the trained Random Forest model. Figure~\ref{fig:shap_bar} shows the global feature importance as mean absolute SHAP values. Figure~\ref{fig:shap_beeswarm} shows the beeswarm plot, illustrating the direction and magnitude of each feature's contribution across all test records.
 
@@ -431,11 +428,11 @@ SHAP (SHapley Additive Explanations) TreeExplainer was applied to the trained Ra
 \end{figure}
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{Appendix B: OLS Diagnostic Plots}
+\section{OLS Diagnostic Plots}
 
 OLS diagnostic plots are shown for six model scopes: two machinery-family scopes and four machinery-type scopes. Each subsection shows four standard diagnostic plots: residuals vs.\ fitted, Q-Q plot, leverage plot, and studentized residuals plot.
 
-\subsection*{B.1 Machinery Family: Mobile Field Machinery}
+\subsection{Machinery Family: Mobile Field Machinery}
 
 \begin{figure}[H]
   \centering
@@ -453,7 +450,7 @@ OLS diagnostic plots are shown for six model scopes: two machinery-family scopes
   \caption{Mobile Field Machinery --- leverage plot (left) and studentized residuals (right).}
 \end{figure}
 
-\subsection*{B.2 Machinery Family: Harvest Machinery}
+\subsection{Machinery Family: Harvest Machinery}
 
 \begin{figure}[H]
   \centering
@@ -471,7 +468,7 @@ OLS diagnostic plots are shown for six model scopes: two machinery-family scopes
   \caption{Harvest Machinery --- leverage plot (left) and studentized residuals (right).}
 \end{figure}
 
-\subsection*{B.3 Machinery Type: Four-Wheel Tractor}
+\subsection{Machinery Type: Four-Wheel Tractor}
 
 \begin{figure}[H]
   \centering
@@ -489,7 +486,7 @@ OLS diagnostic plots are shown for six model scopes: two machinery-family scopes
   \caption{Four-Wheel Tractor --- leverage plot (left) and studentized residuals (right).}
 \end{figure}
 
-\subsection*{B.4 Machinery Type: Combine Harvester}
+\subsection{Machinery Type: Combine Harvester}
 
 \begin{figure}[H]
   \centering
@@ -507,7 +504,7 @@ OLS diagnostic plots are shown for six model scopes: two machinery-family scopes
   \caption{Combine Harvester --- leverage plot (left) and studentized residuals (right).}
 \end{figure}
 
-\subsection*{B.5 Machinery Type: Mechanical Dryer}
+\subsection{Machinery Type: Mechanical Dryer}
 
 \begin{figure}[H]
   \centering
@@ -525,7 +522,7 @@ OLS diagnostic plots are shown for six model scopes: two machinery-family scopes
   \caption{Mechanical Dryer --- leverage plot (left) and studentized residuals (right).}
 \end{figure}
 
-\subsection*{B.6 Global Model: All Machinery}
+\subsection{Global Model: All Machinery}
 
 \begin{figure}[H]
   \centering
@@ -544,7 +541,7 @@ OLS diagnostic plots are shown for six model scopes: two machinery-family scopes
 \end{figure}
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{Appendix C: LIME Local Explanations}
+\section{LIME Local Explanations}
 
 LIME tabular explainer was applied to 10 representative records from the test set. Each figure shows the local feature contributions for one record, with green bars indicating features that increased the predicted fuel consumption and red bars indicating features that decreased it.
 
@@ -609,7 +606,7 @@ LIME tabular explainer was applied to 10 representative records from the test se
 \end{figure}
 
 %% ─────────────────────────────────────────────────────────────────────────────
-\section*{Appendix D: Descriptive Analytics}
+\section{Descriptive Analytics}
 
 The following figures summarize the AMTEC dataset analytics used during exploratory data analysis and feature engineering. All figures are generated from the 376 cleaned AMTEC records.
 
