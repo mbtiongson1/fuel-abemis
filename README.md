@@ -1,5 +1,7 @@
 # fuel-abemis
 
+[![Powered by Gaia](https://gaia.tiongson.co/badges/powered-by-gaia.svg)](https://gaia.tiongson.co/)
+
 Predicts fuel consumption for Philippine agricultural machinery by combining two official datasets:
 
 - **ABEMIS** — inventory of machinery distributed across all regions (~246K records)
