@@ -9,6 +9,8 @@ Predicts fuel consumption for Philippine agricultural machinery by combining two
 
 **Latest RF holdout metrics:** R² 0.91 · MAE 1.09 L/h · RMSE 1.61 L/h
 
+![Tractor](Mini-Project/Project%20Documents/images/tym_1537_featured_img_optimized.jpg)
+
 ---
 
 ## Setup
