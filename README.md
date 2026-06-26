@@ -1,15 +1,116 @@
 # fuel-abemis
 
 [![Powered by Gaia](https://gaia.tiongson.co/badges/powered-by-gaia.svg)](https://gaia.tiongson.co/)
+[![Slides](https://img.shields.io/badge/slides-GitHub%20Pages-blue?logo=github)](https://mbtiongson1.github.io/fuel-abemis/)
+[![Paper](https://img.shields.io/badge/paper-IEEE%20format-green?logo=overleaf)](Mini-Project/Project%20Documents/Rosas%2C%20Tiongson%20-%20Pilot%20ML%20Fuel%20Agriculture%20%5BIEEE%5D.pdf)
 
-Predicts fuel consumption for Philippine agricultural machinery by combining two official datasets:
+<p align="center">
+  <img src="Mini-Project/Project%20Documents/images/tractor_ph_rice_field.jpg" width="700" alt="Philippine rice field tractor"/>
+</p>
 
-- **ABEMIS** — inventory of machinery distributed across all regions (~246K records)
-- **AMTEC** — performance test reports (371 clean records, lab-condition fuel + power data)
+> Pilot study predicting fuel consumption for Philippine agricultural machinery by combining two official datasets: ABEMIS (national inventory) and AMTEC (laboratory performance tests).
 
-**Latest RF holdout metrics:** R² 0.91 · MAE 1.09 L/h · RMSE 1.61 L/h
+**Best RF holdout metrics: R² 0.91 · MAE 1.09 L/h · RMSE 1.61 L/h**
 
-![Tractor](Mini-Project/Project%20Documents/images/tym_1537_featured_img_optimized.jpg)
+---
+
+## Datasets
+
+| Source | Description | Records |
+|--------|-------------|---------|
+| **ABEMIS** | DA-BAFE national inventory of distributed machinery across all regions | ~246,000 |
+| **AMTEC** | Performance test reports — lab-condition fuel consumption and rated power data | 371 (clean) |
+
+---
+
+## Results
+
+### Exploratory Data Analysis
+
+<p align="center">
+  <img src="Mini-Project/Project%20Documents/average_fuel_by_machinery_family.png" width="48%" alt="Average fuel by machinery family"/>
+  <img src="Mini-Project/Project%20Documents/average_fuel_by_machinery_type.png" width="48%" alt="Average fuel by machinery type"/>
+</p>
+
+<p align="center">
+  <img src="Mini-Project/Project%20Documents/fuel_intensity_by_machinery_type.png" width="48%" alt="Fuel intensity by machinery type"/>
+  <img src="Mini-Project/Project%20Documents/power_vs_fuel_all.png" width="48%" alt="Power vs fuel — all machinery"/>
+</p>
+
+<p align="center">
+  <img src="Mini-Project/Project%20Documents/power_vs_fuel_field_machinery.png" width="60%" alt="Power vs fuel — field machinery"/>
+</p>
+
+---
+
+### OLS Regression Diagnostics
+
+Each hierarchical scope was modeled using linear, quadratic, and cubic OLS forms. Final model selected per scope based on adjusted R² and residual diagnostics.
+
+#### Global — All Machinery
+
+| Residuals vs Fitted | Q-Q Plot | Studentized Residuals | Leverage |
+|:---:|:---:|:---:|:---:|
+| ![](Mini-Project/Project%20Documents/GLOBAL_ALL_MACHINERY_FINAL_quadratic_residuals_vs_fitted.png) | ![](Mini-Project/Project%20Documents/GLOBAL_ALL_MACHINERY_FINAL_quadratic_qqplot.png) | ![](Mini-Project/Project%20Documents/GLOBAL_ALL_MACHINERY_FINAL_quadratic_studentized_residuals.png) | ![](Mini-Project/Project%20Documents/GLOBAL_ALL_MACHINERY_FINAL_quadratic_leverage.png) |
+
+#### Family — Harvest Machinery
+
+| Residuals vs Fitted | Q-Q Plot | Studentized Residuals | Leverage |
+|:---:|:---:|:---:|:---:|
+| ![](Mini-Project/Project%20Documents/MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_residuals_vs_fitted.png) | ![](Mini-Project/Project%20Documents/MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_qqplot.png) | ![](Mini-Project/Project%20Documents/MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_studentized_residuals.png) | ![](Mini-Project/Project%20Documents/MACHINERY_FAMILY_Harvest_Machinery_FINAL_quadratic_leverage.png) |
+
+#### Family — Mobile Field Machinery
+
+| Residuals vs Fitted | Q-Q Plot | Studentized Residuals | Leverage |
+|:---:|:---:|:---:|:---:|
+| ![](Mini-Project/Project%20Documents/MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_residuals_vs_fitted.png) | ![](Mini-Project/Project%20Documents/MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_qqplot.png) | ![](Mini-Project/Project%20Documents/MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_studentized_residuals.png) | ![](Mini-Project/Project%20Documents/MACHINERY_FAMILY_Mobile_Field_Machinery_FINAL_quadratic_leverage.png) |
+
+#### Type — Combine Harvester
+
+| Residuals vs Fitted | Q-Q Plot | Studentized Residuals | Leverage |
+|:---:|:---:|:---:|:---:|
+| ![](Mini-Project/Project%20Documents/MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_residuals_vs_fitted.png) | ![](Mini-Project/Project%20Documents/MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_qqplot.png) | ![](Mini-Project/Project%20Documents/MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_studentized_residuals.png) | ![](Mini-Project/Project%20Documents/MACHINERY_TYPE_Combine_Harvester_FINAL_quadratic_leverage.png) |
+
+#### Type — Four Wheel Tractor
+
+| Residuals vs Fitted | Q-Q Plot | Studentized Residuals | Leverage |
+|:---:|:---:|:---:|:---:|
+| ![](Mini-Project/Project%20Documents/MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_residuals_vs_fitted.png) | ![](Mini-Project/Project%20Documents/MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_qqplot.png) | ![](Mini-Project/Project%20Documents/MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_studentized_residuals.png) | ![](Mini-Project/Project%20Documents/MACHINERY_TYPE_Four_Wheel_Tractor_FINAL_quadratic_leverage.png) |
+
+#### Type — Mechanical Dryer
+
+| Residuals vs Fitted | Q-Q Plot | Studentized Residuals | Leverage |
+|:---:|:---:|:---:|:---:|
+| ![](Mini-Project/Project%20Documents/MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_residuals_vs_fitted.png) | ![](Mini-Project/Project%20Documents/MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_qqplot.png) | ![](Mini-Project/Project%20Documents/MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_studentized_residuals.png) | ![](Mini-Project/Project%20Documents/MACHINERY_TYPE_Mechanical_Dryer_FINAL_quadratic_leverage.png) |
+
+---
+
+### Interpretability
+
+#### SHAP — Global Feature Importance
+
+<p align="center">
+  <img src="Mini-Project/Project%20Documents/shap_summary_bar.png" width="48%" alt="SHAP bar summary"/>
+  <img src="Mini-Project/Project%20Documents/shap_summary_beeswarm.png" width="48%" alt="SHAP beeswarm summary"/>
+</p>
+
+#### LIME — Local Explanations (sample)
+
+<p align="center">
+  <img src="Mini-Project/Project%20Documents/lime_example_0.png" width="32%"/>
+  <img src="Mini-Project/Project%20Documents/lime_example_1.png" width="32%"/>
+  <img src="Mini-Project/Project%20Documents/lime_example_2.png" width="32%"/>
+</p>
+<p align="center">
+  <img src="Mini-Project/Project%20Documents/lime_example_3.png" width="32%"/>
+  <img src="Mini-Project/Project%20Documents/lime_example_4.png" width="32%"/>
+  <img src="Mini-Project/Project%20Documents/lime_example_5.png" width="32%"/>
+</p>
+<p align="center">
+  <img src="Mini-Project/Project%20Documents/lime_example_6.png" width="32%"/>
+  <img src="Mini-Project/Project%20Documents/lime_example_7.png" width="32%"/>
+  <img src="Mini-Project/Project%20Documents/lime_example_8.png" width="32%"/>
+</p>
 
 ---
 
